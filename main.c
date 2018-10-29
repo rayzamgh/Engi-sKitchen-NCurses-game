@@ -1,47 +1,44 @@
 #include <stdio.h>
+#include <string.h>
+#include "boolean.h"
 
-void MainMenu(){
-    printf("SELAMAT DATANG DI ENGI'S KITCHEN!!\n");
-    do{
-        PrintMainMenu();
-        scanf("Masukan pilihan Anda : ", pilihanMenu);
-        if(!IsPilihanMenuValid(pilihanMenu)){
-            printf("Masukan pilihan Anda tidak valid\n");
-        }
-    } while(!IsPilihanMenuValid(pilihanMenu));
-    switch(pilihanMenu){
-        case 1:
-            NewGame();
-            break;
-        case 2:
-            StartGame();
-            break;
-        case 3:
-            LoadGame();
-            break;
-        case 4:
-            Exit();
-            break;
-    }
+void StartGame(){
+    //isGameOn = true;
+    printf("\n");
+}
+
+void NewGame(){
+    //isGameOn = true;
+    char namaUser[1000];
+    printf("Masukkan Nama Chef : ");
+    scanf("%s", &namaUser);
+    StartGame();
+}
+
+void LoadGame(){
+    //isGameOn = true;
+    printf("\n");
+}
+
+void Exit(){
+    //isGameOn = false;
+    printf("\n");
 }
 
 boolean IsPilihanMenuValid(char pilihanMenu){
-    switch(pilihanMenu){
-        case 1:
-            return true;
-            break;
-        case 2:
-            return true;
-            break;
-        case 3:
-            return true;
-            break;
-        case 4:
-            return true;
-            break;
-        default:
-            return false;
+    boolean isValid;
+    if(pilihanMenu == '1'){
+        isValid = true;
+    }else if(pilihanMenu == '2'){
+        isValid = true;
+    }else if(pilihanMenu == '3'){
+        isValid = true;
+    }else if(pilihanMenu == '4'){
+        isValid = true;
+    }else{
+        isValid = false;
     }
+    return isValid;
 }
 
 void PrintMainMenu(){
@@ -52,46 +49,27 @@ void PrintMainMenu(){
     printf("4. Exit\n");
 }
 
-void NewGame(){
-    //isGameOn = true;
-    //minta nama
-    StartGame();
-}
-
-void StartGame(){
-    //isGameOn = true;
-}
-
-void LoadGame(){
-    //isGameOn = true;
-}
-
-void Exit(){
-    //isGameOn = false;
-}
-
-void Command(){
+void MainMenu(){
+    char pilihanMenu;
+    printf("SELAMAT DATANG DI ENGI'S KITCHEN!!\n");
     do{
-        PrintCommand();
-        scanf("Masukan pilihan Anda : ", pilihanCommand);
-        if(!IsPilihanCommandValid(pilihanCommand)){
+        PrintMainMenu();
+        printf("Masukan pilihan Anda : ");
+        scanf("%c", &pilihanMenu);
+        if(!IsPilihanMenuValid(pilihanMenu)){
             printf("Masukan pilihan Anda tidak valid\n");
+            printf("\n");
         }
-    } while(!IsPilihanCommandValid(pilihanCommand));
-    switch(pilihanCommand){
-        case "GU":
-            GU();
-            break;
-        case "GD":
-            GD();
-            break;
-        case "GL":
-            GL();
-            break;
-        case "GR":
-            GR();
-            break;
-        //dst
+    } while(!IsPilihanMenuValid(pilihanMenu));
+    printf("\n");
+    if(pilihanMenu == '1'){
+        NewGame();
+    }else if(pilihanMenu == '2'){
+        StartGame();
+    }else if(pilihanMenu == '3'){
+        LoadGame();
+    }else if(pilihanMenu == '4'){
+        Exit();
     }
 }
 
@@ -114,26 +92,165 @@ void PrintCommand(){
     printf("EXIT\n");
 }
 
-boolean IsPilihanCommandValid(char pilihanCommand){
-    switch(pilihanCommand){
-        case "GU":
-            return true;
-            break;
-        case "GD":
-            return true;
-            break;
-        case "GL":
-            return true;
-            break;
-        case "GR":
-            return true;
-            break;
-        //dst
-        default:
-            return false;
+boolean IsPilihanCommandValid(char pilihanCommand[10]){
+    boolean isValid;
+    if(strcmp(pilihanCommand,"GU") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "GD") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "GL") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "GR") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "ORDER") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "PUT") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "TAKE") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "CH") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "CT") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "PLACE") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "GIVE") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "RECIPE") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "SAVE") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "LOAD") == 0){
+        isValid = true;
+    }else if(strcmp(pilihanCommand, "EXIT") == 0){
+        isValid = true;
+    }else{
+        isValid = false;
+    }
+    return isValid;
+}
+
+void GU(){
+
+    printf("\n");
+}
+
+void GD(){
+
+    printf("\n");
+}
+
+void GL(){
+
+    printf("\n");
+}
+
+void GR(){
+
+    printf("\n");
+}
+
+void ORDER(){
+
+    printf("\n");
+}
+ 
+void PUT(){
+
+    printf("\n");
+}
+
+void TAKE(){
+
+    printf("\n");
+}
+
+void CH(){
+
+    printf("\n");
+}
+
+void CT(){
+
+    printf("\n");
+}
+
+void PLACE(){
+
+    printf("\n");
+}
+
+void GIVE(){
+
+    printf("\n");
+}
+
+void RECIPE(){
+    
+    printf("\n");
+}
+
+void SAVE(){
+
+    printf("\n");
+}
+
+void LOAD(){
+
+    printf("\n");
+}
+
+void EXIT(){
+
+    printf("\n");   
+}
+
+void Command(){
+    char pilihanCommand[10];
+    do{
+        PrintCommand();
+        printf("Masukan pilihan Anda : ");
+        scanf("%s", &pilihanCommand);
+        if(!IsPilihanCommandValid(pilihanCommand)){
+            printf("Masukan pilihan Anda tidak valid\n");
+            printf("\n");
+        }
+    } while(!IsPilihanCommandValid(pilihanCommand));
+    printf("\n");
+    if(strcmp(pilihanCommand, "GU") == 0){
+        GU();
+    }else if(strcmp(pilihanCommand,"GD") == 0){
+        GD();
+    }else if(strcmp(pilihanCommand, "GL") == 0){
+        GL();
+    }else if(strcmp(pilihanCommand, "GR") == 0){
+        GR();
+    }else if(strcmp(pilihanCommand, "ORDER") == 0){
+        ORDER();
+    }else if(strcmp(pilihanCommand, "PUT") == 0){
+        PUT();
+    }else if(strcmp(pilihanCommand, "TAKE") == 0){
+        TAKE();
+    }else if(strcmp(pilihanCommand, "CH") == 0){
+        CH();
+    }else if(strcmp(pilihanCommand, "CT") == 0){
+        CT();
+    }else if(strcmp(pilihanCommand, "PLACE") == 0){
+        PLACE();
+    }else if(strcmp(pilihanCommand, "GIVE") == 0){
+        GIVE();
+    }else if(strcmp(pilihanCommand, "RECIPE") == 0){
+        RECIPE();
+    }else if(strcmp(pilihanCommand, "SAVE") == 0){
+        SAVE();
+    }else if(strcmp(pilihanCommand, "LOAD") == 0){
+        LOAD();
+    }else if(strcmp(pilihanCommand, "EXIT") == 0){
+        EXIT();
     }
 }
 
 int  main(){
     MainMenu();
+    Command();
 }
