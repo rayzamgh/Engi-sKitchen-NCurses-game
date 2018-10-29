@@ -6,12 +6,12 @@
 #include "matriks.h"
 #include "array.h"
 
-void GU(MATRIKS *M);
+void GU(MATRIKS *M, Point *P, JAM *J);
 
-void GD(MATRIKS *M);
+void GD(MATRIKS *M, Point *P, JAM *J);
 
-void GL(MATRIKS *M);
+void GL(MATRIKS *M, Point *P, JAM *J);
 
-void GR(MATRIKS *M);
+void GR(MATRIKS *M, Point *P, JAM *J);
 
 #endif
