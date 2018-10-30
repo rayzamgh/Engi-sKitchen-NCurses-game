@@ -12,7 +12,7 @@
 #define KolMax 100
 
 typedef int indeks; /* indeks baris, kolom */
-typedef int ElType;
+typedef char ElType;
 typedef struct {
 	ElType Mem[BrsMax+1][KolMax+1];
     int NBrsEff; /* banyaknya/ukuran baris yg terdefinisi */
