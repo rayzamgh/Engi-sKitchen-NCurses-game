@@ -11,10 +11,10 @@
 
 typedef struct {
 	MATRIKS Stage[100]; //Yang dipake dari Stage[0], Eg: Stage 0 = kitchen, Stage 1 = Area1 etc.
-	int Neff;
+	int NeffSt;
 }TabSTAGE;
 
-#define Neff(Tst) (Tst).Neff
+#define NeffSt(Tst) (Tst).NeffSt
 #define Stage(Tst,i) (Tst).Stage[(i)]
 #define StageElmt(Tst,num,i,j) (Tst).Stage[(num)].Mem[(i)][(j)]
 

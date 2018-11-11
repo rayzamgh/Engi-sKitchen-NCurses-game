@@ -2,6 +2,18 @@
 #include <string.h>
 #include "../include/boolean.h"
 #include "../include/mesincommand.h"
+#include "../include/array.h"
+
+void InisialisasiOrder(TABOrder *TabInt){
+    MakeEmptyArray(TabInt);
+}
+
+void PlaceOrder(TabInt *TABOrder){
+    //namanya doang tabint sebenernya tabchar[20] (urg males ganti semua tabint jadi tabstring)
+    char[20] placeholder;
+    Elmt(*TABOrder, Neff(TABOrder)) = placeholder;
+    Neff(*TABOrder)++;
+}
 
 void StartGame(){
     //isGameOn = true;

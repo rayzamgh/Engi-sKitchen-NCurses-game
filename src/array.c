@@ -90,8 +90,8 @@ void BacaIsi (TabInt * T)
   int i;//iterator
   MakeEmptyArray(T);
   for(i=0;i<n;i++){
-    int temp;
-    scanf("%d",&temp);
+    char[20] temp;
+    scanf("%s",&temp);
     Elmt(*T,IdxMin+i) = temp;
     Neff(*T)++;
   }
@@ -106,14 +106,14 @@ void BacaIsiTab (TabInt * T)
 {
   int i = IdxMin;//Index
   //baca input
-  int temp;
+  char[20] temp;
   MakeEmptyArray(T);
-  scanf("%d",&temp);
+  scanf("%s",&temp);
   while(temp != -9999 && i<=MaxNbEl(*T)){
     Elmt(*T,i) = temp;
     Neff(*T) = i;
     i++;
-    scanf("%d",&temp);
+    scanf("%s",&temp);
   }
 }
 void TulisIsi (TabInt T)
@@ -136,7 +136,7 @@ void TulisIsi (TabInt T)
     //ada isinya
     int i;//iterator
      for(i=GetFirstIdx(T);i<=GetLastIdx(T);i++){
-       printf("[%d]%d\n",i,Elmt(T,i));
+       printf("[%d]%s\n",i,Elmt(T,i));
      }
   }
 }
@@ -159,10 +159,10 @@ void TulisIsiTab (TabInt T)
     //print elemen ke 1 hingga terakhir-1
     int i;//iterator
     for(i=GetFirstIdx(T);i<GetLastIdx(T);i++){
-      printf("%d,",Elmt(T,i));
+      printf("%s,",Elmt(T,i));
     }
     //print elemen terakhir dan siku tutup
-    printf("%d]",Elmt(T,Neff(T)));
+    printf("%s]",Elmt(T,Neff(T)));
   }
 }
 /* ********** OPERATOR ARITMATIKA ********** */

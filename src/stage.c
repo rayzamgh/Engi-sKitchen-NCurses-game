@@ -25,7 +25,7 @@ void PlayerWhere(TabSTAGE Tst, POINT *P, int *StageNo)
 {
 	boolean ketemu = false;
 	int count = 0;
-	while(count < Neff(Tst) && !ketemu)
+	while(count < NeffSt(Tst) && !ketemu)
 	{
 		int i = 0;
 		while(i < NBrsEff(Stage(Tst,count)) && !ketemu)
