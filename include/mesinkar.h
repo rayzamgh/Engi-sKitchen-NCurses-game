@@ -6,14 +6,17 @@
 
 #include "boolean.h"
 
-#define MARK '.'
+#define MARK '\000'
+#define MaxLengthString 100
+
 /* State Mesin */
 extern char CC;
 extern boolean EOP;
-extern char filenameMesinKar[20];
+extern char stringKarakter[MaxLengthString];
+extern int posisi;
 
-void SETFILE(char namaFile[20]);
-/* Set filenameMesinKar jadi namaFile */
+void SETSTRING(char s[MaxLengthString]);
+/* Load string s untuk dibaca oleh mesinkar */
 
 void START();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.

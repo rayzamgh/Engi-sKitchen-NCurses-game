@@ -19,7 +19,7 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxType;  /* type indeks */
-typedef char[20] ElType;   /* type elemen tabel */
+typedef char ElType[20];   /* type elemen tabel */
 typedef struct { 
 	ElType TI[IdxMax+1]; /* memori tempat penyimpan elemen (container) */
 	int Neff; /* >=0, banyaknya elemen efektif */
@@ -168,10 +168,10 @@ boolean SearchSentinel (TabInt T, ElType X);
    yang tidak dipakai dalam definisi tabel */
 
 /* ********** NILAI EKSTREM ********** */
-ElType ValMax (TabInt T);
+//ElType ValMax (TabInt T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan nilai maksimum tabel */
-ElType ValMin (TabInt T); 
+//ElType ValMin (TabInt T); 
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan nilai minimum tabel */
 /* *** Mengirimkan indeks elemen bernilai ekstrem *** */
@@ -260,10 +260,10 @@ IdxType SearchUrut (TabInt T, ElType X);
 /* Mengirimkan indeks di mana harga X dengan indeks terkecil diketemukan */
 /* Mengirimkan IdxUndef jika tidak ada elemen tabel bernilai X */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel kosong */
-ElType MaxUrut (TabInt T);
+//ElType MaxUrut (TabInt T);
 /* Prekondisi : Tabel tidak kosong, elemen terurut membesar */
 /* Mengirimkan nilai maksimum pada tabel */
-ElType MinUrut (TabInt T);
+//ElType MinUrut (TabInt T);
 /* Prekondisi : Tabel tidak kosong, elemen terurut membesar */
 /* Mengirimkan nilai minimum pada tabel*/
 void MaxMinUrut (TabInt T, ElType * Max, ElType * Min);

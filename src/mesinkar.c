@@ -3,19 +3,19 @@
 
 char CC;
 boolean EOP;
-char filenameMesinKar[20];
+char stringKarakter[MaxLengthString];
+int posisi;
 
-static FILE * pita;
-static int retval;
-
-void SETFILE(char namaFile[20]){
-/* Set filenameMesinKar jadi namaFile */
-      for(int i = 0;i<20;i++)
+void SETSTRING(char s[MaxLengthString]){
+/* Load string s untuk dibaca oleh mesinkar */
+      int i = 0;
+      while(s[i] != '\000')
       {
-            filenameMesinKar[i] = namaFile[i];
+            stringKarakter[i] = s[i];
+            i++;
       }
+      posisi = 0;
 }
-
 void START() {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
@@ -24,7 +24,8 @@ void START() {
           Jika CC = MARK maka EOP akan menyala (true) */
 
 	/* Algoritma */
-	pita = fopen(filenameMesinKar,"r");
+      posisi = 0;
+	CC = stringKarakter[posisi];
 	ADV();
 }
 
@@ -37,9 +38,7 @@ void ADV() {
 		  Jika  CC = MARK maka EOP akan menyala (true) */
 
 	/* Algoritma */
-	retval = fscanf(pita,"%c",&CC);
+	CC = stringKarakter[posisi];
+      posisi++;
 	EOP = (CC == MARK);
-	if (EOP) {
-       fclose(pita);
- 	}
 }

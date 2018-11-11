@@ -1,5 +1,5 @@
 #include "../include/mesinkata.h"
-
+#include<stdio.h>
 /* State Mesin Kata */
 boolean EndKata;
 Kata CKata;
@@ -13,7 +13,8 @@ void IgnoreBlank(){
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATA(){
+void STARTKATA(char s[MaxLengthString]){
+	SETSTRING(s);
 	START();
 	IgnoreBlank();
 	if (CC == MARK){
@@ -46,6 +47,7 @@ void ADVKATA(){
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
 void SalinKata(){
+	
 	CKata.Length = 0;
 	do{
 		if (CKata.Length < NMax){

@@ -8,6 +8,7 @@
 #include "mesinkar.h"
 
 #define NMax 50
+#define NStringMax 200
 #define BLANK ' '
 
 typedef struct {
@@ -24,7 +25,7 @@ void IgnoreBlank();
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATA();
+void STARTKATA(char s[MaxLengthString]);
 /* I.S. : CC sembarang
    F.S. : EndKata = true, dan CC = MARK;
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,

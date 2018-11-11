@@ -1,13 +1,7 @@
-/* NIM/Nama  : 13517013 / Aditya Putra Santosa
-   Nama File : array.c
-   Topik     : ADT ARRAY
-   Tanggal   : 11 September 2018
-   Deskripsi : implementasi arrray.h */
-
 #include<stdio.h>
 #include <stdlib.h>
-#include "array.h"
-#include "boolean.h"
+#include "../include/array.h"
+#include "../include/boolean.h"
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */
@@ -90,7 +84,7 @@ void BacaIsi (TabInt * T)
   int i;//iterator
   MakeEmptyArray(T);
   for(i=0;i<n;i++){
-    char[20] temp;
+    char temp[20];
     scanf("%s",&temp);
     Elmt(*T,IdxMin+i) = temp;
     Neff(*T)++;
@@ -106,7 +100,7 @@ void BacaIsiTab (TabInt * T)
 {
   int i = IdxMin;//Index
   //baca input
-  char[20] temp;
+  char temp[20];
   MakeEmptyArray(T);
   scanf("%s",&temp);
   while(temp != -9999 && i<=MaxNbEl(*T)){
