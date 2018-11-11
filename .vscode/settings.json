@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "jam.h": "c",
+        "mesinbaris.h": "c",
+        "filemanager.h": "c",
+        "matriks.h": "c",
+        "mesincommand.h": "c",
+        "string.h": "c",
+        "mesinkarinput.h": "c"
+    }
+}

@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matriks.h"
-#include "array.h"
+#include "../include/matriks.h"
+#include "../include/point.h"
+#include "../include/jam.h"
+
 #define BLANK ' '
 
 //VARIABEL GLOBAL
 //J
 
-void GU(MATRIKS *M, Point *P, JAM *J){
+void GU(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(i != 1){
@@ -20,7 +22,7 @@ void GU(MATRIKS *M, Point *P, JAM *J){
 		}
 	}
 }
-void GD(MATRIKS *M, Point *P, JAM *J){
+void GD(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(i != NBrsEff(*M)){
@@ -34,7 +36,7 @@ void GD(MATRIKS *M, Point *P, JAM *J){
 	}
 }
 
-void GL(MATRIKS *M, Point *P, JAM *J){
+void GL(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(j != 1){
@@ -47,7 +49,7 @@ void GL(MATRIKS *M, Point *P, JAM *J){
 		}
 	}
 }
-void GR(MATRIKS *M, Point *P, JAM *J){
+void GR(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(j != NKolEff(*M)){
