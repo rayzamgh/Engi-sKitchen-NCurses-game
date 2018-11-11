@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../include/boolean.h"
+#include "../include/mesincommand.h"
 
 void StartGame(){
     //isGameOn = true;
@@ -26,19 +27,7 @@ void Exit(){
 }
 
 boolean IsPilihanMenuValid(char pilihanMenu){
-    boolean isValid;
-    if(pilihanMenu == '1'){
-        isValid = true;
-    }else if(pilihanMenu == '2'){
-        isValid = true;
-    }else if(pilihanMenu == '3'){
-        isValid = true;
-    }else if(pilihanMenu == '4'){
-        isValid = true;
-    }else{
-        isValid = false;
-    }
-    return isValid;
+    return (pilihanMenu >= '1' && pilihanMenu <= '4');
 }
 
 void PrintMainMenu(){
@@ -90,44 +79,6 @@ void PrintCommand(){
     printf("SAVE\n");
     printf("LOAD\n");
     printf("EXIT\n");
-}
-
-boolean IsPilihanCommandValid(char pilihanCommand[10]){
-    boolean isValid;
-    if(strcmp(pilihanCommand,"GU") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "GD") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "GL") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "GR") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "ORDER") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "PUT") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "TAKE") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "CH") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "CT") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "PLACE") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "GIVE") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "RECIPE") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "SAVE") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "LOAD") == 0){
-        isValid = true;
-    }else if(strcmp(pilihanCommand, "EXIT") == 0){
-        isValid = true;
-    }else{
-        isValid = false;
-    }
-    return isValid;
 }
 
 void GU(){
@@ -205,52 +156,50 @@ void EXIT(){
     printf("\n");   
 }
 
-void Command(){
+void BacaCommand(){
     char pilihanCommand[10];
     do{
         PrintCommand();
         printf("Masukan pilihan Anda : ");
-        scanf("%s", pilihanCommand);
-        if(!IsPilihanCommandValid(pilihanCommand)){
+        STARTCOMMAND();
+        if(CommandIs("GU")){
+            GU();
+        }else if(CommandIs("GD")){
+            GD();
+        }else if(CommandIs("GL")){
+            GL();
+        }else if(CommandIs("GR")){
+            GR();
+        }else if(CommandIs("ORDER")){
+            ORDER();
+        }else if(CommandIs("PUT")){
+            PUT();
+        }else if(CommandIs("TAKE")){
+            TAKE();
+        }else if(CommandIs("CH")){
+            CH();
+        }else if(CommandIs("CT")){
+            CT();
+        }else if(CommandIs("PLACE")){
+            PLACE();
+        }else if(CommandIs("GIVE")){
+            GIVE();
+        }else if(CommandIs("RECIPE")){
+            RECIPE();
+        }else if(CommandIs("SAVE")){
+            SAVE();
+        }else if(CommandIs("LOAD")){
+            LOAD();
+        }else if(CommandIs("EXIT")){
+            EXIT();
+        }else{
             printf("Masukan pilihan Anda tidak valid\n");
-            printf("\n");
         }
-    } while(!IsPilihanCommandValid(pilihanCommand));
+    } while(!CommandIs("EXIT"));
     printf("\n");
-    if(strcmp(pilihanCommand, "GU") == 0){
-        GU();
-    }else if(strcmp(pilihanCommand,"GD") == 0){
-        GD();
-    }else if(strcmp(pilihanCommand, "GL") == 0){
-        GL();
-    }else if(strcmp(pilihanCommand, "GR") == 0){
-        GR();
-    }else if(strcmp(pilihanCommand, "ORDER") == 0){
-        ORDER();
-    }else if(strcmp(pilihanCommand, "PUT") == 0){
-        PUT();
-    }else if(strcmp(pilihanCommand, "TAKE") == 0){
-        TAKE();
-    }else if(strcmp(pilihanCommand, "CH") == 0){
-        CH();
-    }else if(strcmp(pilihanCommand, "CT") == 0){
-        CT();
-    }else if(strcmp(pilihanCommand, "PLACE") == 0){
-        PLACE();
-    }else if(strcmp(pilihanCommand, "GIVE") == 0){
-        GIVE();
-    }else if(strcmp(pilihanCommand, "RECIPE") == 0){
-        RECIPE();
-    }else if(strcmp(pilihanCommand, "SAVE") == 0){
-        SAVE();
-    }else if(strcmp(pilihanCommand, "LOAD") == 0){
-        LOAD();
-    }else if(strcmp(pilihanCommand, "EXIT") == 0){
-        EXIT();
-    }
 }
 
 int  main(){
     MainMenu();
-    Command();
+    BacaCommand();
 }
