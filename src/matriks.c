@@ -1,11 +1,4 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : matriks.c
-	Topik : Pra Praktikum 04
-	Tanggal : 15 September 2018
-	Deskripsi : Implementasi semua fungsi dan prosedur yang sudah didefinisikan di file matriks.h */
-
-
-#include "matriks.h"
+#include "../include/matriks.h"
 #include <stdio.h>
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */

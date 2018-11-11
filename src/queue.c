@@ -1,24 +1,18 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : queue.c
-	Topik : Pra Praktikum 06
-	Tanggal : 28 September 2018
-	Deskripsi : Implementasi semua fungsi dan prosedur yang sudah didefinisikan di file queue.h */
-
-#include "queue.h"
+#include "../include/queue.h"
 #include <stdlib.h>
 
 /* ********* Prototype ********* */
-boolean IsEmpty (Queue Q){
+boolean IsEmptyQueue (Queue Q){
 	return ((Head(Q) == Nil) && (Tail(Q) == Nil));
 }
 /* Mengirim true jika Q kosong: lihat definisi di atas */
-boolean IsFull (Queue Q){
+boolean IsFullQueue (Queue Q){
 	return (NBElmt(Q) == MaxEl(Q));
 }
 /* Mengirim true jika tabel penampung elemen Q sudah penuh */
 /* yaitu mengandung elemen sebanyak MaxEl */
 int NBElmt (Queue Q){
-	if (IsEmpty(Q)){
+	if (IsEmptyQueue(Q)){
 		return 0;
 	}
 	else if (Head(Q) > Tail(Q)){
@@ -31,7 +25,7 @@ int NBElmt (Queue Q){
 /* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
 
 /* *** Kreator *** */
-void CreateEmpty (Queue * Q, int Max){
+void CreateEmptyQueue (Queue * Q, int Max){
 	(*Q).T = (infotype *) malloc ((Max + 1) * sizeof(infotype));
 	if ((*Q).T != NULL){
 		MaxEl(*Q) = Max;
@@ -61,7 +55,7 @@ void DeAlokasi(Queue * Q){
 
 /* *** Primitif Add/Delete *** */
 void Add (Queue * Q, infotype X){
-	if (IsEmpty(*Q)){
+	if (IsEmptyQueue(*Q)){
 		Head(*Q) = 1;
 		Tail(*Q) = 1;
 		InfoTail(*Q) = X;

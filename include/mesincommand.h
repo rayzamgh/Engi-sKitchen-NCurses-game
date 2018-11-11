@@ -5,7 +5,7 @@
 #define __MESINCOMMAND_H__
 
 #include "boolean.h"
-#include "mesinkarcommand.h"
+#include "mesinkarinput.h"
 
 #define NMax 10
 #define BLANK ' '

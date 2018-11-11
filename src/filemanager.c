@@ -1,6 +1,6 @@
-#include "mesinbaris.h"
-#include "matriks.h"
-#include "filemanager.h"
+#include "../include/mesinbaris.h"
+#include "../include/matriks.h"
+#include "../include/filemanager.h"
 
 
 MATRIKS BacaMap(){

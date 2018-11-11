@@ -1,5 +1,4 @@
-
-#include "mesincommand.h"
+#include "../include/mesincommand.h"
 #include <string.h>
 
 /* State Mesin Kata */

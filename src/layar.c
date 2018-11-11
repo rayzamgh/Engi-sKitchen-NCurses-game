@@ -1,8 +1,8 @@
-#include "boolean.h"
-#include "matriks.h"
+#include "../include/boolean.h"
+#include "../include/matriks.h"
 //#include "stackt.h"
 //#include "queue.h"
-#include "layar.h"
+#include "../include/layar.h"
 #include<stdio.h>
 
 

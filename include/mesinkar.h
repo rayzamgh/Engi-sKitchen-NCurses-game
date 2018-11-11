@@ -10,8 +10,12 @@
 /* State Mesin */
 extern char CC;
 extern boolean EOP;
+extern char filenameMesinKar[20];
 
-void START(char filename[20]);
+void SETFILE(char namaFile[20]);
+/* Set filenameMesinKar jadi namaFile */
+
+void START();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang

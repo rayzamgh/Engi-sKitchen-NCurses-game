@@ -1,7 +1,4 @@
-/* File: mesinkarinput.c */
-/* Implementasi Mesin Karakter */
-
-#include "mesinkarinput.h"
+#include "../include/mesinkarinput.h"
 #include <stdio.h>
 
 char CCInput;
