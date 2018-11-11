@@ -12,7 +12,7 @@
 #define KolMax 100
 
 typedef int indeks; /* indeks baris, kolom */
-typedef int ElType;
+typedef char ElType;
 typedef struct {
 	ElType Mem[BrsMax+1][KolMax+1];
     int NBrsEff; /* banyaknya/ukuran baris yg terdefinisi */
@@ -107,7 +107,7 @@ boolean EQSize (MATRIKS M1, MATRIKS M2);
 /* yaitu GetBrsEff(M1) = GetNBrsEff (M2) dan GetNKolEff (M1) = GetNKolEff (M2) */
 
 /* ********** Operasi lain ********** */
-int NBElmt (MATRIKS M);
+int NBElmtMATRIKS (MATRIKS M);
 /* Mengirimkan banyaknya elemen M */
 
 /* ********** KELOMPOK TEST TERHADAP MATRIKS ********** */

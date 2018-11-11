@@ -1,10 +1,4 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : jam.c
-	Topik : Pra Praktikum 02
-	Tanggal : 6 September 2018
-	Deskripsi : Implementasi semua fungsi dan prosedur yang sudah didefinisikan di file jam.h */
-
-#include "jam.h"
+#include "../include/jam.h"
 #include <stdio.h>
 
 /* ***************************************************************** */

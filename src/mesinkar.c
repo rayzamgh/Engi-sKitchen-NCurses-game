@@ -1,14 +1,20 @@
-/* File: mesinkar.c */
-/* Implementasi Mesin Karakter */
-
-#include "mesinkar.h"
+#include "../include/mesinkar.h"
 #include <stdio.h>
 
 char CC;
 boolean EOP;
+char filenameMesinKar[20];
 
 static FILE * pita;
 static int retval;
+
+void SETFILE(char namaFile[20]){
+/* Set filenameMesinKar jadi namaFile */
+      for(int i = 0;i<20;i++)
+      {
+            filenameMesinKar[i] = namaFile[i];
+      }
+}
 
 void START() {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
@@ -18,7 +24,7 @@ void START() {
           Jika CC = MARK maka EOP akan menyala (true) */
 
 	/* Algoritma */
-	pita = fopen("pitakar.txt","r");
+	pita = fopen(filenameMesinKar,"r");
 	ADV();
 }
 

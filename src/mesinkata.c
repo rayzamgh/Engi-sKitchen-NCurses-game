@@ -1,11 +1,4 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : mesinkata.c
-	Topik : Pra Praktikum 05
-	Tanggal : 21 September 2018
-	Deskripsi : Implementasi semua prosedur yang sudah didefinisikan di file mesinkata.h */
-
-
-#include "mesinkata.h"
+#include "../include/mesinkata.h"
 
 /* State Mesin Kata */
 boolean EndKata;

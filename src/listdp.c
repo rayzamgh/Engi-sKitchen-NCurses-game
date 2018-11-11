@@ -1,24 +1,17 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : listdp.c
-	Topik : Pra Praktikum 09
-	Tanggal : 25 Oktober 2018
-	Deskripsi : Implementasi semua fungsi dan prosedur yang sudah didefinisikan di file listdp.h */
-
-
-#include "listdp.h"
+#include "../include/listdp.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
-boolean IsEmpty (List L){
+boolean IsEmptyList (List L){
     return ((First(L) == Nil) && (Last(L) ==Nil));
 }
 /* Mengirim true jika list kosong. Lihat definisi di atas. */
 
 /****************** PEMBUATAN LIST KOSONG ******************/
-void CreateEmpty (List *L){
+void CreateEmptyList (List *L){
     First(*L) = Nil;
     Last(*L) = Nil;
 }
@@ -51,7 +44,7 @@ address Search (List L, infotype X){
     address P;
     boolean found;
     P = First(L);
-    if (!IsEmpty(L)){
+    if (!IsEmptyList(L)){
         found = (Info(P) == X);
         while ((!found) && (Next(P) != Nil)){
             P = Next(P);
@@ -75,7 +68,7 @@ void InsVFirst (List *L, infotype X){
     address P;
     P = Alokasi(X);
     if (P != Nil){
-        if (IsEmpty(*L)){
+        if (IsEmptyList(*L)){
             First(*L) = P;
             Last(*L) = P;
         }
@@ -93,7 +86,7 @@ void InsVLast (List *L, infotype X){
     address P;
     P = Alokasi(X);
     if (P != Nil){
-        if (IsEmpty(*L)){
+        if (IsEmptyList(*L)){
             First(*L) = P;
             Last(*L) = P;
         }
@@ -148,7 +141,7 @@ void DelVLast (List *L, infotype *X){
 /****************** PRIMITIF BERDASARKAN ALAMAT ******************/
 /*** PENAMBAHAN ELEMEN BERDASARKAN ALAMAT ***/
 void InsertFirst (List *L, address P){
-    if (IsEmpty(*L)){
+    if (IsEmptyList(*L)){
         First(*L) = P;
         Last(*L) = P;
     }
@@ -161,7 +154,7 @@ void InsertFirst (List *L, address P){
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. Menambahkan elemen ber-address P sebagai elemen pertama */
 void InsertLast (List *L, address P){
-    if (IsEmpty(*L)){
+    if (IsEmptyList(*L)){
         First(*L) = P;
         Last(*L) = P;
     }
@@ -293,7 +286,7 @@ void DelBefore (List *L, address *Pdel, address Succ){
 void PrintForward (List L){
     address P;
     printf("[");
-    if (!IsEmpty(L)){
+    if (!IsEmptyList(L)){
         P = First(L);
         while (Next(P) != Nil){
             printf("%d,", Info(P));
@@ -312,7 +305,7 @@ void PrintForward (List L){
 void PrintBackward (List L){
     address P;
     printf("[");
-    if (!IsEmpty(L)){
+    if (!IsEmptyList(L)){
         P = Last(L);
         while (Prev(P) != Nil){
             printf("%d,", Info(P));

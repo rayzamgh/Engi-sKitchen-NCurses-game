@@ -1,11 +1,4 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : matriks.c
-	Topik : Pra Praktikum 04
-	Tanggal : 15 September 2018
-	Deskripsi : Implementasi semua fungsi dan prosedur yang sudah didefinisikan di file matriks.h */
-
-
-#include "matriks.h"
+#include "../include/matriks.h"
 #include <stdio.h>
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */
@@ -72,7 +65,7 @@ void BacaMATRIKS (MATRIKS * M, int NB, int NK){
 	MakeMATRIKS(NB, NK, &(*M));
 	for (i = GetFirstIdxBrs(*M); i <= GetLastIdxBrs(*M); i++) {
 		for (j = GetFirstIdxKol(*M); j <= GetLastIdxKol(*M); j++) {
-			scanf("%d", &Elmt(*M, i, j));
+			scanf("%c", &Elmt(*M, i, j));
 		}
 	}
 }
@@ -91,7 +84,7 @@ void TulisMATRIKS (MATRIKS M){
 	// Algoritma
 	for (i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++) {
 		for (j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); j++) {
-			printf("%d", Elmt(M, i, j));
+			printf("%c", Elmt(M, i, j));
 			if (j != GetLastIdxKol(M)){
 				printf(" ");
 			}
@@ -191,7 +184,7 @@ boolean EQ (MATRIKS M1, MATRIKS M2){
 	boolean eq;
 	indeks i, j;
 	// Algoritma
-	if (!(NBElmt(M1) == NBElmt(M2))){
+	if (!(NBElmtMATRIKS(M1) == NBElmtMATRIKS(M2))){
 		return false;
 	}
 	else{
@@ -225,7 +218,7 @@ boolean EQSize (MATRIKS M1, MATRIKS M2){
 /* yaitu GetBrsEff(M1) = GetNBrsEff (M2) dan GetNKolEff (M1) = GetNKolEff (M2) */
 
 /* ********** Operasi lain ********** */
-int NBElmt (MATRIKS M){
+int NBElmtMATRIKS (MATRIKS M){
 	return (NBrsEff(M) * NKolEff(M));
 }
 /* Mengirimkan banyaknya elemen M */
@@ -302,7 +295,7 @@ boolean IsSparse (MATRIKS M){
 			}
 		}
 	}
-	return (((float) count / NBElmt(M)) <= 0.05);
+	return (((float) count / NBElmtMATRIKS(M)) <= 0.05);
 }
 /* Mengirimkan true jika M adalah matriks sparse: mariks “jarang” dengan definisi:
    hanya maksimal 5% dari memori matriks yang efektif bukan bernilai 0 */
@@ -317,7 +310,7 @@ float Determinan (MATRIKS M){
 	MATRIKS temp;
 	boolean passj;
 	// Algoritma
-	if (NBElmt(M) == 1){
+	if (NBElmtMATRIKS(M) == 1){
 		return ((float) Elmt(M, 1, 1));
 	}
 	else{
