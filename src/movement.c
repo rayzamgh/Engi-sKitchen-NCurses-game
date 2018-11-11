@@ -9,7 +9,7 @@
 //VARIABEL GLOBAL
 //J
 
-void GU(MATRIKS *M, POINT *P, JAM *J){
+void GoUp(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(i != 1){
@@ -22,7 +22,7 @@ void GU(MATRIKS *M, POINT *P, JAM *J){
 		}
 	}
 }
-void GD(MATRIKS *M, POINT *P, JAM *J){
+void GoDown(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(i != NBrsEff(*M)){
@@ -36,7 +36,7 @@ void GD(MATRIKS *M, POINT *P, JAM *J){
 	}
 }
 
-void GL(MATRIKS *M, POINT *P, JAM *J){
+void GoLeft(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(j != 1){
@@ -49,7 +49,7 @@ void GL(MATRIKS *M, POINT *P, JAM *J){
 		}
 	}
 }
-void GR(MATRIKS *M, POINT *P, JAM *J){
+void GoRight(MATRIKS *M, POINT *P, JAM *J){
 	int i = Absis(*P);
 	int j = Ordinat(*P);
 	if(j != NKolEff(*M)){
