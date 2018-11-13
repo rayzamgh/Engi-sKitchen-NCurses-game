@@ -6,19 +6,12 @@
 
 #include "boolean.h"
 
-#define MARK '\000'
-#define MaxLengthString 100
-
+#define MARK '.'
 /* State Mesin */
 extern char CC;
 extern boolean EOP;
-extern char stringKarakter[MaxLengthString];
-extern int posisi;
 
-void SETSTRING(char s[MaxLengthString]);
-/* Load string s untuk dibaca oleh mesinkar */
-
-void START();
+void START(char filename[20]);
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang

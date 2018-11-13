@@ -1,5 +1,5 @@
 #include "../include/mesincommand.h"
-#include <string.h>
+#include "../include/mesinkatakomparasi.h"
 
 /* State Mesin Kata */
 Command CCommand;
@@ -36,7 +36,7 @@ void SalinCommand(){
 	CCommand.Length = 0;
 	do{
 		if (CCommand.Length < NMax){
-			CCommand.TabCommand[CCommand.Length] = CCInput;
+			CCommand.TabCommand[CCommand.Length+1] = CCInput;
 			CCommand.Length++;
 		}
 		ADVINPUT();
@@ -52,13 +52,15 @@ void SalinCommand(){
 boolean CommandIs(char s[10]){
 	boolean same = true;
 	int i;
-	if (strlen(s) != CCommand.Length){
+	SETSTRINGA(s);
+	STARTA();
+	if (CKataA.Length != CCommand.Length){
 		same = false;
 	}
 	else{
-		i = 0;
-		while ((i < CCommand.Length) && (same)){
-			if (CCommand.TabCommand[i] != s[i]){
+		i = 1;
+		while ((i <= CCommand.Length) && (same)){
+			if (CCommand.TabCommand[i] != CKataA.TabKata[i]){
 				same = false;
 			}
 			else{

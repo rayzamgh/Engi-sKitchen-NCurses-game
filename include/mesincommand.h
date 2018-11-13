@@ -12,7 +12,7 @@
 #define NEWLINE '\n'
 
 typedef struct {
-	char TabCommand[NMax];
+	char TabCommand[NMax+1];
     int Length; /* container penyimpan kata, indeks yang dipakai [1..NMax] */
 } Command;
 
