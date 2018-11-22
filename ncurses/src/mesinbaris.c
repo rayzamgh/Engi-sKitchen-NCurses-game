@@ -1,27 +1,27 @@
-#include "../include/mesinkata.h"
+#include "../include/mesinbaris.h"
 
-/* State Mesin Kata */
-boolean EndKata;
-Kata CKata;
+/* State Mesin Baris */
+boolean EndBaris;
+Baris CBaris;
 
-void IgnoreBlank(){
-	while ((CC == BLANK) && (CC != MARK)){
+void IgnoreNewline(){
+	while ((CC == NEWLINE) && (CC != MARK)){
 		ADV();
-	}
+	} 
 }
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATA(){
-	START();
-	IgnoreBlank();
+void STARTBARIS(char filename[20]){
+	START(filename);
+	IgnoreNewline();
 	if (CC == MARK){
-		EndKata = true;
+		EndBaris = true;
 	}
 	else{
-		SalinKata();
-		EndKata = false;
+		SalinBaris();
+		EndBaris = false;
 	}
 }
 /* I.S. : CC sembarang
@@ -29,14 +29,13 @@ void STARTKATA(){
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
 
-void ADVKATA(){
-	IgnoreBlank();
+void ADVBARIS(){
+	IgnoreNewline();
 	if (CC == MARK){
-		EndKata = true;
+		EndBaris = true;
 	}
 	else{
-		SalinKata();
-		IgnoreBlank();
+		SalinBaris();
 	}
 }
 /* I.S. : CC adalah karakter pertama kata yang akan diakuisisi
@@ -45,15 +44,15 @@ void ADVKATA(){
           Jika CC = MARK, EndKata = true.
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
-void SalinKata(){
-	CKata.Length = 0;
+void SalinBaris(){
+	CBaris.Length = 0;
 	do{
-		if (CKata.Length < NMax){
-			CKata.TabKata[CKata.Length + 1] = CC;
-			CKata.Length++;
+		if (CBaris.Length < NMax){
+			CBaris.TabBaris[CBaris.Length + 1] = CC;
+			CBaris.Length++;
 		}
 		ADV();
-	} while ((CC != BLANK) && (CC != MARK));
+	} while ((CC != NEWLINE) && (CC != MARK));
 }
 /* Mengakuisisi kata, menyimpan dalam CKata
    I.S. : CC adalah karakter pertama dari kata

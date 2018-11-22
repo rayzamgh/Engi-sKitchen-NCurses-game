@@ -7,6 +7,15 @@
         "matriks.h": "c",
         "mesincommand.h": "c",
         "string.h": "c",
-        "mesinkarinput.h": "c"
-    }
+        "mesinkarinput.h": "c",
+        "mesinkar.h": "c",
+        "stdlib.h": "c",
+        "boolean.h": "c",
+        "stage.h": "c",
+        "point.h": "c",
+        "mesinkatakomparasi.h\u0000arasi.h": "c",
+        "mesinkatakomparasi.h\u0000omparasi.h": "c",
+        "mesinkatakomparasi.h\u0000rasi.h": "c"
+    },
+    "C_Cpp.dimInactiveRegions": false
 }
