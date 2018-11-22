@@ -19,7 +19,7 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxType;  /* type indeks */
-typedef char ElType[20];   /* type elemen tabel */
+typedef char* ElType;   /* type elemen tabel */
 typedef struct { 
 	ElType TI[IdxMax+1]; /* memori tempat penyimpan elemen (container) */
 	int Neff; /* >=0, banyaknya elemen efektif */
@@ -79,25 +79,7 @@ boolean IsEmptyArray (TabInt T);
 boolean IsFullArray (TabInt T);
 /* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
 
-/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-/* *** Mendefinisikan isi tabel dari pembacaan *** */
-void BacaIsi (TabInt * T);
-/* I.S. T sembarang */
-/* F.S. Tabel T terdefinisi */
-/* Proses : membaca banyaknya elemen T dan mengisi nilainya */
-/* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
-/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxNbEl(T) */
-/*    Jika N tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < N <= MaxNbEl(T); Lakukan N kali: Baca elemen mulai dari indeks 
-      IdxMin satu per satu diakhiri enter */
-/*    Jika N = 0; hanya terbentuk T kosong */
-void BacaIsiTab (TabInt * T);
-/* I.S. T sembarang */
-/* F.S. Tabel T terdefinisi */
-/* Proses : membaca elemen T sampai dimasukkan nilai -9999 */
-/* Dibaca elemen satu per satu dan disimpan mulai dari IdxMin */
-/* Pembacaan dihentikan jika pengguna memasukkan nilai -9999 */
-/* Jika dari pertama dimasukkan nilai -9999 maka terbentuk T kosong */
+/* ********** TULIS dengan INPUT/OUTPUT device ********** */
 void TulisIsi (TabInt T);
 /* Proses : Menuliskan isi tabel dengan traversal */
 /* I.S. T boleh kosong */
@@ -119,29 +101,6 @@ void TulisIsiTab (TabInt T);
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika tabel kosong : menulis [] */
 
-/* ********** OPERATOR ARITMATIKA ********** */
-/* *** Aritmatika tabel : Penjumlahan, pengurangan, perkalian, ... *** */
-TabInt PlusTab (TabInt T1, TabInt T2);
-/* Prekondisi : T1 dan T2 berukuran sama dan tidak kosong */
-/* Mengirimkan  T1+T2, yaitu setiap elemen T1 dan T2 pada indeks yang sama dijumlahkan */
-TabInt MinusTab (TabInt T1, TabInt T2);
-/* Prekondisi : T1 dan T2 berukuran sama dan tidak kosong */
-/* Mengirimkan T1-T2, yaitu setiap elemen T1 dikurangi elemen T2 pada indeks yang sama */
-TabInt KaliTab (TabInt T1, TabInt T2);
-/* Prekondisi : T1 dan T2 berukuran sama dan tidak kosong */
-/* Mengirimkan T1 * T2 dengan definisi setiap elemen dengan indeks yang sama dikalikan */
-TabInt KaliKons (TabInt Tin, ElType c);
-/* Prekondisi : Tin tidak kosong */
-/* Mengirimkan tabel dengan setiap elemen Tin dikalikan c */
-
-/* ********** OPERATOR RELASIONAL ********** */
-/* *** Operasi pembandingan tabel : < =, > *** */
-boolean IsEQArray (TabInt T1, TabInt T2);
-/* Mengirimkan true jika T1 sama dengan T2 yaitu jika ukuran T1 = T2 dan semua elemennya sama */
-boolean IsLessArray (TabInt T1, TabInt T2);
-/* Mengirimkan true jika T1 < T2, */
-/* yaitu : sesuai dg analogi 'Ali' < Badu'; maka [0, 1] < [2, 3] */
-
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
 IdxType Search1 (TabInt T, ElType X);
@@ -150,37 +109,6 @@ IdxType Search1 (TabInt T, ElType X);
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Memakai skema search TANPA boolean */
-IdxType Search2 (TabInt T, ElType X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IdxUndef */
-/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
-/* Memakai skema search DENGAN boolean Found */
-boolean SearchB (TabInt T, ElType X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
-/* Memakai Skema search DENGAN boolean */
-boolean SearchSentinel (TabInt T, ElType X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
-/* dengan metoda sequential search dengan sentinel */
-/* Untuk sentinel, manfaatkan indeks ke-0 dalam definisi array dalam Bahasa C 
-   yang tidak dipakai dalam definisi tabel */
-
-/* ********** NILAI EKSTREM ********** */
-//ElType ValMax (TabInt T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan nilai maksimum tabel */
-//ElType ValMin (TabInt T); 
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan nilai minimum tabel */
-/* *** Mengirimkan indeks elemen bernilai ekstrem *** */
-IdxType IdxMaxTab (TabInt T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan indeks i terkecil dengan nilai elemen merupakan nilai maksimum pada tabel */
-IdxType IdxMinTab (TabInt T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan indeks i terkecil dengan nilai elemen merupakan nilai minimum pada tabel */
 
 /* ********** OPERASI LAIN ********** */
 void CopyTab (TabInt Tin, TabInt * Tout);
@@ -192,12 +120,6 @@ TabInt InverseTab (TabInt T);
 /* elemen pertama menjadi terakhir, */
 /* elemen kedua menjadi elemen sebelum terakhir, dst.. */
 /* Tabel kosong menghasilkan tabel kosong */
-boolean IsSimetris (TabInt T);
-/* Menghasilkan true jika tabel simetrik */
-/* Tabel disebut simetrik jika: */
-/*      elemen pertama = elemen terakhir, */
-/*      elemen kedua = elemen sebelum terakhir, dan seterusnya */
-/* Tabel kosong adalah tabel simetris */
 
 /* ********** SORTING ********** */
 void MaxSortDesc (TabInt * T);

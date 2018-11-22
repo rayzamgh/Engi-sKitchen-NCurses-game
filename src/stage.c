@@ -9,7 +9,7 @@ void CreateEmptyStage(TabSTAGE *Tst, int Nb, int Nk, int StageNum)
 //stage yang di inisiasi berjumlah StageNum
 //Nb, Nk adalah baris dan kolom area, (seluruh area baris dan kolomnya sama)
 {
-	Neff(*Tst) = StageNum;
+	NeffSt(*Tst) = StageNum;
 	for(int i = 0; i < StageNum; i++)
 	{
 		MakeMATRIKS(Nb,Nk,&Stage(*Tst,i));

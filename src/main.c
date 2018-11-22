@@ -1,30 +1,67 @@
 #include <stdio.h>
 #include <string.h>
+#include <ncurses.h>
 #include "../include/boolean.h"
 #include "../include/mesincommand.h"
+#include "../include/mesinkatakomparasi.h"
 #include "../include/array.h"
+#include "../include/layar.h"
+#include "../include/point.h"
+#include "../include/queue.h"
+#include "../include/stackt.h"
+#include "../include/bintree.h"
+#include "../include/movement.h"
 
-void InisialisasiOrder(TABOrder *TabInt){
-    MakeEmptyArray(TabInt);
+/* Global Variable */
+char namaUser[20] = "";
+boolean isGameOn = false;
+LAYAR L;
+int lebarLayar = 120;
+int tinggiLayar = 40;
+POINT player;
+/* --------------- */
+
+void InisialisasiOrder(TabInt *TabOrder){
+    
 }
 
 void PlaceOrder(TabInt *TABOrder){
-    //namanya doang tabint sebenernya tabchar[20] (urg males ganti semua tabint jadi tabstring)
-    char[20] placeholder;
-    Elmt(*TABOrder, Neff(TABOrder)) = placeholder;
-    Neff(*TABOrder)++;
+
+}
+
+void GambarLayar()
+{
+    CreateTabel(&L,1,1,lebarLayar,tinggiLayar,1,1);
+    CreateGarisHorizontal(&L,0,lebarLayar,5);
+    CreateGarisVertikal(&L,30,1,tinggiLayar);
+    CreateGarisVertikal(&L,60,1,5);
+    CreateGarisVertikal(&L,75,1,5);
+    CreateGarisVertikal(&L,lebarLayar-30,5,tinggiLayar);
+    CreateGarisHorizontal(&L,1,30,(int)tinggiLayar/2);
+    CreateGarisHorizontal(&L,lebarLayar-30,lebarLayar,(int)tinggiLayar/2);
+    PutTextAt(&L,5,3,namaUser);
+    PutTextAt(&L,35,3,"Money : 500");
+    PutTextAt(&L, 65,3,"Life : 2");
+    PutTextAt(&L,80,3,"Time : 5");
+    printLayar(L);
+}
+
+void Update()
+{
+
 }
 
 void StartGame(){
-    //isGameOn = true;
+    isGameOn = true;
     printf("\n");
 }
 
 void NewGame(){
     //isGameOn = true;
-    char namaUser[1000];
-    printf("Masukkan Nama Chef : ");
-    scanf("%s", namaUser);
+    while(IsSameString(namaUser,"")){
+        printf("Masukkan Nama Chef : ");
+        scanf("%s", namaUser);
+    }
     StartGame();
 }
 
@@ -171,6 +208,7 @@ void EXIT(){
 void BacaCommand(){
     char pilihanCommand[10];
     do{
+        GambarLayar();
         PrintCommand();
         printf("Masukan pilihan Anda : ");
         STARTCOMMAND();
@@ -207,11 +245,13 @@ void BacaCommand(){
         }else{
             printf("Masukan pilihan Anda tidak valid\n");
         }
+        Update();
     } while(!CommandIs("EXIT"));
     printf("\n");
 }
 
 int  main(){
     MainMenu();
+    CreateEmptyLayar(&L,lebarLayar,tinggiLayar);
     BacaCommand();
 }
