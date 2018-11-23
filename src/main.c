@@ -5,7 +5,6 @@
 #include "../include/mesincommand.h"
 #include "../include/mesinkatakomparasi.h"
 #include "../include/array.h"
-#include "../include/layar.h"
 #include "../include/point.h"
 #include "../include/queue.h"
 #include "../include/stackt.h"
@@ -14,104 +13,151 @@
 
 /* Global Variable */
 char namaUser[20] = "";
+boolean sudahInputNama = false;
 boolean isGameOn = false;
-LAYAR L;
-int lebarLayar = 120;
-int tinggiLayar = 40;
+int lebarMainMenu = 40, tinggiMainMenu = 20;
+int lebarGame = 120, tinggiGame = 40;
+WINDOW *MainMenu, *Game;
 POINT player;
 /* --------------- */
 
-void InisialisasiOrder(TabInt *TabOrder){
-    
-}
-
-void PlaceOrder(TabInt *TABOrder){
-
-}
-
-void GambarLayar()
+void InisialisasiOrder(TabInt *TabOrder)
 {
-    CreateTabel(&L,1,1,lebarLayar,tinggiLayar,1,1);
-    CreateGarisHorizontal(&L,0,lebarLayar,5);
-    CreateGarisVertikal(&L,30,1,tinggiLayar);
-    CreateGarisVertikal(&L,60,1,5);
-    CreateGarisVertikal(&L,75,1,5);
-    CreateGarisVertikal(&L,lebarLayar-30,5,tinggiLayar);
-    CreateGarisHorizontal(&L,1,30,(int)tinggiLayar/2);
-    CreateGarisHorizontal(&L,lebarLayar-30,lebarLayar,(int)tinggiLayar/2);
-    PutTextAt(&L,5,3,namaUser);
-    PutTextAt(&L,35,3,"Money : 500");
-    PutTextAt(&L, 65,3,"Life : 2");
-    PutTextAt(&L,80,3,"Time : 5");
-    printLayar(L);
+}
+
+void PlaceOrder(TabInt *TABOrder)
+{
 }
 
 void Update()
 {
-
 }
 
-void StartGame(){
+void hapusWindow(WINDOW *hapus)
+{
+    wborder(hapus, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+    wrefresh(hapus);
+    delwin(hapus);
+}
+
+void StartGame()
+{
     isGameOn = true;
-    printf("\n");
+    hapusWindow(MainMenu);
+    clear();
+    Game = newwin(lebarGame, tinggiGame, 0, 0);
+    refresh();
 }
 
-void NewGame(){
-    //isGameOn = true;
-    while(IsSameString(namaUser,"")){
-        printf("Masukkan Nama Chef : ");
-        scanf("%s", namaUser);
-    }
+void NewGame()
+{
+    mvwprintw(MainMenu, 9, 1, "Masukkan Nama Chef : ");
+    wgetstr(MainMenu, namaUser);
+    sudahInputNama = true;
     StartGame();
 }
 
-void LoadGame(){
-    //isGameOn = true;
-    printf("\n");
+void LoadGame()
+{
 }
 
-void Exit(){
-    //isGameOn = false;
-    printf("\n");
+void EXIT()
+{
+    isGameOn = false;
 }
 
-boolean IsPilihanMenuValid(char pilihanMenu){
-    return (pilihanMenu >= '1' && pilihanMenu <= '4');
-}
-
-void PrintMainMenu(){
-    printf("MAIN MENU : \n");
-    printf("1. New Game\n");
-    printf("2. Start Game\n");
-    printf("3. Load Game\n");
-    printf("4. Exit\n");
-}
-
-void MainMenu(){
-    char pilihanMenu;
-    printf("SELAMAT DATANG DI ENGI'S KITCHEN!!\n");
-    do{
-        PrintMainMenu();
-        printf("Masukan pilihan Anda : ");
-        scanf("%c", &pilihanMenu);
-        if(!IsPilihanMenuValid(pilihanMenu)){
-            printf("Masukan pilihan Anda tidak valid\n");
-            printf("\n");
-        }
-    } while(!IsPilihanMenuValid(pilihanMenu));
-    printf("\n");
-    if(pilihanMenu == '1'){
-        NewGame();
-    }else if(pilihanMenu == '2'){
-        StartGame();
-    }else if(pilihanMenu == '3'){
-        LoadGame();
-    }else if(pilihanMenu == '4'){
-        Exit();
+boolean IsPilihanMenuValid(char pilihanMenu[])
+{
+    if (IsSameString(pilihanMenu, "New Game"))
+    {
+        return 1;
+    }
+    else if (IsSameString(pilihanMenu, "Start Game"))
+    {
+        return 2;
+    }
+    else if (IsSameString(pilihanMenu, "Load Game"))
+    {
+        return 3;
+    }
+    else if (IsSameString(pilihanMenu, "Exit"))
+    {
+        return 4;
+    }
+    else
+    {
+        return 5;
     }
 }
 
-void PrintCommand(){
+void PrintBoxGame()
+{
+    box(Game, 0, 0);
+    wrefresh(Game);
+}
+
+void PrintBoxMainMenu()
+{
+    box(MainMenu, 0, 0);
+    wrefresh(MainMenu);
+}
+
+void PrintMainMenu(int startX, int startY)
+{
+    mvwprintw(MainMenu, startY, startX, "SELAMAT DATANG DI ENGI'S KITCHEN!!\n");
+    mvwprintw(MainMenu, startY + 1, startX, "MAIN MENU : \n");
+    mvwprintw(MainMenu, startY + 2, startX, "1. New Game\n");
+    mvwprintw(MainMenu, startY + 3, startX, "2. Start Game\n");
+    mvwprintw(MainMenu, startY + 4, startX, "3. Load Game\n");
+    mvwprintw(MainMenu, startY + 5, startX, "4. Exit\n");
+    mvwprintw(MainMenu, startY + 6, startX, "Masukan pilihan Anda : ");
+}
+
+void ProgramMainMenu()
+{
+    char pilihanMenu[100];
+    int pilihan;
+    do
+    {
+        PrintMainMenu(1, 1);
+        PrintBoxMainMenu();
+        wgetstr(MainMenu, pilihanMenu);
+        pilihan = IsPilihanMenuValid(pilihanMenu);
+        if (pilihan == 5)
+        {
+            wclear(MainMenu);
+            mvwprintw(MainMenu, 8, 1, "Masukan pilihan Anda tidak valid\n");
+        }
+    } while (pilihan == 5);
+    if (pilihan == 1)
+    {
+        NewGame();
+    }
+    else if (pilihan == 2)
+    {
+        if (sudahInputNama)
+        {
+            StartGame();
+        }
+        else
+        {
+            wclear(MainMenu);
+            mvwprintw(MainMenu, 9, 1, "Input nama dulu\n");
+            ProgramMainMenu();
+        }
+    }
+    else if (pilihan == 3)
+    {
+        LoadGame();
+    }
+    else if (pilihan == 4)
+    {
+        EXIT();
+    }
+}
+
+void PrintCommand()
+{
     printf("DAFTAR COMMAND\n");
     printf("GU : Go Up\n");
     printf("GD : Go Down\n");
@@ -130,128 +176,175 @@ void PrintCommand(){
     printf("EXIT\n");
 }
 
-void GU(){
+void GU()
+{
 
     printf("\n");
 }
 
-void GD(){
+void GD()
+{
 
     printf("\n");
 }
 
-void GL(){
+void GL()
+{
 
     printf("\n");
 }
 
-void GR(){
+void GR()
+{
 
     printf("\n");
 }
 
-void ORDER(){
-
-    printf("\n");
-}
- 
-void PUT(){
+void ORDER()
+{
 
     printf("\n");
 }
 
-void TAKE(){
+void PUT()
+{
 
     printf("\n");
 }
 
-void CH(){
+void TAKE()
+{
 
     printf("\n");
 }
 
-void CT(){
+void CH()
+{
 
     printf("\n");
 }
 
-void PLACE(){
+void CT()
+{
 
     printf("\n");
 }
 
-void GIVE(){
+void PLACE()
+{
 
     printf("\n");
 }
 
-void RECIPE(){
-    
-    printf("\n");
-}
-
-void SAVE(){
+void GIVE()
+{
 
     printf("\n");
 }
 
-void LOAD(){
+void RECIPE()
+{
 
     printf("\n");
 }
 
-void EXIT(){
+void SAVE()
+{
 
-    printf("\n");   
+    printf("\n");
 }
 
-void BacaCommand(){
+void LOAD()
+{
+
+    printf("\n");
+}
+
+void BacaCommand()
+{
     char pilihanCommand[10];
-    do{
-        GambarLayar();
+    while (isGameOn)
+    {
         PrintCommand();
         printf("Masukan pilihan Anda : ");
         STARTCOMMAND();
-        if(CommandIs("GU")){
+        if (CommandIs("GU"))
+        {
             GU();
-        }else if(CommandIs("GD")){
+        }
+        else if (CommandIs("GD"))
+        {
             GD();
-        }else if(CommandIs("GL")){
+        }
+        else if (CommandIs("GL"))
+        {
             GL();
-        }else if(CommandIs("GR")){
+        }
+        else if (CommandIs("GR"))
+        {
             GR();
-        }else if(CommandIs("ORDER")){
+        }
+        else if (CommandIs("ORDER"))
+        {
             ORDER();
-        }else if(CommandIs("PUT")){
+        }
+        else if (CommandIs("PUT"))
+        {
             PUT();
-        }else if(CommandIs("TAKE")){
+        }
+        else if (CommandIs("TAKE"))
+        {
             TAKE();
-        }else if(CommandIs("CH")){
+        }
+        else if (CommandIs("CH"))
+        {
             CH();
-        }else if(CommandIs("CT")){
+        }
+        else if (CommandIs("CT"))
+        {
             CT();
-        }else if(CommandIs("PLACE")){
+        }
+        else if (CommandIs("PLACE"))
+        {
             PLACE();
-        }else if(CommandIs("GIVE")){
+        }
+        else if (CommandIs("GIVE"))
+        {
             GIVE();
-        }else if(CommandIs("RECIPE")){
+        }
+        else if (CommandIs("RECIPE"))
+        {
             RECIPE();
-        }else if(CommandIs("SAVE")){
+        }
+        else if (CommandIs("SAVE"))
+        {
             SAVE();
-        }else if(CommandIs("LOAD")){
+        }
+        else if (CommandIs("LOAD"))
+        {
             LOAD();
-        }else if(CommandIs("EXIT")){
+        }
+        else if (CommandIs("EXIT"))
+        {
             EXIT();
-        }else{
+        }
+        else
+        {
             printf("Masukan pilihan Anda tidak valid\n");
         }
         Update();
-    } while(!CommandIs("EXIT"));
-    printf("\n");
+    }
 }
 
-int  main(){
-    MainMenu();
-    CreateEmptyLayar(&L,lebarLayar,tinggiLayar);
-    BacaCommand();
+int main()
+{
+    initscr();
+    refresh();
+    MainMenu = newwin(tinggiMainMenu, lebarMainMenu, 0, 0);
+    box(MainMenu, 0, 0);
+    wrefresh(MainMenu);
+    ProgramMainMenu();
+    BacaCommand(); //Looping disini
+    endwin();
+    return 0;
 }

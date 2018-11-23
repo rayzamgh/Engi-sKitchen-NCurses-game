@@ -11,15 +11,25 @@ boolean EOPB;
 char stringKarakterB[MaxLengthString];
 int posisiB;
 
+void RESETA()
+{
+      int i = 0;
+	while(stringKarakterA[i] != '\000')
+	{
+            stringKarakterA[i] = '\000';
+            i += 1;
+      }         
+}
+
 void SETSTRINGA(char s[MaxLengthString]){
 /* Load string s untuk dibaca oleh mesinkar */
       int i = 0;
+      RESETA();
       while(s[i] != '\000')
       {
             stringKarakterA[i] = s[i];
             i++;
       }
-      stringKarakterA[i] = '\000';
       posisiA = 0;
 }
 void STARTA() {
@@ -50,9 +60,20 @@ void ADVA() {
 }
 
 
+void RESETB()
+{
+      int i = 0;
+	while(stringKarakterB[i] != '\000')
+	{
+            stringKarakterB[i] = '\000';
+            i += 1;
+      }     
+}
+
 void SETSTRINGB(char s[MaxLengthString]){
 /* Load string s untuk dibaca oleh mesinkar */
       int i = 0;
+      RESETB();
       while(s[i] != '\000')
       {
             stringKarakterB[i] = s[i];
