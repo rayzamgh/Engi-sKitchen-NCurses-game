@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/boolean.h"
+#include "../include/mesinkatakomparasi.h"
+
+Kata CKataA;
 
 /* *** Konstruktor *** */
 BinTree Tree(infotypeLR Akar, BinTree L, BinTree R)
@@ -30,24 +33,6 @@ void MakeTree(infotypeLR Akar, BinTree L, BinTree R, BinTree *P)
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R 
 		jika alokasi berhasil. P = Nil jika alokasi gagal. */
-BinTree BuildBalanceTree(int n)
-{
-  if (n == 0)
-  {
-    return Nil;
-  }
-  else
-  {
-    int input;
-    scanf("%d", &input);
-    int nL = n / 2;
-    int nR = n - nL - 1;
-    BinTree L = BuildBalanceTree(nL);
-    BinTree R = BuildBalanceTree(nR);
-    return Tree(input, L, R);
-  }
-}
-/* Menghasilkan sebuah balanced tree dengan n node, nilai setiap node dibaca */
 
 /* Manajemen Memory */
 addrNode AlokNode(infotypeLR X)
@@ -103,14 +88,67 @@ boolean IsBiner(BinTree P)
   return (P != Nil) && (Left(P) != Nil && Right(P) != Nil);
 }
 /* Mengirimkan true jika pohon biner tidak kosong P adalah pohon biner: mempunyai subpohon kiri dan subpohon kanan*/
-
+BinTree PreOrderToTree(char s[500],int* pos)
+{
+  /* CTH : A(B()())(C()()) */
+  /* CFG :
+   *  S -> R(S)(S) | R()() | R(S)() | R()(S)
+   */
+  BinTree Hasil;
+  /* Salin Nama Root */
+  char namaRoot[50] = "";
+  int i = 0;
+  while(s[*pos] != '(' && s[*pos] != ')')
+  {
+    namaRoot[i] = s[*pos];
+    i += 1; *pos += 1;
+  }
+  STARTKATAA(namaRoot); //Input namaRoot ke CKataA
+  Hasil = Tree(CKataA,Nil,Nil);
+  if(s[*pos+1] == ')')
+  {
+    // R()() | R()(S)
+    *pos += 2;
+    if(s[*pos+1] == ')')
+    {
+      // R()()
+      *pos += 2;
+      return Hasil;
+    }else{
+      // R()(S)
+      *pos += 1;
+      Right(Hasil) = PreOrderToTree(s,pos);
+      *pos += 1;
+      return Hasil;
+    }
+  }else{
+    // R(S)(S) | R(S)()
+    *pos += 1;
+    Left(Hasil) = PreOrderToTree(s,pos);
+    *pos += 1;
+    if(s[*pos+1] == ')')
+    {
+      // R(S)()
+      *pos += 2;
+      return Hasil;
+    }else{
+      // R(S)(S)
+      *pos += 1;
+      Right(Hasil) = PreOrderToTree(s,pos);
+      *pos += 1;
+      return Hasil;
+    }
+  }
+}
+/* Membuat pohon dari representasi preorder tree */
 /* *** Traversal *** */
 void PrintPreorder(BinTree P)
 {
   printf("(");
   if (!IsTreeEmpty(P))
   {
-    printf("%d", Akar(P));
+    int i = 0;
+    printf("%s", Akar(P).TabKata);
     PrintPreorder(Left(P));
     PrintPreorder(Right(P));
   }
@@ -130,7 +168,7 @@ void PrintInorder(BinTree P)
   if (!IsTreeEmpty(P))
   {
     PrintInorder(Left(P));
-    printf("%d", Akar(P));
+    printf("%s", Akar(P).TabKata);
     PrintInorder(Right(P));
   }
   printf(")");
@@ -150,7 +188,7 @@ void PrintPostorder(BinTree P)
   {
     PrintPostorder(Left(P));
     PrintPostorder(Right(P));
-    printf("%d", Akar(P));
+    printf("%s", Akar(P).TabKata);
   }
   printf(")");
 }
@@ -166,14 +204,14 @@ void PrintTree(BinTree P, int h)
 {
   if (!IsTreeEmpty(P))
   {
-    printf("%d\n", Akar(P));
+    printf("%s\n", Akar(P).TabKata);
     if (Left(P) != Nil)
     {
       for (int i = 0; i < h; i++)
       {
         printf(" ");
       }
-      PrintTree(Left(P), 2 * h);
+      PrintTree(Left(P),h+h/2);
     }
     if (Right(P) != Nil)
     {
@@ -181,7 +219,7 @@ void PrintTree(BinTree P, int h)
       {
         printf(" ");
       }
-      PrintTree(Right(P), 2 * h);
+      PrintTree(Right(P),h+h/2);
     }
   }
 }
@@ -208,7 +246,7 @@ boolean SearchTree(BinTree P, infotypeLR X)
 {
   if (!IsTreeEmpty(P))
   {
-    if (Akar(P) == X)
+    if (IsSameString(Akar(P).TabKata,X.TabKata))
     {
       return true;
     }
@@ -289,7 +327,7 @@ boolean IsSkewRight(BinTree P)
 /* Pohon kosong adalah pohon condong kanan */
 int Level(BinTree P, infotypeLR X)
 {
-  if (IsTreeOneElmt(P) || Akar(P) == X)
+  if (IsTreeOneElmt(P) || IsSameString(Akar(P).TabKata,X.TabKata))
   {
     return 1;
   }
@@ -346,7 +384,7 @@ void AddDaunTerkiri(BinTree *P, infotypeLR X)
 /* F.S. P bertambah simpulnya, dengan X sebagai simpul daun terkiri */
 void AddDaun(BinTree *P, infotypeLR X, infotypeLR Y, boolean Kiri)
 {
-  if (IsTreeOneElmt(*P) && Akar(*P) == X)
+  if (IsTreeOneElmt(*P) && IsSameString(Akar(*P).TabKata,X.TabKata))
   {
     addrNode L = AlokNode(Y);
     if (L != Nil)
@@ -377,44 +415,11 @@ void AddDaun(BinTree *P, infotypeLR X, infotypeLR Y, boolean Kiri)
 /* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau 
         sebagai anak Kanan X (jika Kiri = false) */
 /*		Jika ada > 1 daun bernilai X, diambil daun yang paling kiri */
-void DelDaunTerkiri(BinTree *P, infotypeLR *X)
-{
-  if (IsTreeOneElmt(*P))
-  {
-    *X = Akar(*P);
-    DealokNode(*P);
-    *P = Nil;
-  }
-  else
-  {
-    if (IsUnerRight(*P))
-    {
-      int R = Akar(Right(*P));
-      DelDaunTerkiri(&Right(*P), X);
-      if(*X == R)
-      {
-        Right(*P) = Nil;
-      }
-    }
-    else
-    {
-      int L = Akar(Left(*P));
-      DelDaunTerkiri(&Left(*P), X);
-      if(*X == L)
-      {
-        Left(*P) = Nil;
-      }
-    }
-  }
-}
-/* I.S. P tidak kosong */
-/* F.S. P dihapus daun terkirinya, dan didealokasi, dengan X adalah info yang semula 
-        disimpan pada daun terkiri yang dihapus */
 void DelDaun(BinTree *P, infotypeLR X)
 {
   if (IsTreeOneElmt(*P))
   {
-    if (Akar(*P) == X)
+    if (IsSameString(Akar(*P).TabKata,X.TabKata))
     {
       DealokNode(*P);
     }
@@ -423,18 +428,18 @@ void DelDaun(BinTree *P, infotypeLR X)
   {
     if (SearchTree(Left(*P), X))
     {
-      int L = Akar(Left(*P));
+      char* L = Akar(Left(*P)).TabKata;
       DelDaun(&Left(*P), X);
-      if(X == L)
+      if(IsSameString(X.TabKata,L))
       {
         Left(*P) = Nil;
       }
     }
     if (SearchTree(Right(*P), X))
     {
-      int R = Akar(Right(*P));
+      char* R = Akar(Right(*P)).TabKata;
       DelDaun(&Right(*P), X);
-      if(X == R)
+      if(IsSameString(X.TabKata,R))
       {
         Right(*P) = Nil;
       }
@@ -519,7 +524,7 @@ ListRek MakeListLevel(BinTree P, int N)
    Elemen terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
    Menghasilkan list kosong jika ada alokasi yang gagal. */
 
-/* *** Binary  Search  Tree  *** */
+/* *** Binary  Search  Tree  *** 
 boolean BSearch(BinTree P, infotypeLR X)
 {
   if (IsTreeEmpty(P))
@@ -541,7 +546,7 @@ boolean BSearch(BinTree P, infotypeLR X)
     }
   }
 }
-/* Mengirimkan true jika ada node dari P yang bernilai X */
+/* Mengirimkan true jika ada node dari P yang bernilai X 
 
 void InsSearch(BinTree *P, infotypeLR X)
 {
@@ -561,7 +566,8 @@ void InsSearch(BinTree *P, infotypeLR X)
     }
   }
 }
-/* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan simpul X. Belum ada simpul P yang bernilai X. */
+/* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan simpul X. 
+Belum ada simpul P yang bernilai X. 
 
 void DelBtree(BinTree *P, infotypeLR X)
 {
@@ -590,10 +596,10 @@ void DelBtree(BinTree *P, infotypeLR X)
     }
     else if (IsBiner(q))
     {
-      /* Ambil Node kiri dari q */
+      /* Ambil Node kiri dari q 
       addrNode Parent = q;
       addrNode L = Left(q);
-      /* AMbil Node terkanan dari L */
+      /* AMbil Node terkanan dari L 
       boolean kiri = true;
       while (Right(L) != Nil)
       {
@@ -602,7 +608,7 @@ void DelBtree(BinTree *P, infotypeLR X)
         L = Right(L);
       }
       /* dapet node terkanan */
-      /* terkanan dihapus, P jadi terkanan */
+      /* terkanan dihapus, P jadi terkanan 
       Akar(q) = Akar(L);
       q = L;
       L = Left(L);

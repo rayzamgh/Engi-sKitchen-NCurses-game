@@ -41,9 +41,7 @@ void MakeTree(infotypeLR Akar, BinTree L, BinTree R, BinTree *P);
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R 
 		jika alokasi berhasil. P = Nil jika alokasi gagal. */
-BinTree BuildBalanceTree(int n);
-/* Menghasilkan sebuah balanced tree dengan n node, nilai setiap node dibaca */
-
+BinTree PreOrderToTree(char s[500],int *pos);
 /* Manajemen Memory */
 addrNode AlokNode(infotypeLR X);
 /* Mengirimkan addrNode hasil alokasi sebuah elemen */
@@ -171,16 +169,17 @@ ListRek MakeListLevel(BinTree P, int N);
    Elemen terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
    Menghasilkan list kosong jika ada alokasi yang gagal. */
 
-/* *** Binary  Search  Tree  *** */
+/* *** Binary  Search  Tree  *** 
 boolean BSearch(BinTree P, infotypeLR X);
-/* Mengirimkan true jika ada node dari P yang bernilai X */
+/* Mengirimkan true jika ada node dari P yang bernilai X 
 
 void InsSearch(BinTree *P, infotypeLR X);
-/* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan simpul X. Belum ada simpul P yang bernilai X. */
+/* Menghasilkan sebuah pohon Binary Search Tree P 
+/* dengan tambahan simpul X. Belum ada simpul P yang bernilai X. 
 
 void DelBtree(BinTree *P, infotypeLR X);
-/* I.S. Pohon P tidak  kosong */
-/* F.S. Nilai X yang dihapus pasti ada */
+/* I.S. Pohon P tidak  kosong 
+/* F.S. Nilai X yang dihapus pasti ada 
 /* Sebuah node dengan nilai X dihapus */
 
 #endif

@@ -5,7 +5,7 @@
 #include "boolean.h"
 #include "mesinkar.h"
 
-#define NMax 50
+#define NMax 500
 #define BLANK ' '
 #define NEWLINE '\n'
 
@@ -23,7 +23,7 @@ void IgnoreBlank();
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTBARIS(char filename[20]);
+void STARTBARIS(char filename[100]);
 /* I.S. : CC sembarang
    F.S. : EndBaris = true, dan CC = MARK;
           atau EndBaris = false, CBaris adalah baris yang sudah diakuisisi,

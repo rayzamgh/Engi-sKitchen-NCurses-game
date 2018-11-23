@@ -6,11 +6,12 @@
 #define _LISTREK_H_
 
 #include "boolean.h"
+#include "mesinkatakomparasi.h"
 
 #define Nil NULL
 
 /* Definisi Type */
-typedef int infotypeLR;
+typedef Kata infotypeLR;
 typedef struct tElmtlistRek *addressListRek;
 typedef struct tElmtlistRek { 
 	infotypeLR info;

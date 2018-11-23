@@ -1,4 +1,5 @@
 #include "../include/listrek.h"
+#include "../include/mesinkatakomparasi.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -238,7 +239,7 @@ void PrintListRek(ListRek L)
     {
         while (L != Nil)
         {
-            printf("%d\n", InfoListRek(L));
+            printf("%s\n", InfoListRek(L).TabKata);
             L = NextListRek(L);
         }
     }
@@ -265,11 +266,11 @@ boolean SearchListRek(ListRek L, infotypeLR X)
     else
     {
         addressListRek P = L;
-        while (NextListRek(P) != Nil && InfoListRek(P) != X)
+        while (NextListRek(P) != Nil && !IsSameString(InfoListRek(P).TabKata,X.TabKata))
         {
             P = NextListRek(P);
         }
-        if (InfoListRek(P) == X)
+        if (IsSameString(InfoListRek(P).TabKata,X.TabKata))
         {
             return true;
         }

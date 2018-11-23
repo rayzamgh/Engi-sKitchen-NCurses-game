@@ -13,7 +13,7 @@ void IgnoreNewline(){
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTBARIS(char filename[20]){
+void STARTBARIS(char filename[100]){
 	START(filename);
 	IgnoreNewline();
 	if (CC == MARK){

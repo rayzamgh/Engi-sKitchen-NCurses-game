@@ -6,7 +6,7 @@
 
 #include "boolean.h"
 
-#define MARK '\000'
+#define MARKKomp '\000'
 #define MaxLengthString 100
 
 /* State Mesin */
@@ -28,15 +28,15 @@ void STARTA();
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita
-          Jika CC != MARK maka EOP akan padam (false)
-          Jika CC = MARK maka EOP akan menyala (true) */
+          Jika CC != MARKKomp maka EOP akan padam (false)
+          Jika CC = MARKKomp maka EOP akan menyala (true) */
 
 void ADVA();
 /* Pita dimajukan satu karakter. 
-   I.S. : Karakter pada jendela = CC, CC != MARK
+   I.S. : Karakter pada jendela = CC, CC != MARKKomp
    F.S. : CC adalah karakter berikutnya dari CC yang lama, 
-          CC mungkin = MARK
-          Jika  CC = MARK maka EOP akan menyala (true) */
+          CC mungkin = MARKKomp
+          Jika  CC = MARKKomp maka EOP akan menyala (true) */
 
 void SETSTRINGB(char s[MaxLengthString]);
 /* Load string s untuk dibaca oleh mesinkar */
@@ -46,14 +46,14 @@ void STARTB();
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita
-          Jika CC != MARK maka EOP akan padam (false)
-          Jika CC = MARK maka EOP akan menyala (true) */
+          Jika CC != MARKKomp maka EOP akan padam (false)
+          Jika CC = MARKKomp maka EOP akan menyala (true) */
 
 void ADVB();
 /* Pita dimajukan satu karakter. 
-   I.S. : Karakter pada jendela = CC, CC != MARK
+   I.S. : Karakter pada jendela = CC, CC != MARKKomp
    F.S. : CC adalah karakter berikutnya dari CC yang lama, 
-          CC mungkin = MARK
-          Jika  CC = MARK maka EOP akan menyala (true) */
+          CC mungkin = MARKKomp
+          Jika  CC = MARKKomp maka EOP akan menyala (true) */
 
 #endif

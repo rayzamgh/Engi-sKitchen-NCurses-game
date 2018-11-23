@@ -12,7 +12,7 @@
 #include "../include/movement.h"
 
 /* Global Variable */
-char namaUser[20] = "";
+char namaUser[20];
 boolean sudahInputNama = false;
 boolean isGameOn = false;
 int lebarMainMenu = 40, tinggiMainMenu = 20;
@@ -54,7 +54,6 @@ void NewGame()
     mvwprintw(MainMenu, 9, 1, "Masukkan Nama Chef : ");
     wgetstr(MainMenu, namaUser);
     sudahInputNama = true;
-    StartGame();
 }
 
 void LoadGame()
@@ -105,6 +104,12 @@ void PrintBoxMainMenu()
 void PrintMainMenu(int startX, int startY)
 {
     mvwprintw(MainMenu, startY, startX, "SELAMAT DATANG DI ENGI'S KITCHEN!!\n");
+    if(sudahInputNama)
+    {
+        mvwprintw(MainMenu,startY+9,startX,"Hai ");
+        mvwprintw(MainMenu,startY+9,startX+4,namaUser);
+        mvwprintw(MainMenu,startY+10,startX,"Ketik Start Game untuk mulai permainan");
+    }
     mvwprintw(MainMenu, startY + 1, startX, "MAIN MENU : \n");
     mvwprintw(MainMenu, startY + 2, startX, "1. New Game\n");
     mvwprintw(MainMenu, startY + 3, startX, "2. Start Game\n");
@@ -132,6 +137,8 @@ void ProgramMainMenu()
     if (pilihan == 1)
     {
         NewGame();
+        wclear(MainMenu);
+        ProgramMainMenu();
     }
     else if (pilihan == 2)
     {

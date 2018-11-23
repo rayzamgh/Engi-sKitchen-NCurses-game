@@ -7,7 +7,7 @@
 #include "boolean.h"
 #include "mesinkarinput.h"
 
-#define NMax 50
+#define NMax 500
 #define BLANK ' '
 #define NEWLINE '\n'
 

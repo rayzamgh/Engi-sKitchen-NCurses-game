@@ -1,11 +1,11 @@
 #include "../include/mesinbaris.h"
 #include "../include/matriks.h"
 #include "../include/filemanager.h"
+#include "../include/bintree.h"
 
-
-MATRIKS BacaMap(){
+MATRIKS BacaMap(char namaFile[100]){
     MATRIKS M;
-    STARTBARIS("map.txt");
+    STARTBARIS(namaFile);
     int i = 0;
     while (!EndBaris){
         i++;
@@ -17,4 +17,11 @@ MATRIKS BacaMap(){
     NBrsEff(M) = i;
     NKolEff(M) = CBaris.Length;
     return M;
+}
+
+BinTree BacaPohonMakanan(char namaFile[100])
+{
+    STARTBARIS(namaFile);
+    int pos = 1;
+    return PreOrderToTree(CBaris.TabBaris,&pos);
 }

@@ -7,7 +7,7 @@
 #include "boolean.h"
 #include "mesinkarkomparasi.h"
 
-#define NMax 50
+#define NMax 500
 #define NStringMax 200
 #define BLANK ' '
 

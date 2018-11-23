@@ -9,14 +9,14 @@ Kata CKataB;
 
 void IgnoreBlankA()
 {
-	while ((CCA == BLANK) && (CCA != MARK))
+	while ((CCA == BLANK) && (CCA != MARKKomp))
 	{
 		ADVA();
 	}
 }
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang
-   F.S. : CC ≠ BLANK atau CC = MARK */
+   F.S. : CC ≠ BLANK atau CC = MARKKomp */
 
 void RESETKATAA()
 {
@@ -34,7 +34,7 @@ void STARTKATAA(char s[MaxLengthString])
 	SETSTRINGA(s);
 	STARTA();
 	IgnoreBlankA();
-	if (CCA == MARK)
+	if (CCA == MARKKomp)
 	{
 		EndKataA = true;
 	}
@@ -45,14 +45,14 @@ void STARTKATAA(char s[MaxLengthString])
 	}
 }
 /* I.S. : CC sembarang
-   F.S. : EndKata = true, dan CC = MARK;
+   F.S. : EndKata = true, dan CC = MARKKomp;
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
 
 void ADVKATAA()
 {
 	IgnoreBlankA();
-	if (CCA == MARK)
+	if (CCA == MARKKomp)
 	{
 		EndKataA = true;
 	}
@@ -64,8 +64,8 @@ void ADVKATAA()
 }
 /* I.S. : CC adalah karakter pertama kata yang akan diakuisisi
    F.S. : CKata adalah kata terakhir yang sudah diakuisisi,
-          CC adalah karakter pertama dari kata berikutnya, mungkin MARK
-          Jika CC = MARK, EndKata = true.
+          CC adalah karakter pertama dari kata berikutnya, mungkin MARKKomp
+          Jika CC = MARKKomp, EndKata = true.
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
 void SalinKataA()
@@ -80,25 +80,25 @@ void SalinKataA()
 			CKataA.Length++;
 		}
 		ADVA();
-	} while ((CCA != BLANK) && (CCA != MARK));
+	} while ((CCA != BLANK) && (CCA != MARKKomp));
 }
 /* Mengakuisisi kata, menyimpan dalam CKata
    I.S. : CC adalah karakter pertama dari kata
    F.S. : CKata berisi kata yang sudah diakuisisi;
-          CC = BLANK atau CC = MARK;
+          CC = BLANK atau CC = MARKKomp;
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
 void IgnoreBlankB()
 {
-	while ((CCB == BLANK) && (CCB != MARK))
+	while ((CCB == BLANK) && (CCB != MARKKomp))
 	{
 		ADVB();
 	}
 }
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang
-   F.S. : CC ≠ BLANK atau CC = MARK */
+   F.S. : CC ≠ BLANK atau CC = MARKKomp */
 
 void RESETKATAB()
 {
@@ -116,7 +116,7 @@ void STARTKATAB(char s[MaxLengthString])
 	SETSTRINGB(s);
 	STARTB();
 	IgnoreBlankB();
-	if (CCB == MARK)
+	if (CCB == MARKKomp)
 	{
 		EndKataB = true;
 	}
@@ -127,14 +127,14 @@ void STARTKATAB(char s[MaxLengthString])
 	}
 }
 /* I.S. : CC sembarang
-   F.S. : EndKata = true, dan CC = MARK;
+   F.S. : EndKata = true, dan CC = MARKKomp;
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
 
 void ADVKATAB()
 {
 	IgnoreBlankB();
-	if (CCB == MARK)
+	if (CCB == MARKKomp)
 	{
 		EndKataB = true;
 	}
@@ -146,8 +146,8 @@ void ADVKATAB()
 }
 /* I.S. : CC adalah karakter pertama kata yang akan diakuisisi
    F.S. : CKata adalah kata terakhir yang sudah diakuisisi,
-          CC adalah karakter pertama dari kata berikutnya, mungkin MARK
-          Jika CC = MARK, EndKata = true.
+          CC adalah karakter pertama dari kata berikutnya, mungkin MARKKomp
+          Jika CC = MARKKomp, EndKata = true.
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
 void SalinKataB()
@@ -162,12 +162,12 @@ void SalinKataB()
 			CKataB.Length++;
 		}
 		ADVB();
-	} while ((CCB != BLANK) && (CCB != MARK));
+	} while ((CCB != BLANK) && (CCB != MARKKomp));
 }
 /* Mengakuisisi kata, menyimpan dalam CKata
    I.S. : CC adalah karakter pertama dari kata
    F.S. : CKata berisi kata yang sudah diakuisisi;
-          CC = BLANK atau CC = MARK;
+          CC = BLANK atau CC = MARKKomp;
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 

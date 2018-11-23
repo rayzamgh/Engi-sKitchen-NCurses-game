@@ -36,8 +36,8 @@ void STARTA() {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
-   F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka EOP akan padam (false).
-          Jika CC = MARK maka EOP akan menyala (true) */
+   F.S. : CC adalah karakter pertama pada pita. Jika CC != MARKKomp maka EOP akan padam (false).
+          Jika CC = MARKKomp maka EOP akan menyala (true) */
 
 	/* Algoritma */
       posisiA = 0;
@@ -48,15 +48,15 @@ void STARTA() {
 void ADVA() {
 /* Pita dimajukan satu karakter. 
    I.S. : Karakter pada jendela = 
-          CC, CC != MARK
+          CC, CC != MARKKomp
    F.S. : CC adalah karakter berikutnya dari CC yang lama, 
-          CC mungkin = MARK.
-		  Jika  CC = MARK maka EOP akan menyala (true) */
+          CC mungkin = MARKKomp.
+		  Jika  CC = MARKKomp maka EOP akan menyala (true) */
 
 	/* Algoritma */
 	CCA = stringKarakterA[posisiA];
       posisiA++;
-	EOPA = (CCA == MARK);
+	EOPA = (CCA == MARKKomp);
 }
 
 
@@ -85,8 +85,8 @@ void STARTB() {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
-   F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka EOP akan padam (false).
-          Jika CC = MARK maka EOP akan menyala (true) */
+   F.S. : CC adalah karakter pertama pada pita. Jika CC != MARKKomp maka EOP akan padam (false).
+          Jika CC = MARKKomp maka EOP akan menyala (true) */
 
 	/* Algoritma */
       posisiB = 0;
@@ -97,14 +97,14 @@ void STARTB() {
 void ADVB() {
 /* Pita dimajukan satu karakter. 
    I.S. : Karakter pada jendela = 
-          CC, CC != MARK
+          CC, CC != MARKKomp
    F.S. : CC adalah karakter berikutnya dari CC yang lama, 
-          CC mungkin = MARK.
-		  Jika  CC = MARK maka EOP akan menyala (true) */
+          CC mungkin = MARKKomp.
+		  Jika  CC = MARKKomp maka EOP akan menyala (true) */
 
 	/* Algoritma */
 	CCB = stringKarakterB[posisiB];
       posisiB++;
-	EOPB = (CCB == MARK);
+	EOPB = (CCB == MARKKomp);
 }
 
