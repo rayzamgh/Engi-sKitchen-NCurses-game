@@ -32,7 +32,17 @@ void ADVCOMMAND(){
 	IgnoreBlankInput();
 }
 
+void ResetCommand()
+{
+	for(int i = 0; i < CCommand.Length; i++)
+	{
+		CCommand.TabCommand[i] = '\000';
+	}
+	
+}
+
 void SalinCommand(){
+	ResetCommand();
 	CCommand.Length = 0;
 	do{
 		if (CCommand.Length < NMax){

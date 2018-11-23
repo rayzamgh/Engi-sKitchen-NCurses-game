@@ -1,5 +1,5 @@
 #include "../include/mesinkatakomparasi.h"
-#include<stdio.h>
+#include <stdio.h>
 /* State Mesin Kata */
 boolean EndKataA;
 Kata CKataA;
@@ -7,8 +7,10 @@ Kata CKataA;
 boolean EndKataB;
 Kata CKataB;
 
-void IgnoreBlankA(){
-	while ((CCA == BLANK) && (CCA != MARK)){
+void IgnoreBlankA()
+{
+	while ((CCA == BLANK) && (CCA != MARK))
+	{
 		ADVA();
 	}
 }
@@ -16,14 +18,28 @@ void IgnoreBlankA(){
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATAA(char s[MaxLengthString]){
+void RESETKATAA()
+{
+	int i = 0;
+	while(CKataA.TabKata[i] != '\000')
+	{
+		CKataA.TabKata[i] = '\000';
+		i += 1;
+	}
+}
+
+void STARTKATAA(char s[MaxLengthString])
+{
+	RESETKATAA();
 	SETSTRINGA(s);
 	STARTA();
 	IgnoreBlankA();
-	if (CCA == MARK){
+	if (CCA == MARK)
+	{
 		EndKataA = true;
 	}
-	else{
+	else
+	{
 		SalinKataA();
 		EndKataA = false;
 	}
@@ -33,12 +49,15 @@ void STARTKATAA(char s[MaxLengthString]){
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
 
-void ADVKATAA(){
+void ADVKATAA()
+{
 	IgnoreBlankA();
-	if (CCA == MARK){
+	if (CCA == MARK)
+	{
 		EndKataA = true;
 	}
-	else{
+	else
+	{
 		SalinKataA();
 		IgnoreBlankA();
 	}
@@ -49,12 +68,15 @@ void ADVKATAA(){
           Jika CC = MARK, EndKata = true.
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
-void SalinKataA(){
-	
+void SalinKataA()
+{
+
 	CKataA.Length = 0;
-	do{
-		if (CKataA.Length < NMax){
-			CKataA.TabKata[CKataA.Length + 1] = CCA;
+	do
+	{
+		if (CKataA.Length < NMax)
+		{
+			CKataA.TabKata[CKataA.Length] = CCA;
 			CKataA.Length++;
 		}
 		ADVA();
@@ -67,10 +89,10 @@ void SalinKataA(){
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-
-
-void IgnoreBlankB(){
-	while ((CCB == BLANK) && (CCB != MARK)){
+void IgnoreBlankB()
+{
+	while ((CCB == BLANK) && (CCB != MARK))
+	{
 		ADVB();
 	}
 }
@@ -78,14 +100,28 @@ void IgnoreBlankB(){
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATAB(char s[MaxLengthString]){
+void RESETKATAB()
+{
+	int i = 0;
+	while (CKataB.TabKata[i] != '\000')
+	{
+		CKataB.TabKata[i] = '\000';
+		i += 1;
+	}
+}
+
+void STARTKATAB(char s[MaxLengthString])
+{
+	RESETKATAB();
 	SETSTRINGB(s);
 	STARTB();
 	IgnoreBlankB();
-	if (CCB == MARK){
+	if (CCB == MARK)
+	{
 		EndKataB = true;
 	}
-	else{
+	else
+	{
 		SalinKataB();
 		EndKataB = false;
 	}
@@ -95,12 +131,15 @@ void STARTKATAB(char s[MaxLengthString]){
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
 
-void ADVKATAB(){
+void ADVKATAB()
+{
 	IgnoreBlankB();
-	if (CCB == MARK){
+	if (CCB == MARK)
+	{
 		EndKataB = true;
 	}
-	else{
+	else
+	{
 		SalinKataB();
 		IgnoreBlankB();
 	}
@@ -111,12 +150,15 @@ void ADVKATAB(){
           Jika CC = MARK, EndKata = true.
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
-void SalinKataB(){
-	
+void SalinKataB()
+{
+
 	CKataB.Length = 0;
-	do{
-		if (CKataB.Length < NMax){
-			CKataB.TabKata[CKataB.Length + 1] = CCB;
+	do
+	{
+		if (CKataB.Length < NMax)
+		{
+			CKataB.TabKata[CKataB.Length] = CCB;
 			CKataB.Length++;
 		}
 		ADVB();
@@ -129,37 +171,46 @@ void SalinKataB(){
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-boolean IsSameString(char sA[MaxLengthString], char sB[MaxLengthString]){
+boolean IsSameString(char sA[MaxLengthString], char sB[MaxLengthString])
+{
 	boolean same = true;
 	STARTKATAA(sA);
 	STARTKATAB(sB);
-	while ((!EndKataA) && (!EndKataB) && same){
-		if (!IsSameKata(CKataA,CKataB)){
+	while ((!EndKataA) && (!EndKataB) && same)
+	{
+		if (!IsSameKata(CKataA, CKataB))
+		{
 			same = false;
 		}
-		else{
+		else
+		{
 			ADVKATAA();
 			ADVKATAB();
 		}
 	}
-	if ((!EndKataA) || (!EndKataB)){
+	if ((!EndKataA) || (!EndKataB))
+	{
 		same = false;
 	}
 	return same;
 }
 
-
-boolean IsSameKata(Kata KataA, Kata KataB){
-    boolean same = true;
-    if (KataA.Length != KataB.Length){
-        same = false;
-    }
-    else{
-        for (int i = 1; (i <= KataA.Length) && (same); i++){
-            if (CKataA.TabKata[i] != CKataB.TabKata[i]){
-                same = false;
-            }
-        }
-    }
-    return same;
+boolean IsSameKata(Kata KataA, Kata KataB)
+{
+	boolean same = true;
+	if (KataA.Length != KataB.Length)
+	{
+		same = false;
+	}
+	else
+	{
+		for (int i = 0; (i <= KataA.Length) && (same); i++)
+		{
+			if (CKataA.TabKata[i] != CKataB.TabKata[i])
+			{
+				same = false;
+			}
+		}
+	}
+	return same;
 }
