@@ -17,7 +17,12 @@
         "mesinkatakomparasi.h\u0000omparasi.h": "c",
         "mesinkatakomparasi.h\u0000rasi.h": "c",
         "queue.h": "c",
-        "pelanggan.h": "c"
+        "pelanggan.h": "c",
+        "mesinkarkomparasi.h": "c",
+        "stackt.h": "c",
+        "array.h": "c",
+        "bintree.h": "c",
+        "graph.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

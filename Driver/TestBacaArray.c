@@ -1,11 +1,11 @@
-#include "include/filemanager.h"
-#include "include/mesinkarkomparasi.h"
-#include "include/array.h"
+#include "../include/filemanager.h"
+#include "../include/mesinkarkomparasi.h"
+#include "../include/array.h"
 #include<stdio.h>
 
 int main()
 {
-    TabKata T = BacaArray("save/Aditya/config.txt");
+    TabKata T = BacaArray("../save/Aditya/config.txt");
     TulisIsi(T);
     STARTKATAA("Nyawa");
     STARTKATAB("EndNyawa");

@@ -5,7 +5,7 @@
 #include "../include/boolean.h"
 #include "../include/mesinkatakomparasi.h"
 
-Kata CKataA;
+Kata CKataBCKataA;
 
 /* *** Konstruktor *** */
 BinTree Tree(infotypeLR Akar, BinTree L, BinTree R)

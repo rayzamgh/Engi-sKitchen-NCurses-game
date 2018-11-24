@@ -9,8 +9,6 @@
 #include "../include/queue.h"
 #include "../include/stackt.h"
 #include "../include/bintree.h"
-#include "../include/movement.h"
-#include "../include/graph.h"
 #include "../include/filemanager.h"
 /* Global Variable */
 char namaUser[20];
@@ -29,7 +27,7 @@ Queue AntrianPelanggan;
 Stack Food, Hand;
 TabKata OrderanPelanggan;
 int noRuangan;
-MATRIKS Room1, Room2, Room3, Room4;
+MATRIKS Room1, Room2, Room3, Room4, curRoom;
 /* --------------- */
 
 void InisialisasiOrder(TabKata *TabOrder)
@@ -40,7 +38,6 @@ void PlaceOrder(TabKata *TABOrder)
 {
 }
 
-
 void hapusWindow(WINDOW *hapus)
 {
     wborder(hapus, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
@@ -48,16 +45,37 @@ void hapusWindow(WINDOW *hapus)
     delwin(hapus);
 }
 
-void rectangle(WINDOW* Layar,int y1, int x1, int y2, int x2)
+void rectangle(WINDOW *Layar, int y1, int x1, int y2, int x2)
 {
-    mvwhline(Layar,y1, x1, 0, x2-x1);
-    mvwhline(Layar,y2, x1, 0, x2-x1);
-    mvwvline(Layar,y1, x1, 0, y2-y1);
-    mvwvline(Layar,y1, x2, 0, y2-y1);
-    mvwaddch(Layar,y1, x1, ACS_ULCORNER);
-    mvwaddch(Layar,y2, x1, ACS_LLCORNER);
-    mvwaddch(Layar,y1, x2, ACS_URCORNER);
-    mvwaddch(Layar,y2, x2, ACS_LRCORNER);
+    mvwhline(Layar, y1, x1, 0, x2 - x1);
+    mvwhline(Layar, y2, x1, 0, x2 - x1);
+    mvwvline(Layar, y1, x1, 0, y2 - y1);
+    mvwvline(Layar, y1, x2, 0, y2 - y1);
+    mvwaddch(Layar, y1, x1, ACS_ULCORNER);
+    mvwaddch(Layar, y2, x1, ACS_LLCORNER);
+    mvwaddch(Layar, y1, x2, ACS_URCORNER);
+    mvwaddch(Layar, y2, x2, ACS_LRCORNER);
+}
+
+void tabel(WINDOW *Layar, int y1, int x1, int row, int col)
+{
+    int dx = 4;
+    int dy = 2;
+    int x2 = x1 + col * dx, y2 = y1 + row * dy;
+    rectangle(Layar, y1, x1, y2, x2);
+    int x3 = x1 + dx, y3 = y1 + dy;
+    while (col > 0)
+    {
+        rectangle(Layar, y1, x1, y2, x3);
+        x3 += dx;
+        col -= 1;
+    }
+    while (row > 0)
+    {
+        rectangle(Layar, y1, x1, y3, x2);
+        y3 += dy;
+        row -= 1;
+    }
 }
 
 void PrintBoxMainMenu()
@@ -65,31 +83,87 @@ void PrintBoxMainMenu()
     box(MainMenu, 0, 0);
     wrefresh(MainMenu);
 }
-void Update()
+
+void UpdateData()
+{
+    WaktuSekarang = NextDetik(WaktuSekarang);
+    //Cek Kesabaran customer ngantre
+    //TODO
+    //Cek Kesabaran customer dimeja
+    //TODO
+    //Cek nyawa apakah sudah habis/belum
+}
+
+void UpdateGambar()
 {
     //Gambar Outline / Garis di Game
-    mvwvline(Game,0,30,0,tinggiGame-4);
-    mvwvline(Game,0,60,0,2);
-    mvwvline(Game,0,90,0,tinggiGame-4);
-    mvwhline(Game,2,0,0,lebarGame-40);
-    mvwhline(Game,(int)tinggiGame/2,0,0,30);
-    mvwhline(Game,(int)tinggiGame/2,lebarGame-69,0,30);
-    mvwhline(Game,tinggiGame-4,0,0,lebarGame-40);
-    rectangle(Game,0,0,tinggiGame-1,lebarGame-40);
-    rectangle(Game,0,0,tinggiGame-1,lebarGame-1);
+    mvwvline(Game, 0, 30, 0, tinggiGame - 4);
+    mvwvline(Game, 0, 60, 0, 2);
+    mvwvline(Game, 0, 90, 0, tinggiGame - 4);
+    mvwhline(Game, 2, 0, 0, lebarGame - 40);
+    mvwhline(Game, (int)tinggiGame / 2, 0, 0, 30);
+    mvwhline(Game, (int)tinggiGame / 2, lebarGame - 69, 0, 30);
+    mvwhline(Game, tinggiGame - 4, 0, 0, lebarGame - 40);
+    rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 40);
+    rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 1);
     //Gambar Default String di game
-    mvwprintw(Game,1,1,"Nama : ");
-    mvwprintw(Game,1,8,namaUser);
-    mvwprintw(Game,1,31,"Uang : ");
+    mvwprintw(Game, 1, 1, "Nama : ");
+    mvwprintw(Game, 1, 8, namaUser);
+    mvwprintw(Game, 1, 31, "Uang : ");
     char stringTemp[10];
-    sprintf(stringTemp,"%ld",uang);
-    mvwprintw(Game,1,38,stringTemp);
-    mvwprintw(Game,1,61,"Nyawa : ");
-    sprintf(stringTemp,"%ld",nyawa);
-    mvwprintw(Game,1,68,stringTemp);
-    mvwprintw(Game,1,91,"Waktu : ");
-    sprintf(stringTemp,"%ld",JAMToDetik(WaktuSekarang));
-    mvwprintw(Game,1,98,stringTemp);
+    sprintf(stringTemp, "%ld", uang);
+    mvwprintw(Game, 1, 38, stringTemp);
+    mvwprintw(Game, 1, 61, "Nyawa : ");
+    sprintf(stringTemp, "%ld", nyawa);
+    mvwprintw(Game, 1, 68, stringTemp);
+    mvwprintw(Game, 1, 91, "Waktu : ");
+    sprintf(stringTemp, "%ld", JAMToDetik(WaktuSekarang));
+    mvwprintw(Game, 1, 98, stringTemp);
+    mvwprintw(Game,3,31,"Player : ");
+    char posPlayer[10];
+    sprintf(posPlayer,"%d, %d",player.X,player.Y);
+    mvwprintw(Game,3,39,posPlayer);
+    //Gambar Stage
+    int dX = 30 + (60 - 4 * GetLastIdxKol(curRoom)) / 2;
+    int dY = (35 - 2 * GetLastIdxBrs(curRoom)) / 2;
+    tabel(Game, dY, dX, 8, 8);
+    //Gambar isi Stage
+    for (int i = GetFirstIdxBrs(curRoom); i <= GetLastIdxBrs(curRoom); i++)
+    {
+        for (int j = GetFirstIdxKol(curRoom); j <= GetLastIdxKol(curRoom); j++)
+        {
+            char c = ElmtMat(curRoom, i, j);
+            if (i == Ordinat(player) && j == Absis(player))
+            {
+                c = 'P';
+            }
+            if (c != '_')
+            {
+                mvwprintw(Game, dY + 2 * i +1, dX + 4 * j + 2, "%c", c);
+            }
+        }
+    }
+}
+
+void PindahCurRoom()
+{
+    switch (noRuangan)
+    {
+    case 1:
+        curRoom = Room1;
+        break;
+    case 2:
+        curRoom = Room2;
+        break;
+    case 3:
+        curRoom = Room3;
+        break;
+    case 4:
+        curRoom = Room4;
+        break;
+    default:
+        break;
+    }
 }
 
 void StartGame()
@@ -97,27 +171,29 @@ void StartGame()
     isGameOn = true;
     hapusWindow(MainMenu);
     clear();
-    Game = newwin(tinggiGame,lebarGame, 0, 0);
+    Game = newwin(tinggiGame, lebarGame, 0, 0);
     refresh();
     if (!gameLoaded)
     {
         //Buat Semua ADT secara default
         PohonMakanan = BacaPohonMakanan("../Default Save/pohonMakanan.txt");
         TabKata config = BacaArray("../Default Save/config.txt");
-        uang = StringToLongInt(Elmt(config, 4).TabKata);
-        nyawa = StringToLongInt(Elmt(config, 6).TabKata);
-        WaktuSekarang = DetikToJAM(StringToLongInt(Elmt(config, 8).TabKata));
+        uang = StringToLongInt(Elmt(config, 2).TabKata);
+        nyawa = StringToLongInt(Elmt(config, 4).TabKata);
+        WaktuSekarang = DetikToJAM(StringToLongInt(Elmt(config, 6).TabKata));
         int XPos, YPos;
-        XPos = StringToLongInt(Elmt(config, 10).TabKata);
-        YPos = StringToLongInt(Elmt(config, 11).TabKata);
+        XPos = StringToLongInt(Elmt(config, 8).TabKata);
+        YPos = StringToLongInt(Elmt(config, 9).TabKata);
         player = MakePOINT(XPos, YPos);
-        noRuangan = StringToLongInt(Elmt(config, 13).TabKata);
+        noRuangan = StringToLongInt(Elmt(config, 11).TabKata);
         Room1 = BacaMap("../Default Save/peta1.txt");
         Room2 = BacaMap("../Default Save/peta2.txt");
         Room3 = BacaMap("../Default Save/peta3.txt");
         Room4 = BacaMap("../Default Save/peta4.txt");
+        PindahCurRoom();
         AntrianPelanggan = BacaQueuePelanggan("../Default Save/pelanggan.txt");
         MakeEmptyArray(&OrderanPelanggan);
+        Stage = BacaGraphPintu("../Default Save/pintu.txt");
     }
 }
 
@@ -227,49 +303,130 @@ void ProgramMainMenu()
 
 void PrintCommand()
 {
-    int XPos = lebarGame-19;
+    int XPos = lebarGame - 19;
     int YPos = 0;
-    mvwprintw(Game,YPos,XPos,"DAFTAR COMMAND\n");
-    mvwprintw(Game,YPos+1,XPos,"GU : Go Up\n");
-    mvwprintw(Game,YPos+2,XPos,"GD : Go Down\n");
-    mvwprintw(Game,YPos+3,XPos,"GL : Go Left\n");
-    mvwprintw(Game,YPos+4,XPos,"GR : Go Right\n");
-    mvwprintw(Game,YPos+5,XPos,"ORDER\n");
-    mvwprintw(Game,YPos+6,XPos,"PUT\n");
-    mvwprintw(Game,YPos+7,XPos,"TAKE\n");
-    mvwprintw(Game,YPos+8,XPos,"CH\n");
-    mvwprintw(Game,YPos+9,XPos,"CT\n");
-    mvwprintw(Game,YPos+10,XPos,"PLACE\n");
-    mvwprintw(Game,YPos+11,XPos,"GIVE\n");
-    mvwprintw(Game,YPos+12,XPos,"RECIPE\n");
-    mvwprintw(Game,YPos+13,XPos,"SAVE\n");
-    mvwprintw(Game,YPos+14,XPos,"LOAD\n");
-    mvwprintw(Game,YPos+15,XPos,"EXIT\n");    
+    mvwprintw(Game, YPos, XPos, "DAFTAR COMMAND\n");
+    mvwprintw(Game, YPos + 1, XPos, "GU : Go Up\n");
+    mvwprintw(Game, YPos + 2, XPos, "GD : Go Down\n");
+    mvwprintw(Game, YPos + 3, XPos, "GL : Go Left\n");
+    mvwprintw(Game, YPos + 4, XPos, "GR : Go Right\n");
+    mvwprintw(Game, YPos + 5, XPos, "ORDER\n");
+    mvwprintw(Game, YPos + 6, XPos, "PUT\n");
+    mvwprintw(Game, YPos + 7, XPos, "TAKE\n");
+    mvwprintw(Game, YPos + 8, XPos, "CH\n");
+    mvwprintw(Game, YPos + 9, XPos, "CT\n");
+    mvwprintw(Game, YPos + 10, XPos, "PLACE\n");
+    mvwprintw(Game, YPos + 11, XPos, "GIVE\n");
+    mvwprintw(Game, YPos + 12, XPos, "RECIPE\n");
+    mvwprintw(Game, YPos + 13, XPos, "SAVE\n");
+    mvwprintw(Game, YPos + 14, XPos, "LOAD\n");
+    mvwprintw(Game, YPos + 15, XPos, "EXIT\n");
     refresh();
 }
 
 void GU()
 {
-
-    printf("\n");
+    if (Ordinat(player) > GetFirstIdxBrs(curRoom))
+    {
+        player = PrevY(player);
+    }
+    else
+    {
+        //Cek apakah ini pintu
+        int roomTujuan;
+        POINT pintuTujuan;
+        CariEdgePintu(Stage, player, noRuangan, &roomTujuan, &pintuTujuan);
+        if (roomTujuan == -1)
+        {
+            mvwprintw(Game, tinggiGame - 2, 1, "Kamu menabrak tembok\n");
+        }
+        else
+        {
+            //Pindah Stage
+            noRuangan = roomTujuan;
+            PindahCurRoom();
+            player = pintuTujuan;
+        }
+    }
 }
 
 void GD()
 {
-
-    printf("\n");
+    if (Ordinat(player) < GetLastIdxBrs(curRoom))
+    {
+        player = NextY(player);
+    }
+    else
+    {
+        //Cek apakah ini pintu
+        int roomTujuan;
+        POINT pintuTujuan;
+        CariEdgePintu(Stage, player, noRuangan, &roomTujuan, &pintuTujuan);
+        if (roomTujuan == -1)
+        {
+            mvwprintw(Game, tinggiGame - 2, 1, "Kamu menabrak tembok\n");
+        }
+        else
+        {
+            //Pindah Stage
+            noRuangan = roomTujuan;
+            PindahCurRoom();
+            player = pintuTujuan;
+        }
+    }
 }
 
 void GL()
 {
-
-    printf("\n");
+    if (Absis(player) > GetFirstIdxKol(curRoom))
+    {
+        player = PrevX(player);
+    }
+    else
+    {
+        //Cek apakah ini pintu
+        int roomTujuan;
+        POINT pintuTujuan;
+        CariEdgePintu(Stage, player, noRuangan, &roomTujuan, &pintuTujuan);
+        if (roomTujuan == -1)
+        {
+            mvwprintw(Game, tinggiGame - 2, 1, "Kamu menabrak tembok\n");
+        }
+        else
+        {
+            //Pindah Stage
+            noRuangan = roomTujuan;
+            PindahCurRoom();
+            player = pintuTujuan;
+        }
+    }
 }
 
 void GR()
 {
 
-    printf("\n");
+    if (Absis(player) < GetLastIdxKol(curRoom))
+    {
+        player = NextX(player);
+    }
+    else
+    {
+        //Cek apakah ini pintu
+        int roomTujuan;
+        POINT pintuTujuan;
+        CariEdgePintu(Stage, player, noRuangan, &roomTujuan, &pintuTujuan);
+        if (roomTujuan == -1)
+        {
+            mvwprintw(Game, tinggiGame - 2, 1, "Kamu menabrak tembok\n");
+        }
+        else
+        {
+            //Pindah Stage
+            noRuangan = roomTujuan;
+            PindahCurRoom();
+            player = pintuTujuan;
+        }
+    }
 }
 
 void ORDER()
@@ -337,82 +494,83 @@ void BacaCommand()
     char InputUser[10];
     while (isGameOn)
     {
-        Update();
+        UpdateData();
+        UpdateGambar();
         //PrintCommand();
-        mvwprintw(Game,tinggiGame-3,1,"Masukan pilihan Anda : ");
+        mvwprintw(Game, tinggiGame - 3, 1, "Masukan pilihan Anda : ");
         wrefresh(Game);
-        wscanw(Game,"%s",&InputUser);
-        if (IsSameString(InputUser,"GU"))
+        wgetstr(Game, InputUser);
+        if (IsSameString(InputUser, "GU"))
         {
             wclear(Game);
             GU();
         }
-        else if (IsSameString(InputUser,"GD"))
+        else if (IsSameString(InputUser, "GD"))
         {
             wclear(Game);
             GD();
         }
-        else if (IsSameString(InputUser,"GL"))
+        else if (IsSameString(InputUser, "GL"))
         {
             wclear(Game);
             GL();
         }
-        else if (IsSameString(InputUser,"GR"))
+        else if (IsSameString(InputUser, "GR"))
         {
             wclear(Game);
             GR();
         }
-        else if (IsSameString(InputUser,"ORDER"))
+        else if (IsSameString(InputUser, "ORDER"))
         {
             wclear(Game);
             ORDER();
         }
-        else if (IsSameString(InputUser,"PUT"))
+        else if (IsSameString(InputUser, "PUT"))
         {
             wclear(Game);
             PUT();
         }
-        else if (IsSameString(InputUser,"TAKE"))
+        else if (IsSameString(InputUser, "TAKE"))
         {
             wclear(Game);
             TAKE();
         }
-        else if (IsSameString(InputUser,"CH"))
+        else if (IsSameString(InputUser, "CH"))
         {
             wclear(Game);
             CH();
         }
-        else if (IsSameString(InputUser,"CT"))
+        else if (IsSameString(InputUser, "CT"))
         {
             wclear(Game);
             CT();
         }
-        else if (IsSameString(InputUser,"PLACE"))
+        else if (IsSameString(InputUser, "PLACE"))
         {
             wclear(Game);
             PLACE();
         }
-        else if (IsSameString(InputUser,"GIVE"))
+        else if (IsSameString(InputUser, "GIVE"))
         {
             wclear(Game);
             GIVE();
         }
-        else if (IsSameString(InputUser,"RECIPE"))
+        else if (IsSameString(InputUser, "RECIPE"))
         {
             wclear(Game);
             RECIPE();
         }
-        else if (IsSameString(InputUser,"SAVE"))
+        else if (IsSameString(InputUser, "SAVE"))
         {
             wclear(Game);
             SAVE();
         }
-        else if (IsSameString(InputUser,"LOAD"))
+        else if (IsSameString(InputUser, "LOAD"))
         {
             wclear(Game);
             LOAD();
         }
-        else if (IsSameString(InputUser,"EXIT"))
+        else if (IsSameString(InputUser, "EXIT"))
         {
             wclear(Game);
             EXIT();
@@ -420,7 +578,7 @@ void BacaCommand()
         else
         {
             wclear(Game);
-            mvwprintw(Game,tinggiGame-2,1,"Masukan pilihan Anda tidak valid\n");
+            mvwprintw(Game, tinggiGame - 2, 1, "Masukan pilihan Anda tidak valid\n");
         }
     }
 }

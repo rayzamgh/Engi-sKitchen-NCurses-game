@@ -1,10 +1,10 @@
-#include "include/filemanager.h"
-#include "include/stackt.h"
+#include "../include/filemanager.h"
+#include "../include/stackt.h"
 #include<stdio.h>
 int main()
 {
-    Stack Food = BacaStackFood("save/Aditya/stack.txt");
-    Stack Hand = BacaStackHand("save/Aditya/stack.txt");
+    Stack Food = BacaStackFood("../save/Aditya/stack.txt");
+    Stack Hand = BacaStackHand("../save/Aditya/stack.txt");
     printf("Isi Food\n");
     while(!IsEmptyStack(Food))
     {   

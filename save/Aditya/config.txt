@@ -1,5 +1,3 @@
-Nama
-Aditya
 Uang
 500
 Nyawa
@@ -11,3 +9,5 @@ Posisi
 5
 Stage
 1.
+
+//Format jelas 

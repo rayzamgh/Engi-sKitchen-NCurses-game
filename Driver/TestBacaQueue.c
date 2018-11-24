@@ -1,11 +1,11 @@
-#include "include/filemanager.h"
-#include "include/mesinkarkomparasi.h"
-#include "include/queue.h"
+#include "../include/filemanager.h"
+#include "../include/mesinkarkomparasi.h"
+#include "../include/queue.h"
 #include<stdio.h>
 
 int main()
 {
-    Queue Q = BacaQueuePelanggan("save/Aditya/pelanggan.txt");
+    Queue Q = BacaQueuePelanggan("../save/Aditya/pelanggan.txt");
     while(!IsEmptyQueue(Q))
     {
         PELANGGAN temp;

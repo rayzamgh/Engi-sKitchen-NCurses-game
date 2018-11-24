@@ -6,9 +6,9 @@
 #include "boolean.h"
 
 /* Ukuran minimum dan maksimum baris dan kolom */
-#define BrsMin 1
+#define BrsMin 0
 #define BrsMax 200
-#define KolMin 1
+#define KolMin 0
 #define KolMax 200
 
 typedef int indeks; /* indeks baris, kolom */
