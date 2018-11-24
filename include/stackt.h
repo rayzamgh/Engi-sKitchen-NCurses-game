@@ -6,14 +6,14 @@
 #define stackt_H
 
 #include "boolean.h"
-
+#include "mesinkatakomparasi.h"
 
 #define NilStack 0
 #define MaxElStack 10
 /* NilStack adalah stack dengan elemen kosong . */
 /* Karena indeks dalam bhs C dimulai 0 maka tabel dg indeks 0 tidak dipakai */
 
-typedef int infotypeStack;
+typedef Kata infotypeStack;
 typedef int addressStack;   /* indeks tabel */
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */

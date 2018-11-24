@@ -6,12 +6,13 @@
 #define queue_H
 
 #include "boolean.h"
-
+#include "mesinkatakomparasi.h"
+#include "pelanggan.h"
 #define NilQueue 0
 /* Konstanta untuk mendefinisikan addressQueue tak terdefinisi */
 
 /* Definisi elemen dan addressQueue */
-typedef int infotypeQueue;
+typedef PELANGGAN infotypeQueue;
 typedef int addressQueue;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype Queue : */
 /* Versi I : tabel dinamik, Head dan Tail eksplisit, ukuran disimpan */

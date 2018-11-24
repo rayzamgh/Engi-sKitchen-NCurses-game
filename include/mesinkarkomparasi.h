@@ -56,4 +56,7 @@ void ADVB();
           CC mungkin = MARKKomp
           Jika  CC = MARKKomp maka EOP akan menyala (true) */
 
+int CharToInt(char c);
+long int StringToLongInt(char s[10]);
+
 #endif

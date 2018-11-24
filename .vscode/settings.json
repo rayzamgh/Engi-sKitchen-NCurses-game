@@ -15,7 +15,9 @@
         "point.h": "c",
         "mesinkatakomparasi.h\u0000arasi.h": "c",
         "mesinkatakomparasi.h\u0000omparasi.h": "c",
-        "mesinkatakomparasi.h\u0000rasi.h": "c"
+        "mesinkatakomparasi.h\u0000rasi.h": "c",
+        "queue.h": "c",
+        "pelanggan.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

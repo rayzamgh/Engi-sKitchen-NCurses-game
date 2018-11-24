@@ -1,0 +1,12 @@
+Food
+Burger
+Coca-Cola
+Fanta
+Sundae
+Nasi-Goreng-Telur-Spesial
+Hand
+Garpu
+Piring
+Pisang
+Nasi
+Telur.

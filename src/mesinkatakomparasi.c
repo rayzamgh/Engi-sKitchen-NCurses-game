@@ -58,6 +58,7 @@ void ADVKATAA()
 	}
 	else
 	{
+		RESETKATAA();
 		SalinKataA();
 		IgnoreBlankA();
 	}
@@ -140,6 +141,7 @@ void ADVKATAB()
 	}
 	else
 	{
+		RESETKATAB();
 		SalinKataB();
 		IgnoreBlankB();
 	}
@@ -206,7 +208,7 @@ boolean IsSameKata(Kata KataA, Kata KataB)
 	{
 		for (int i = 0; (i <= KataA.Length) && (same); i++)
 		{
-			if (CKataA.TabKata[i] != CKataB.TabKata[i])
+			if (KataA.TabKata[i] != KataB.TabKata[i])
 			{
 				same = false;
 			}

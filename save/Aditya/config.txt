@@ -1,0 +1,13 @@
+Nama
+Aditya
+Uang
+500
+Nyawa
+2
+Waktu
+5
+Posisi
+5
+5
+Stage
+1.

@@ -1,0 +1,13 @@
+Nama
+
+Uang
+0
+Nyawa
+5
+Waktu
+0
+Posisi
+5
+5
+Stage
+1.
