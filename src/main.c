@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <ncurses.h>
 #include "../include/boolean.h"
@@ -88,9 +89,38 @@ void UpdateData()
 {
     WaktuSekarang = NextDetik(WaktuSekarang);
     //Cek Kesabaran customer ngantre
-    //TODO
+    if (!IsEmptyQueue(AntrianPelanggan))
+    {
+        while(Durasi(WaktuSekarang,WaktuCabut(InfoHead(AntrianPelanggan)))<=0)
+        {
+            PELANGGAN hapus;
+            Del(&AntrianPelanggan,&hapus);
+            nyawa -= 1;
+        }
+    }
     //Cek Kesabaran customer dimeja
     //TODO
+    //Generate customer baru secara acak
+    if(!IsFullQueue(AntrianPelanggan)){
+        int genBaru = rand() % 100;
+        if (genBaru <= 15)
+        {
+            //Generate kustomer baru
+            PELANGGAN PBaru;
+            Pos(PBaru) = MakePOINT(-1, -1);
+            Banyak(PBaru) = (genBaru % 2 + 1) * 2;
+            WaktuCabut(PBaru) = NextNDetik(WaktuSekarang, 30);
+            IsStar(PBaru) = (rand() % 100 >= 50);
+            if (IsStar(PBaru))
+            {
+                //Insert ke prio queue
+            }
+            else
+            {
+                Add(&AntrianPelanggan, PBaru);
+            }
+        }
+    }
     //Cek nyawa apakah sudah habis/belum
 }
 
@@ -119,10 +149,10 @@ void UpdateGambar()
     mvwprintw(Game, 1, 91, "Waktu : ");
     sprintf(stringTemp, "%ld", JAMToDetik(WaktuSekarang));
     mvwprintw(Game, 1, 98, stringTemp);
-    mvwprintw(Game,3,31,"Player : ");
+    mvwprintw(Game, 3, 31, "Player : ");
     char posPlayer[10];
-    sprintf(posPlayer,"%d, %d",player.X,player.Y);
-    mvwprintw(Game,3,39,posPlayer);
+    sprintf(posPlayer, "%d, %d", player.X, player.Y);
+    mvwprintw(Game, 3, 39, posPlayer);
     //Gambar Stage
     int dX = 30 + (60 - 4 * GetLastIdxKol(curRoom)) / 2;
     int dY = (35 - 2 * GetLastIdxBrs(curRoom)) / 2;
@@ -139,9 +169,23 @@ void UpdateGambar()
             }
             if (c != '_')
             {
-                mvwprintw(Game, dY + 2 * i +1, dX + 4 * j + 2, "%c", c);
+                mvwprintw(Game, dY + 2 * i + 1, dX + 4 * j + 2, "%c", c);
             }
         }
+    }
+    //Gambar queue customer di antrean
+    mvwprintw(Game,3,1,"Antrean Customer");
+    int banyakAntrean = NBElmt(AntrianPelanggan);
+    for(int i = 0;i < banyakAntrean;i++)
+    {
+        PELANGGAN temp;
+        Del(&AntrianPelanggan,&temp);
+        //Tulis di layar
+        char banyakOrang[5];
+        sprintf(banyakOrang,"%d",Banyak(temp));
+        mvwprintw(Game,4+i,1,banyakOrang);
+        //Balikan ke antrean
+        Add(&AntrianPelanggan,temp);
     }
 }
 
@@ -585,6 +629,9 @@ void BacaCommand()
 
 int main()
 {
+    //Init Random Generator
+    srand(time(NULL));
+    //Init Layar
     initscr();
     refresh();
     MainMenu = newwin(tinggiMainMenu, lebarMainMenu, 0, 0);

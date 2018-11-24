@@ -69,10 +69,10 @@ Queue BacaQueuePelanggan(char namaFile[100])
         Pos(P) = MakePOINT(StringToLongInt(CKataA.TabKata), StringToLongInt(CKataB.TabKata));
         STARTKATAB(CBaris.TabBaris);
         ADVBARIS();
-        Banyak(P) = StringToLongInt(CKataA.TabKata);
-        STARTKATAA(CBaris.TabBaris);
+        Banyak(P) = StringToLongInt(CKataB.TabKata);
+        STARTKATAB(CBaris.TabBaris);
         ADVBARIS();
-        WaktuCabut(P) = DetikToJAM(StringToLongInt(CKataA.TabKata));
+        WaktuCabut(P) = DetikToJAM(StringToLongInt(CKataB.TabKata));
         STARTKATAA(CBaris.TabBaris);
         ADVBARIS();
         Kata temp = CKataA;
