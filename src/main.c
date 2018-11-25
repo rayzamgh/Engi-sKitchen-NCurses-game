@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 #include "../Module/boolean.h"
 #include "../Module/MesinCommand/mesincommand.h"
 #include "../Module/MesinKomparasi/mesinkatakomparasi.h"
@@ -39,6 +39,7 @@ void UpdateRoomAwal();
 
 void hapusWindow(WINDOW *hapus)
 {
+    /* Menghapus WINDOW hapus, membuatnya menjadi tidak bisa diakses lagi*/
     wborder(hapus, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
     wrefresh(hapus);
     delwin(hapus);
@@ -46,6 +47,7 @@ void hapusWindow(WINDOW *hapus)
 
 void rectangle(WINDOW *Layar, int y1, int x1, int y2, int x2)
 {
+    /* Membuat persegi panjang dengan 2 titik (x1,y1) dan (x2,y2) */
     mvwhline(Layar, y1, x1, 0, x2 - x1);
     mvwhline(Layar, y2, x1, 0, x2 - x1);
     mvwvline(Layar, y1, x1, 0, y2 - y1);
@@ -58,6 +60,8 @@ void rectangle(WINDOW *Layar, int y1, int x1, int y2, int x2)
 
 void tabel(WINDOW *Layar, int y1, int x1, int row, int col)
 {
+    /* membuat tabel dari titik y1,x1 dengan row baris dan col kolom */
+    /* Ukuran per cell adalah 3 * 1, 3 karakter lebarnya, 1 karakter tingginya */
     int dx = 4;
     int dy = 2;
     int x2 = x1 + col * dx, y2 = y1 + row * dy;
@@ -79,12 +83,14 @@ void tabel(WINDOW *Layar, int y1, int x1, int row, int col)
 
 void PrintBoxMainMenu()
 {
+    /* Membuat box main menu yang berada di ujung windows main menu */
     box(MainMenu, 0, 0);
     wrefresh(MainMenu);
 }
 
 void UpdateData()
 {
+    /* Update semua data seperti waktu, pelanggan, orderan */
     WaktuSekarang = NextDetik(WaktuSekarang);
     //Cek Kesabaran customer ngantre
     //Cek Star
@@ -341,6 +347,8 @@ void UpdateGambar()
 
 void UpdateRoomAwal()
 {
+    /* Mengupdate isi dari Room awal menjadi isi dari curRoom untuk
+     * ruangan yang seuai */
     switch (noRuangan)
     {
     case 1:
@@ -362,6 +370,8 @@ void UpdateRoomAwal()
 
 void UpdateCurRoom()
 {
+    /* Kebalikan update room awal, mengisi curRoom dengan nilai room sesuai
+     * no ruangan sekarang */
     switch (noRuangan)
     {
     case 1:
@@ -383,6 +393,7 @@ void UpdateCurRoom()
 
 void InitBahanDapur()
 {
+    /* Taruh char M untuk setiap Bahan di dapur */
     for (int i = 1; i <= NbElmt(NamaBahan); i++)
     {
         int XBah = StringToLongInt(Elmt(XBahan, i).TabKata);
@@ -393,6 +404,10 @@ void InitBahanDapur()
 
 void StartGame()
 {
+    /* Menghapus window main menu, lalu membuat window baru yaitu game
+     * kemudian load semua variable dari file external jika pemain sudah
+     * load game sebelumnya, jika belum maka load default valuenya yang terdefinisi
+     * di Default Save/Default.txt */
     isGameOn = true;
     hapusWindow(MainMenu);
     clear();
@@ -412,6 +427,7 @@ void StartGame()
 
 void NewGame()
 {
+    /* Input nama pemain baru */
     mvwprintw(MainMenu, 9, 3, "Masukkan Nama Chef : ");
     wgetstr(MainMenu, namaUser);
     sudahInputNama = true;
@@ -419,6 +435,7 @@ void NewGame()
 
 void LoadGame()
 {
+    /* Load data pemain dari file save game yang berada di folder save */
     mvwprintw(MainMenu, 9, 3, "Masukkan Nama Save : ");
     wgetstr(MainMenu, namaUser);
     char letakSave[50];
@@ -454,6 +471,7 @@ void EXIT()
 
 boolean IsPilihanMenuValid(char pilihanMenu[])
 {
+    /* Cek apakah pilihan menu valid dan mereturn nilai angka dari setiap pilihan */
     if (IsSameString(pilihanMenu, "New Game"))
     {
         return 1;
@@ -478,6 +496,7 @@ boolean IsPilihanMenuValid(char pilihanMenu[])
 
 void PrintMainMenu(int startX, int startY)
 {
+    /* Print string string dasar yang ada saat game pertama dibuka */
     mvwprintw(MainMenu, startY, startX, "SELAMAT DATANG DI ENGI'S KITCHEN!!\n");
     if (sudahInputNama)
     {
@@ -495,6 +514,8 @@ void PrintMainMenu(int startX, int startY)
 
 void ProgramMainMenu()
 {
+    /* Handling segala hal yang terjadi di main menu, seperti baca input
+     * tampilkan basic string , gambar border main menu */
     char pilihanMenu[100];
     int pilihan;
     do
@@ -538,31 +559,11 @@ void ProgramMainMenu()
     }
 }
 
-void PrintCommand()
-{
-    int XPos = lebarGame - 19;
-    int YPos = 0;
-    mvwprintw(Game, YPos, XPos, "DAFTAR COMMAND\n");
-    mvwprintw(Game, YPos + 1, XPos, "GU : Go Up\n");
-    mvwprintw(Game, YPos + 2, XPos, "GD : Go Down\n");
-    mvwprintw(Game, YPos + 3, XPos, "GL : Go Left\n");
-    mvwprintw(Game, YPos + 4, XPos, "GR : Go Right\n");
-    mvwprintw(Game, YPos + 5, XPos, "ORDER\n");
-    mvwprintw(Game, YPos + 6, XPos, "PUT\n");
-    mvwprintw(Game, YPos + 7, XPos, "TAKE\n");
-    mvwprintw(Game, YPos + 8, XPos, "CH\n");
-    mvwprintw(Game, YPos + 9, XPos, "CT\n");
-    mvwprintw(Game, YPos + 10, XPos, "PLACE\n");
-    mvwprintw(Game, YPos + 11, XPos, "GIVE\n");
-    mvwprintw(Game, YPos + 12, XPos, "RECIPE\n");
-    mvwprintw(Game, YPos + 13, XPos, "SAVE\n");
-    mvwprintw(Game, YPos + 14, XPos, "LOAD\n");
-    mvwprintw(Game, YPos + 15, XPos, "EXIT\n");
-    refresh();
-}
-
 void GU()
 {
+    /* Gerak ke atas, jika ketemu border map, cek apakah ada pintu
+     * jika iya maka akan pindah ke stage selanjutnya sesuai pintu yang
+     * didefinisikan di file eksternal */
     if (Ordinat(player) > GetFirstIdxBrs(curRoom))
     {
         player = PrevY(player);
@@ -589,6 +590,9 @@ void GU()
 
 void GD()
 {
+    /* Gerak ke bawah, jika ketemu border map, cek apakah ada pintu
+     * jika iya maka akan pindah ke stage selanjutnya sesuai pintu yang
+     * didefinisikan di file eksternal */
     if (Ordinat(player) < GetLastIdxBrs(curRoom))
     {
         player = NextY(player);
@@ -615,6 +619,9 @@ void GD()
 
 void GL()
 {
+    /* Gerak ke kiri, jika ketemu border map, cek apakah ada pintu
+     * jika iya maka akan pindah ke stage selanjutnya sesuai pintu yang
+     * didefinisikan di file eksternal */
     if (Absis(player) > GetFirstIdxKol(curRoom))
     {
         player = PrevX(player);
@@ -641,7 +648,9 @@ void GL()
 
 void GR()
 {
-
+    /* Gerak ke kanan, jika ketemu border map, cek apakah ada pintu
+     * jika iya maka akan pindah ke stage selanjutnya sesuai pintu yang
+     * didefinisikan di file eksternal */
     if (Absis(player) < GetLastIdxKol(curRoom))
     {
         player = NextX(player);
@@ -668,6 +677,9 @@ void GR()
 
 POINT NearestTable(char cari)
 {
+    /* Cari titik dari meja terdekat yang ada pada player,
+     * Meja mulai dicek dari titik atas kiri player hingga titik bawah kanan player
+     * tipe meja yang dicari ada 2, kosong/isi, kosong<->cari == 'X', isi<->isi == 'C' */
     boolean ketemu = false;
     POINT meja = MakePOINT(-1, -1);
     for (int i = Ordinat(player) - 1; i <= Ordinat(player) + 1 && !ketemu; i++)
@@ -704,6 +716,7 @@ POINT NearestTable(char cari)
 
 void ORDER()
 {
+    /* Mengambil pesanan dari customer terdekat */
     //Cek Sekeliling apakah ada meja
     //Cek kiri
     POINT meja = NearestTable('C');
@@ -763,6 +776,8 @@ void ORDER()
 
 void PUT()
 {
+    /* Menruh makanan ke tray lalu membuatnya */
+    //Cari apakah ada tray di sekitar player
     boolean adaTray = false;
     if(ElmtMat(curRoom,Ordinat(player)-1,Absis(player)) == 'T')
     {
@@ -781,22 +796,26 @@ void PUT()
         adaTray = true;
     }
     if(adaTray){
+        //Cek apakah FOOD STACK sudah penuh
         if (IsFullStack(Food))
         {
             mvwprintw(Game, tinggiGame - 2, 3, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
         }
         else
         {
+            //Cek apakah tangan sebagai penampung bahan adalah kosong
             if (IsEmptyStack(Hand))
             {
                 mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
             }
             else
             {
+                //Traversal Pohon Makanan sesuai item yang ada di tangan
                 BinTree P = PohonMakanan;
                 Stack TempStack = Hand;
                 Stack S;
                 Kata temp;
+                //Reverse urutan stack tangan
                 CreateEmptyStack(&S);
                 while (!IsEmptyStack(Hand))
                 {
@@ -804,6 +823,8 @@ void PUT()
                     Push(&S, temp);
                 }
                 boolean fail = false;
+                // Checking akar pohon, jika sama dengan apa yang di pop dari stack, maka lanjut
+                // pop kemudian cek harus gerak kemana 
                 Pop(&S, &temp);
                 if (!IsSameKata(temp, Akar(P)))
                 {
@@ -833,10 +854,12 @@ void PUT()
                 if (IsUnerLeft(P))
                 {
                     P = Left(P);
+                    //P adalah daun dari pohon makanan yang sesuai dengan stack tangan
                 }
                 else if (IsUnerRight(P))
                 {
                     P = Right(P);
+                    //P adalah daun dari pohon makanan yang sesuai dengan stack tangan
                 }
                 else
                 {
@@ -853,6 +876,7 @@ void PUT()
                 }
                 else
                 {
+                    //Kosongkan tangan lalu push makanan yang dihasilkan ke FOOD STACK
                     CreateEmptyStack(&Hand);
                     Push(&Food, Akar(P));
                 }
@@ -865,6 +889,7 @@ void PUT()
 
 void TAKE()
 {
+    /* Mengambil bahan dari array NamaBahan yang posisinya ada di array XBahan dan YBahan */
     if (IsFullStack(Hand))
     {
         mvwprintw(Game, tinggiGame - 2, 3, "Tanganmu sudah penuh, tidak bisa mengambil bahan makanan lagi\n");
@@ -874,9 +899,12 @@ void TAKE()
         IdxType i = GetFirstIdx(NamaBahan);
         boolean found = false;
         POINT temp;
+        //Cari letaknya di array
         while ((!found) && (i <= GetLastIdx(NamaBahan)))
         {
+            //Buat point sementara dari XBahan[i] dan YBahan[i]
             temp = MakePOINT(StringToLongInt(Elmt(XBahan, i).TabKata), StringToLongInt(Elmt(YBahan, i).TabKata));
+            //Jika temp ada di kiri/kanan/atas/bawah player, maka ketemu
             if (PointEQ(temp, PrevX(player)) || PointEQ(temp, NextX(player)) || PointEQ(temp, PrevY(player)) || PointEQ(temp, NextY(player)))
             {
                 found = true;
@@ -886,12 +914,14 @@ void TAKE()
                 i += 1;
             }
         }
+        //Push nama bahan tersebut ke tangan
         Push(&Hand, Elmt(NamaBahan, i));
     }
 }
 
 void CH()
 {
+    // Reset stack tangan
     if (IsEmptyStack(Hand))
     {
         mvwprintw(Game, tinggiGame - 2, 3, "Tanganmu sudah kosong dari bahan makanan, tidak ada lagi yang bisa dijatuhkan\n");
@@ -904,6 +934,7 @@ void CH()
 
 void CT()
 {
+    // Reset FOOD STACK
     if (IsEmptyStack(Food))
     {
         mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada makanan yang bisa kamu jatuhkan dari food stack milikmu yang kosong\n");
@@ -916,8 +947,9 @@ void CT()
 
 void PLACE()
 {
+    //Taruh pelanggan ke meja
+    
     //Cek Sekeliling apakah ada meja
-    //Cek kiri
     POINT meja = NearestTable('X');
     boolean ketemu = !PointEQ(meja, MakePOINT(-1, -1));
     if (ketemu)
@@ -927,7 +959,7 @@ void PLACE()
         if (IsIdxEffMat(curRoom, cekY, cekX) && ElmtMat(curRoom, cekY, cekX) == 'X')
         {
             //Meja untuk ber 4
-            //Taruh pelanggan di meja itu
+            //Taruh pelanggan di meja itu kalau ada pelanggannya
             boolean bisaDitaruh = true;
             PELANGGAN taruh;
             if (!IsEmptyQueue(AntrianStar))
@@ -942,6 +974,7 @@ void PLACE()
                 }
                 else
                 {
+                    //Sama sekali tidak ada pelanggan
                     bisaDitaruh = false;
                 }
             }
@@ -970,7 +1003,7 @@ void PLACE()
             //Meja untuk ber 2
             boolean bisaDitaruh = false;
             PELANGGAN taruh;
-            //Cek Star
+            //Cek Star terlebih dahulu
             int iterQueue = NBElmt(AntrianStar);
             for (int i = 0; i < iterQueue; i++)
             {
@@ -995,7 +1028,7 @@ void PLACE()
             }
             if (!bisaDitaruh)
             {
-                //Cek Non Star
+                //Cek Non Star jika tidak ketemu star yang bisa ditaruh di meja itu
                 iterQueue = NBElmt(AntrianNonStar);
                 for (int i = 0; i < iterQueue; i++)
                 {
@@ -1043,12 +1076,14 @@ void PLACE()
 
 void GIVE()
 {
+    //Memberi makanan di paling atas FOOD STACK ke pelanggan terdekat
     if (IsEmptyStack(Food))
     {
         mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada makanan yang bisa diberi ke customer padamu\n");
     }
     else
     {
+        //Cari meja terdekat dengan player yang isi pelanggan
         POINT meja = NearestTable('C');
         POINT undef = MakePOINT(-1, -1);
         if (PointEQ(meja, undef))
@@ -1057,6 +1092,7 @@ void GIVE()
         }
         else
         {
+            //Cari pelanggan yang letak mejanya sama seperti meja terdekat
             addressQueue i = Head(PelangganDiMeja);
             int banyakEl = NBElmt(PelangganDiMeja);
             while (banyakEl>0 && (!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
@@ -1064,6 +1100,7 @@ void GIVE()
                 banyakEl -= 1;
                 i += 1;
             }
+            //Cek apakah orderannya sama dengan makanan teratas di FOOD STACK
             if (IsSameKata(InfoTop(Food), Orderan(InfoQueue(PelangganDiMeja, i))))
             {
                 WaktuCabut(InfoQueue(PelangganDiMeja, i)) = NextDetik(WaktuSekarang);
@@ -1082,6 +1119,8 @@ void GIVE()
 
 void RECIPE(BinTree Pohon, int h, int XAwal, int YAwal)
 {
+    //Menampilkan resep di XAwal,YAwal, dengan spasi ke child dari treenya adalah h
+    //Resep diambil dari Pohon
     if (IsTreeOneElmt(Pohon))
     {
         mvwaddnstr(Game, YAwal, XAwal, Akar(Pohon).TabKata, 50);
@@ -1090,25 +1129,35 @@ void RECIPE(BinTree Pohon, int h, int XAwal, int YAwal)
     {
         if (!IsTreeEmpty(Pohon))
         {
+            //Hitung jarak dari akar ke right node yang sesuai
+            //Yaitu banyak node di left node 
             int dYUntukRight = 1;
             if (Left(Pohon) != Nil && Right(Pohon) != Nil)
             {
                 dYUntukRight += NbElmtTree(Left(Pohon));
             }
+            //Buat garis vertikal dari akar
             mvwvline(Game, YAwal + 1, XAwal + 1, 0, dYUntukRight);
+            //Tulis nama dari Akar pohon
             mvwaddnstr(Game, YAwal, XAwal, Akar(Pohon).TabKata, 50);
+            //Recursive hingga habis
             RECIPE(Left(Pohon), h, XAwal + h, YAwal + 1);
             RECIPE(Right(Pohon), h, XAwal + h, YAwal + dYUntukRight);
             if (IsUnerLeft(Pohon) || IsUnerRight(Pohon))
             {
+                // Gambar Lower Left Corner Character di pojok bawah garis resep
                 mvwaddch(Game, YAwal + 1, XAwal + 1, ACS_LLCORNER);
                 mvwhline(Game, YAwal + 1, XAwal + 2, 0, 1);
             }
             else
             {
+                // Gambar Sesuatu yang menyerupai T diputar 90 derajat Counter Clockwise di samping node leftnya
                 mvwaddch(Game, YAwal + 1, XAwal + 1, ACS_LTEE);
+                // Gambar garis menuju Left pohon
                 mvwhline(Game, YAwal + 1, XAwal + 2, 0, 1);
+                // Gambar Lower Left Corner Character di pojok bawah garis resep
                 mvwaddch(Game, YAwal + dYUntukRight, XAwal + 1, ACS_LLCORNER);
+                // Gambar garis meuju Right pohon
                 mvwhline(Game, YAwal + dYUntukRight, XAwal + 2, 0, 1);
             }
         }
@@ -1117,6 +1166,7 @@ void RECIPE(BinTree Pohon, int h, int XAwal, int YAwal)
 
 void SAVE()
 {
+    //Save semua varibale ke text yang berada di folder save dengan nama sesuai namaUser
     char letakSave[50];
     sprintf(letakSave, "../save/%s.txt", namaUser);
     TulisSaveGame(letakSave, AntrianNonStar, AntrianStar, uang,
@@ -1128,12 +1178,15 @@ void SAVE()
 
 void LOAD()
 {
+    //Load semua variable ke text dengan nama file = input pengguna
     char tempNama[50];
+    //Input nama savegamenya
     mvwprintw(Game, tinggiGame - 2, 3, "Masukan nama save : ");
     mvwgetstr(Game, tinggiGame - 2, 23, tempNama);
     char letakSave[50];
     sprintf(letakSave, "../save/%s.txt", tempNama);
     FILE *fp = fopen(letakSave, "r");
+    //Cek file ada / tidak
     if (fp != NULL)
     {
         sudahInputNama = true;
@@ -1157,11 +1210,12 @@ void LOAD()
 
 void BacaCommand()
 {
+    //Baca Command dari user di terminal dengan mesin kata ver. MesinCommand
     char InputUser[10];
     while (isGameOn)
     {
-        UpdateGambar();
-        //PrintCommand();
+        UpdateGambar(); //Gambar UI game
+        //Baca Input
         mvwprintw(Game, tinggiGame - 3, 3, "Masukan pilihan Anda : ");
         wrefresh(Game);
         wgetstr(Game, InputUser);
@@ -1271,8 +1325,9 @@ int main()
     MainMenu = newwin(tinggiMainMenu, lebarMainMenu, 0, 0);
     box(MainMenu, 0, 0);
     wrefresh(MainMenu);
+    //Buka Main menu
     ProgramMainMenu();
-    BacaCommand(); //Looping disini
+    BacaCommand(); //Looping utama gamenya disini
     hapusWindow(Game);
     endwin();
     return 0;
