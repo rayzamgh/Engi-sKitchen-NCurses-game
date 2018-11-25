@@ -14,6 +14,8 @@
 
 /* *** Definisi Type Pohon Biner *** */
 /* typedef int infotypeLR; */ /* type infotypeLR sesuai pada modul listrek */
+#define Nil NULL
+typedef Kata infotypeLR;
 typedef struct tNode *addrNode;
 typedef struct tNode
 {

@@ -161,12 +161,6 @@ boolean NEQ(MATRIKS M1, MATRIKS M2)
 	return (!EQ(M1, M2));
 }
 /* Mengirimkan true jika M1 tidak sama dengan M2 */
-boolean EQSize(MATRIKS M1, MATRIKS M2)
-{
-	return ((NBrsEff(M1) == NBrsEff(M2)) && (NKolEff(M1) == NKolEff(M2)));
-}
-/* Mengirimkan true jika ukuran efektif matriks M1 sama dengan ukuran efektif M2 */
-/* yaitu GetBrsEff(M1) = GetNBrsEff (M2) dan GetNKolEff (M1) = GetNKolEff (M2) */
 
 /* ********** Operasi lain ********** */
 int NBElmtMATRIKS(MATRIKS M)
@@ -174,60 +168,3 @@ int NBElmtMATRIKS(MATRIKS M)
 	return (NBrsEff(M) * NKolEff(M));
 }
 /* Mengirimkan banyaknya elemen M */
-
-/* ********** KELOMPOK TEST TERHADAP MATRIKS ********** */
-boolean IsBujurSangkar(MATRIKS M)
-{
-	return (NBrsEff(M) == NKolEff(M));
-}
-/* Mengirimkan true jika M adalah matriks dg ukuran baris dan kolom sama */
-boolean IsSimetri(MATRIKS M)
-{
-	// Kamus
-	boolean simetris;
-	indeks i, j;
-	// Algoritma
-	if (!IsBujurSangkar(M))
-	{
-		return false;
-	}
-	else
-	{
-		simetris = true;
-		i = GetFirstIdxBrs(M);
-		while ((simetris) && (i <= GetLastIdxBrs(M)))
-		{
-			j = GetFirstIdxKol(M) + i;
-			while ((simetris) && (j <= GetLastIdxBrs(M)))
-			{
-				if (ElmtMat(M, i, j) != ElmtMat(M, j, i))
-				{
-					simetris = false;
-				}
-				j++;
-			}
-			i++;
-		}
-		return simetris;
-	}
-}
-/* Mengirimkan true jika M adalah matriks simetri : IsBujurSangkar(M)
-   dan untuk setiap elemen M, M(i,j)=M(j,i) */
-void Transpose(MATRIKS *M)
-{
-	// Kamus
-	indeks i, j;
-	ElTypeMat temp;
-	// Algoritma
-	for (i = GetFirstIdxBrs(*M); i < GetLastIdxBrs(*M); i++)
-	{
-		for (j = (GetFirstIdxKol(*M) + i); j <= GetLastIdxKol(*M); j++)
-		{
-			temp = ElmtMat(*M, i, j);
-			ElmtMat(*M, i, j) = ElmtMat(*M, j, i);
-			ElmtMat(*M, j, i) = temp;
-		}
-	}
-}
-/* I.S. M terdefinisi dan IsBujursangkar(M) */
-/* F.S. M "di-transpose", yaitu setiap elemen M(i,j) ditukar nilainya dengan elemen M(j,i) */
