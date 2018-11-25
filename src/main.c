@@ -27,7 +27,7 @@ BinTree PohonMakanan;
 Queue AntrianNonStar, AntrianStar;
 Queue PelangganDiMeja;
 Stack Food, Hand;
-TabKata OrderanPelanggan, banyakOrangOrder;
+TabKata OrderanPelanggan, banyakOrangOrder, NamaBahan, XBahan, YBahan;
 int noRuangan;
 MATRIKS Room1, Room2, Room3, Room4, curRoom;
 /* --------------- */
@@ -710,24 +710,103 @@ void ORDER()
 
 void PUT()
 {
-
-    printf("\n");
+    if (IsFullStack(Food)){
+        mvwprintw(Game, tinggiGame - 2, 1, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
+    }
+    else{
+        if (IsEmptyStack(Hand)){
+            mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
+        }
+        else{
+            BinTree P = PohonMakanan;
+            Stack TempStack = Hand;
+            Stack S;
+            Kata temp;
+            while (!IsEmptyStack(Hand)){
+                Pop(&Hand,&temp);
+                Push(&S, temp);
+            }
+            boolean fail = false;
+            Pop(&S, &temp);
+            if (!IsSameKata(temp, Akar(P))){
+                fail = true;
+            }
+            while ((!IsEmptyStack(S)) && (!IsTreeOneElmt(Left(P)) || !IsTreeOneElmt(Right(P))) && (!fail)){
+                Pop(&S, &temp);
+                if (IsSameKata(Akar(Right(P)), temp)){
+                    P = Right(P);
+                }
+                else if (IsSameKata(Akar(Left(P)), temp)){
+                    P = Left(P);
+                }
+                else{
+                    fail = true;
+                }
+            }
+            if (IsTreeOneElmt(Left(P))){
+                P = Left(P);
+            }
+            else if (IsTreeOneElmt(Right(P))){
+                P = Right(P);
+            }
+            else{
+                fail = true;
+            }
+            if(!IsEmptyStack(S)){
+                fail = true;
+            }
+            if (fail){
+                mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada resep yang sesuai dengan stack bahan makanan di tanganmu\n");
+                Hand = TempStack;
+            }
+            else{
+                CreateEmptyStack(&Hand);
+                Push(&Food, Akar(P));
+            }
+        }
+    }
 }
 
 void TAKE()
 {
-
-    printf("\n");
+    if (IsFullStack(Hand)){
+        mvwprintw(Game, tinggiGame - 2, 1, "Tanganmu sudah penuh, tidak bisa mengambil bahan makanan lagi\n");
+    }
+    else{
+        IdxType i = GetFirstIdx(NamaBahan);
+        boolean found;
+        POINT temp;
+        while ((!found)&&(i<=GetLastIdx(NamaBahan))){
+            temp = MakePOINT(StringToLongInt(Elmt(XBahan, i).TabKata), StringToLongInt(Elmt(YBahan, i).TabKata));
+            if (PointEQ(temp, PrevX(player)) || PointEQ(temp, NextX(player)) || PointEQ(temp, PrevY(player)) || PointEQ(temp, NextY(player))){
+                found = true;
+            }
+            else{
+                i += 1;
+            }
+        }
+        Push(&Hand, Elmt(NamaBahan, i));
+    }
 }
 
 void CH()
 {
+    if (IsEmptyStack(Hand)){
+        mvwprintw(Game, tinggiGame - 2, 1, "Tanganmu sudah kosong dari bahan makanan, tidak ada lagi yang bisa dijatuhkan\n");
+    }
+    else{
+        CreateEmptyStack(&Hand);
+    }
 }
 
 void CT()
 {
-
-    printf("\n");
+    if (IsEmptyStack(Food)){
+        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada makanan yang bisa kamu jatuhkan dari food stack milikmu yang kosong\n");
+    }
+    else{
+        CreateEmptyStack(&Food);
+    }
 }
 
 void PLACE()
