@@ -27,7 +27,7 @@ Pelanggan
 1
 -Orderan
 1
-Banana_Split
+Banana_Split 4
 -PelangganDiMeja
 2
 Pelanggan

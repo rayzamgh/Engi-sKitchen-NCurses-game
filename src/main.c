@@ -27,7 +27,7 @@ BinTree PohonMakanan;
 Queue AntrianNonStar, AntrianStar;
 Queue PelangganDiMeja;
 Stack Food, Hand;
-TabKata OrderanPelanggan;
+TabKata OrderanPelanggan,banyakOrangOrder;
 int noRuangan;
 MATRIKS Room1, Room2, Room3, Room4, curRoom;
 /* --------------- */
@@ -125,7 +125,7 @@ void UpdateGambar()
     mvwhline(Game, (int)tinggiGame / 2, lebarGame - 69, 0, 30);
     mvwhline(Game, tinggiGame - 4, 0, 0, lebarGame - 40);
     rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 40);
-    rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 1);
+    //rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 1);
     //Gambar Default String di game
     mvwprintw(Game, 1, 1, "Nama : ");
     mvwprintw(Game, 1, 8, namaUser);
@@ -189,6 +189,50 @@ void UpdateGambar()
         //Balikan ke antrean
         Add(&AntrianNonStar, temp);
     }
+    //Gambar Orderan
+    mvwprintw(Game,(int)tinggiGame/2+1,1,"Order");
+    for(int i = GetFirstIdx(OrderanPelanggan);i <= GetLastIdx(OrderanPelanggan);i++)
+    {
+        char tulisOrder[1010];
+        sprintf(tulisOrder,"%s %s",Elmt(OrderanPelanggan,i).TabKata,Elmt(banyakOrangOrder,i).TabKata);
+        mvwaddnstr(Game,(int)tinggiGame/2+1+i,1,tulisOrder,29);
+    }
+    //Gambar FoodStack
+    mvwprintw(Game,3,91,"Food Stack");
+    int bStack = 1;
+    Stack tempStack;
+    CreateEmptyStack(&tempStack);
+    while(!IsEmptyStack(Food))
+    {
+        mvwprintw(Game,3+bStack,91,InfoTop(Food).TabKata);
+        Kata temp;
+        Pop(&Food,&temp);
+        Push(&tempStack,temp);
+        bStack += 1;
+    }
+    while(!IsEmptyStack(tempStack))
+    {
+        Kata temp;
+        Pop(&tempStack,&temp);
+        Push(&Food,temp);
+    }
+    //Gambar HandStack
+    mvwprintw(Game,(int)tinggiGame/2+1,91,"Hand Stack");
+    bStack = 1;
+    while(!IsEmptyStack(Hand))
+    {
+        mvwprintw(Game,(int)tinggiGame/2+1+bStack,91,InfoTop(Hand).TabKata);
+        Kata temp;
+        Pop(&Hand,&temp);
+        Push(&tempStack,temp);
+        bStack += 1;
+    }
+    while(!IsEmptyStack(tempStack))
+    {
+        Kata temp;
+        Pop(&tempStack,&temp);
+        Push(&Hand,temp);
+    }
 }
 
 void UpdateCurRoom()
@@ -223,7 +267,7 @@ void StartGame()
     {
         //Buat Semua ADT secara default
         BacaSaveGame("../Default Save/Default.txt", &AntrianNonStar, &AntrianStar, &uang,
-                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,
+                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan, &banyakOrangOrder,
                      &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
                      &Food, &Hand);
         UpdateCurRoom();
@@ -248,7 +292,7 @@ void LoadGame()
     {
         sudahInputNama = true;
         BacaSaveGame(letakSave, &AntrianNonStar, &AntrianStar, &uang,
-                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,
+                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan, &banyakOrangOrder,
                      &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
                      &Food, &Hand);
         UpdateCurRoom();
@@ -601,10 +645,34 @@ void GIVE()
     printf("\n");
 }
 
-void RECIPE()
+void RECIPE(BinTree Pohon,int h,int XAwal, int YAwal)
 {
+    if(IsTreeOneElmt(Pohon))
+    {
+        mvwaddnstr(Game,YAwal,XAwal,Akar(Pohon).TabKata,50);
+    }else{
+        if(!IsTreeEmpty(Pohon)){
+            int dYUntukRight = 1;
+            if(Left(Pohon) != Nil && Right(Pohon) != Nil)
+            {
+                dYUntukRight += NbElmtTree(Left(Pohon));
+            }
+            mvwvline(Game,YAwal+1,XAwal+1,0,dYUntukRight);
+            mvwaddnstr(Game,YAwal,XAwal,Akar(Pohon).TabKata,50);
+            RECIPE(Left(Pohon),h,XAwal+h,YAwal+1);
+            RECIPE(Right(Pohon),h,XAwal+h,YAwal+dYUntukRight);
+            if(IsUnerLeft(Pohon))
+            {
 
-    printf("\n");
+            }else if(IsUnerRight(Pohon))
+            {
+
+            }else if(IsBiner(Pohon))
+            {
+                
+            }
+        }   
+    }
 }
 
 void SAVE()
@@ -612,7 +680,7 @@ void SAVE()
     char letakSave[50];
     sprintf(letakSave, "../save/%s.txt", namaUser);
     TulisSaveGame(letakSave, AntrianNonStar, AntrianStar, uang,
-                  nyawa, WaktuSekarang, player, noRuangan, OrderanPelanggan,
+                  nyawa, WaktuSekarang, player, noRuangan, OrderanPelanggan, banyakOrangOrder,
                   PelangganDiMeja, Room1, Room2, Room3, Room4, Stage, PohonMakanan,
                   Food, Hand);
     mvwprintw(Game, tinggiGame - 2, 1, "Save berhasil\n");
@@ -630,7 +698,7 @@ void LOAD()
     {
         sudahInputNama = true;
         BacaSaveGame(letakSave, &AntrianNonStar, &AntrianStar, &uang,
-                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,
+                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,&banyakOrangOrder,
                      &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
                      &Food, &Hand);
         UpdateCurRoom();
@@ -715,7 +783,7 @@ void BacaCommand()
         else if (IsSameString(InputUser, "RECIPE"))
         {
             wclear(Game);
-            RECIPE();
+            RECIPE(PohonMakanan,3,121,1);
         }
         else if (IsSameString(InputUser, "SAVE"))
         {

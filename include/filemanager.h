@@ -14,10 +14,12 @@
 MATRIKS BacaMap(char namaFile[100]);
 BinTree BacaPohonMakanan(char namaFile[100]);
 TabKata BacaArray(char namaFile[100]);
-void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyawa, JAM Waktu, POINT Posisi, int Stage, TabKata Orderan, Queue PDM, MATRIKS P1,
-                   MATRIKS P2, MATRIKS P3, MATRIKS P4, Graph Pintu, BinTree PohM, Stack Food, Stack Hand);
-void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long int *Uang, long int *Nyawa, JAM *Waktu, POINT *Posisi, int *Stage, TabKata *Orderan, Queue *PDM, MATRIKS *P1,
-                  MATRIKS *P2, MATRIKS *P3, MATRIKS *P4, Graph *Pintu, BinTree *PohM, Stack *Food, Stack *Hand);
+void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyawa, JAM Waktu, POINT Posisi,
+                   int Stage, TabKata Orderan, TabKata BOO, Queue PDM, MATRIKS P1, MATRIKS P2, MATRIKS P3, MATRIKS P4,
+                   Graph Pintu, BinTree PohM, Stack Food, Stack Hand);
+void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long int *Uang, long int *Nyawa, JAM *Waktu,
+                  POINT *Posisi, int *Stage, TabKata *Orderan,TabKata *BOO,Queue *PDM, MATRIKS *P1, MATRIKS *P2,
+                  MATRIKS *P3, MATRIKS *P4, Graph *Pintu, BinTree *PohM, Stack *Food, Stack *Hand);
 Queue BacaQueueMejaPelanggan(char namaFile[100]);
 Queue BacaQueuePelanggan(char namaFile[100]);
 Stack BacaStackFood(char namaFile[100]);

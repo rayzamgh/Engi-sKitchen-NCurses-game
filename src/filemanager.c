@@ -53,8 +53,9 @@ TabKata BacaArray(char namaFile[100])
     return T;
 }
 
-void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyawa, JAM Waktu, POINT Posisi, int Stage, TabKata Orderan, Queue PDM, MATRIKS P1,
-                   MATRIKS P2, MATRIKS P3, MATRIKS P4, Graph Pintu, BinTree PohM, Stack Food, Stack Hand)
+void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyawa, JAM Waktu, POINT Posisi,
+                   int Stage, TabKata Orderan, TabKata BOO, Queue PDM, MATRIKS P1, MATRIKS P2, MATRIKS P3,
+                   MATRIKS P4, Graph Pintu, BinTree PohM, Stack Food, Stack Hand)
 {
     FILE *fp = fopen(namaFile, "w");
     fprintf(fp, "-AntrianNonStar\n");
@@ -90,7 +91,7 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
     fprintf(fp, "%d\n", NbElmt(Orderan));
     for (int i = 1; i <= NbElmt(Orderan); i++)
     {
-        fprintf(fp, "%s\n", Elmt(Orderan, i).TabKata);
+        fprintf(fp, "%s %s", Elmt(Orderan, i).TabKata,Elmt(BOO,i).TabKata);
     }
     fprintf(fp, "-PelangganDiMeja\n");
     fprintf(fp, "%d\n", NBElmt(PDM));
@@ -196,9 +197,9 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
         Kata temp;
         Pop(&Food, &temp);
         char tempS[50];
-        banyakFood+=1;
-        sprintf(tempS,"%s",sFood);
-        sprintf(sFood, "%s\n%s", temp.TabKata,tempS);
+        banyakFood += 1;
+        sprintf(tempS, "%s", sFood);
+        sprintf(sFood, "%s\n%s", temp.TabKata, tempS);
     }
     fprintf(fp, "%d\n%s", banyakFood, sFood);
     fprintf(fp, "-Hand\n");
@@ -210,15 +211,17 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
         Pop(&Hand, &temp);
         char tempS[50];
         banyakHand += 1;
-        sprintf(tempS,"%s",sHand);
-        sprintf(sHand, "%s\n%s",temp.TabKata,tempS);
+        sprintf(tempS, "%s", sHand);
+        sprintf(sHand, "%s\n%s", temp.TabKata, tempS);
     }
     fprintf(fp, "%d\n%s", banyakHand, sHand);
-    fprintf(fp,".");
+    fprintf(fp, ".");
     fclose(fp);
 }
-void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *Nyawa, JAM *Waktu, POINT *Posisi, int *Stage, TabKata *Orderan, Queue *PDM, MATRIKS *P1,
-                  MATRIKS *P2, MATRIKS *P3, MATRIKS *P4, Graph *Pintu, BinTree *PohM, Stack *Food, Stack *Hand)
+void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *Nyawa, JAM *Waktu,
+                  POINT *Posisi, int *Stage, TabKata *Orderan, TabKata *BOO, Queue *PDM, MATRIKS *P1,
+                  MATRIKS *P2, MATRIKS *P3, MATRIKS *P4, Graph *Pintu, BinTree *PohM, Stack *Food, 
+                  Stack *Hand)
 {
     TabKata T = BacaArray(namaFile);
     //Baca Antrian Non Star
@@ -276,9 +279,13 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxOrd = Search1(T, CKataB);
     int banyakOrd = StringToLongInt(Elmt(T, IdxOrd + 1).TabKata);
     MakeEmptyArray(Orderan);
+    MakeEmptyArray(BOO);
     for (int i = 0; i < banyakOrd; i++)
     {
-        AddAsLastEl(Orderan, Elmt(T, IdxOrd + i + 2));
+        STARTKATAB(Elmt(T,IdxOrd+i+2).TabKata);
+        AddAsLastEl(Orderan,CKataB);
+        ADVKATAB();
+        AddAsLastEl(BOO,CKataB);
     }
     //Baca Pelanggan di meja
     STARTKATAB("-PelangganDiMeja");
