@@ -83,22 +83,7 @@ boolean EQ (MATRIKS M1, MATRIKS M2);
    dan GetLastIdxKol(M1) = GetLastIdxKol(M2) */
 boolean NEQ (MATRIKS M1, MATRIKS M2);
 /* Mengirimkan true jika M1 tidak sama dengan M2 */
-boolean EQSize (MATRIKS M1, MATRIKS M2);
-/* Mengirimkan true jika ukuran efektif matriks M1 sama dengan ukuran efektif M2 */
-/* yaitu GetBrsEff(M1) = GetNBrsEff (M2) dan GetNKolEff (M1) = GetNKolEff (M2) */
-
 /* ********** Operasi lain ********** */
 int NBElmtMATRIKS (MATRIKS M);
 /* Mengirimkan banyaknya elemen M */
-
-/* ********** KELOMPOK TEST TERHADAP MATRIKS ********** */
-boolean IsBujurSangkar (MATRIKS M);
-/* Mengirimkan true jika M adalah matriks dg ukuran baris dan kolom sama */
-boolean IsSimetri (MATRIKS M);
-/* Mengirimkan true jika M adalah matriks simetri : IsBujurSangkar(M)
-   dan untuk setiap elemen M, M(i,j)=M(j,i) */
-void Transpose (MATRIKS * M);
-/* I.S. M terdefinisi dan IsBujursangkar(M) */
-/* F.S. M "di-transpose", yaitu setiap elemen M(i,j) ditukar nilainya dengan elemen M(j,i) */
-
 #endif
