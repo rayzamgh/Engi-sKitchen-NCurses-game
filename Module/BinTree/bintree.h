@@ -7,13 +7,13 @@
 #define _BINTREE_H_
 
 /* Modul lain yang digunakan : */
-#include "../ListRek/listrek.h"
 #include "../boolean.h"
+#include "../MesinKomparasi/mesinkatakomparasi.h"
 
-/* #define Nil NULL */ /* konstanta Nil sesuai pada modul listrek */
+ #define Nil NULL  /* konstanta Nil sesuai pada modul listrek */
 
 /* *** Definisi Type Pohon Biner *** */
-/* typedef int infotypeLR; */ /* type infotypeLR sesuai pada modul listrek */
+typedef Kata infotypeLR;/* type infotypeLR sesuai pada modul listrek */
 typedef struct tNode *addrNode;
 typedef struct tNode
 {
@@ -41,7 +41,6 @@ void MakeTree(infotypeLR Akar, BinTree L, BinTree R, BinTree *P);
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R 
 		jika alokasi berhasil. P = Nil jika alokasi gagal. */
-BinTree PreOrderToTree(char s[500],int *pos);
 /* Manajemen Memory */
 addrNode AlokNode(infotypeLR X);
 /* Mengirimkan addrNode hasil alokasi sebuah elemen */
@@ -75,25 +74,6 @@ void PrintPreorder(BinTree P);
 /* Contoh: 
    (A()()) adalah pohon dengan 1 elemen dengan akar A
    (A(B()())(C()())) adalah pohon dengan akar A dan subpohon kiri (B()()) dan subpohon kanan (C()()) */
-char* GetPreOrderForm(BinTree P);
-void PrintInorder(BinTree P);
-/* I.S. P terdefinisi */
-/* F.S. Semua simpul P sudah dicetak secara inorder: pohon kiri, akar, dan pohon kanan. 
-   Setiap pohon ditandai dengan tanda kurung buka dan kurung tutup (). 
-   Pohon kosong ditandai dengan ().
-   Tidak ada tambahan karakter apa pun di depan, tengah, atau akhir. */
-/* Contoh: 
-   (()A()) adalah pohon dengan 1 elemen dengan akar A
-   ((()B())A(()C())) adalah pohon dengan akar A dan subpohon kiri (()B()) dan subpohon kanan (()C()) */
-void PrintPostorder(BinTree P);
-/* I.S. P terdefinisi */
-/* F.S. Semua simpul P sudah dicetak secara postorder: pohon kiri, pohon kanan, dan akar. 
-   Setiap pohon ditandai dengan tanda kurung buka dan kurung tutup (). 
-   Pohon kosong ditandai dengan ().
-   Tidak ada tambahan karakter apa pun di depan, tengah, atau akhir. */
-/* Contoh: 
-   (()()A) adalah pohon dengan 1 elemen dengan akar A
-   ((()()B)(()()C)A) adalah pohon dengan akar A dan subpohon kiri (()()B) dan subpohon kanan (()()C) */
 void PrintTree(BinTree P, int h);
 /* I.S. P terdefinisi, h adalah jarak indentasi (spasi) */
 /* F.S. Semua simpul P sudah ditulis dengan indentasi (spasi) */
@@ -112,63 +92,17 @@ A
   C
     E
 */
-
-/* *** Searching *** */
 boolean SearchTree(BinTree P, infotypeLR X);
 /* Mengirimkan true jika ada node dari P yang bernilai X */
-
 /* *** Fungsi-Fungsi Lain *** */
 int NbElmtTree(BinTree P);
 /* Mengirimkan banyaknya elemen (node) pohon biner P */
 int NbDaun(BinTree P);
 /* Mengirimkan banyaknya daun (node) pohon biner P */
 /* Prekondisi: P tidak kosong */
-boolean IsSkewLeft(BinTree P);
-/* Mengirimkan true jika P adalah pohon condong kiri */
-/* Pohon kosong adalah pohon condong kiri */
-boolean IsSkewRight(BinTree P);
-/* Mengirimkan true jika P adalah pohon condong kanan */
-/* Pohon kosong adalah pohon condong kanan */
 int Level(BinTree P, infotypeLR X);
 /* Mengirimkan level dari node X yang merupakan salah satu simpul dari pohon biner P. 
    Akar(P) level-nya adalah 1. Pohon P tidak kosong. */
-int Tinggi(BinTree P);
-/* Pohon Biner mungkin kosong. Tinggi pohon kosong = 0.
-   Mengirim "height" yaitu tinggi dari pohon */
-
-/* *** Operasi lain *** */
-void AddDaunTerkiri(BinTree *P, infotypeLR X);
-/* I.S. P boleh kosong */
-/* F.S. P bertambah simpulnya, dengan X sebagai simpul daun terkiri */
-void AddDaun(BinTree *P, infotypeLR X, infotypeLR Y, boolean Kiri);
-/* I.S. P tidak kosong, X adalah salah satu daun Pohon Biner P */
-/* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau 
-        sebagai anak Kanan X (jika Kiri = false) */
-/*		Jika ada > 1 daun bernilai X, diambil daun yang paling kiri */
-void DelDaunTerkiri(BinTree *P, infotypeLR *X);
-/* I.S. P tidak kosong */
-/* F.S. P dihapus daun terkirinya, dan didealokasi, dengan X adalah info yang semula 
-        disimpan pada daun terkiri yang dihapus */
-void DelDaun(BinTree *P, infotypeLR X);
-/* I.S. P tidak kosong, minimum ada 1 daun bernilai X. */
-/* F.S. Semua daun bernilai X dihapus dari P. */
-ListRek MakeListDaun(BinTree P);
-/* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
-/* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua daun pohon P,
-   jika semua alokasi list berhasil.
-   Daun terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
-   Menghasilkan list kosong jika ada alokasi yang gagal. */
-ListRek MakeListPreorder(BinTree P);
-/* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
-/* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua elemen pohon P 
-   dengan urutan preorder, jika semua alokasi berhasil.   
-   Menghasilkan list kosong jika ada alokasi yang gagal. */
-ListRek MakeListLevel(BinTree P, int N);
-/* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
-/* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua elemen pohon P 
-   yang levelnya=N, jika semua alokasi berhasil. 
-   Elemen terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
-   Menghasilkan list kosong jika ada alokasi yang gagal. */
 infotypeLR GetDaunAcak(BinTree P);
 /* *** Binary  Search  Tree  *** 
 boolean BSearch(BinTree P, infotypeLR X);
@@ -182,5 +116,9 @@ void DelBtree(BinTree *P, infotypeLR X);
 /* I.S. Pohon P tidak  kosong 
 /* F.S. Nilai X yang dihapus pasti ada 
 /* Sebuah node dengan nilai X dihapus */
-
+BinTree PreOrderToTree(char s[500], int *pos);
+/* CTH : A(B()())(C()()) */
+/* CFG :
+*  S -> R(S)(S) | R()() | R(S)() | R()(S)
+*/
 #endif
