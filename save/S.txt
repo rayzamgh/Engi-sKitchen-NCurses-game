@@ -12,7 +12,7 @@
 5
 0
 -Stage
-1
+2
 -Orderan
 0
 -PelangganDiMeja
@@ -70,7 +70,12 @@ ________
 -Food
 0
 -Hand
-0
+4
+Piring
+Sendok
+EsKrim
+Pisang
+Stroberi
 -BahanDapur
 16
 Piring 0 0
@@ -85,7 +90,7 @@ Garpu 0 7
 Roti 3 4
 Patty 4 4
 Sosis 3 7
-Sphagetti 4 7
+Spaghetti 4 7
 Bolognese 5 7
 Keju 6 7
 Carbonara 7 7

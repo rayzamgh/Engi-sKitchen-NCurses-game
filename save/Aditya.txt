@@ -1,37 +1,40 @@
 -AntrianNonStar
-2
-Pelanggan
-2
-18
-Pelanggan
-2
-20
--AntrianStar
 1
 Pelanggan
-4
-20
+2
+38
+-AntrianStar
+0
 -Uang
 0
 -Nyawa
-2
+5
 -Waktu
-11
+10
 -Posisi
-5
-5
+4
+1
 -Stage
 1
 -Orderan
 1
-Banana_Split 4
+Nasi_Telur_Dadar 2
 -PelangganDiMeja
-0
+1
+Pelanggan
+1
+6
+1
+2
+42
+Nasi_Telur_Dadar
+Yes
+Yes
 -Peta1
 8
 8
 _X______
-X1X__X2X
+X1X__C2C
 _X______
 ________
 ________
@@ -45,7 +48,7 @@ M______T
 M_______
 M_______
 M_______
-M_MMM___
+M__MMM__
 M_______
 M_______
 M__MMMMM
@@ -78,26 +81,17 @@ ________
 2 4 7 4 0 5
 4 3 4 0 6 7
 -Food
-5
-Burger
-Coca-Cola
-Fanta
-Sundae
-Nasi-Goreng-Telur-Spesial
+1
+Nasi_Telur_Dadar
 -Hand
-5
-Garpu
-Piring
-Pisang
-Nasi
-Telur
+0
 -BahanDapur
 16
 Piring 0 0
 Sendok 0 1
 EsKrim 0 2
 Pisang 0 3
-Stroberi 2 4
+Stroberi 5 4
 Nasi 0 4
 Telur 0 5
 Ayam_Goreng 0 6
