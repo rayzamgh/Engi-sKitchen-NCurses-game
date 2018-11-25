@@ -194,6 +194,18 @@ void UpdateData()
         }
     }
     //Cek nyawa apakah sudah habis/belum
+    if (nyawa <= 0)
+    {
+        isGameOn = false;
+        wclear(Game);
+        rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 1);
+        rectangle(Game, 1, 20, tinggiGame - 2, 30);
+        rectangle(Game, 1, lebarGame - 30, tinggiGame - 2, lebarGame - 20);
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2, (int)(lebarGame - 2) / 2 - 11, "D i b u a t  O l e h  :");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 1, (int)(lebarGame - 2) / 2 - 16, "R e n g g o g e n i X M a k a j i");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 2, (int)(lebarGame - 2) / 2 - 17, "P r e s s   E n t e r  T o  Q u i t");
+        wgetch(Game);
+    }
 }
 
 void UpdateGambar()
@@ -253,7 +265,7 @@ void UpdateGambar()
         Del(&AntrianStar, &temp);
         //Tulis di layar
         char banyakOrang[5];
-        sprintf(banyakOrang, "%d* %ld", Banyak(temp),JAMToDetik(WaktuCabut(temp)));
+        sprintf(banyakOrang, "%d* %ld", Banyak(temp), JAMToDetik(WaktuCabut(temp)));
         mvwprintw(Game, 4 + i, 3, banyakOrang);
         //Balikan ke antrean
         Add(&AntrianStar, temp);
@@ -265,7 +277,7 @@ void UpdateGambar()
         Del(&AntrianNonStar, &temp);
         //Tulis di layar
         char banyakOrang[5];
-        sprintf(banyakOrang, "%d, %ld", Banyak(temp),JAMToDetik(WaktuCabut(temp)));
+        sprintf(banyakOrang, "%d, %ld", Banyak(temp), JAMToDetik(WaktuCabut(temp)));
         mvwprintw(Game, 4 + i + banyakAntreanStar, 3, banyakOrang);
         //Balikan ke antrean
         Add(&AntrianNonStar, temp);
@@ -360,11 +372,11 @@ void UpdateCurRoom()
 
 void InitBahanDapur()
 {
-    for (int i = 1;i<= NbElmt(NamaBahan); i++)
+    for (int i = 1; i <= NbElmt(NamaBahan); i++)
     {
-        int XBah = StringToLongInt(Elmt(XBahan,i).TabKata);
-        int YBah = StringToLongInt(Elmt(YBahan,i).TabKata);
-        ElmtMat(Room2,YBah,XBah) = 'M';
+        int XBah = StringToLongInt(Elmt(XBahan, i).TabKata);
+        int YBah = StringToLongInt(Elmt(YBahan, i).TabKata);
+        ElmtMat(Room2, YBah, XBah) = 'M';
     }
 }
 
@@ -689,7 +701,7 @@ void ORDER()
     {
         addressQueue i = Head(PelangganDiMeja);
         int cekBanyak = NBElmt(PelangganDiMeja);
-        while (cekBanyak>0 && (!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
+        while (cekBanyak > 0 && (!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
         {
             cekBanyak -= 1;
             if (i == MaxElQueue(PelangganDiMeja))
@@ -701,7 +713,8 @@ void ORDER()
                 i += 1;
             }
         }
-        if(cekBanyak!=0){
+        if (cekBanyak != 0)
+        {
             if (SudahOrder(InfoQueue(PelangganDiMeja, i)))
             {
                 mvwprintw(Game, tinggiGame - 2, 1, "Customer tersebut sudah diambil order-nya\n");
@@ -725,7 +738,9 @@ void ORDER()
                 STARTKATAB(s);
                 AddAsLastEl(&banyakOrangOrder, CKataB);
             }
-        }else{
+        }
+        else
+        {
             mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada customer valid disekitarmu\n");
         }
     }
@@ -737,56 +752,72 @@ void ORDER()
 
 void PUT()
 {
-    if (IsFullStack(Food)){
+    if (IsFullStack(Food))
+    {
         mvwprintw(Game, tinggiGame - 2, 1, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
     }
-    else{
-        if (IsEmptyStack(Hand)){
+    else
+    {
+        if (IsEmptyStack(Hand))
+        {
             mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
         }
-        else{
+        else
+        {
             BinTree P = PohonMakanan;
             Stack TempStack = Hand;
             Stack S;
             Kata temp;
-            while (!IsEmptyStack(Hand)){
-                Pop(&Hand,&temp);
+            while (!IsEmptyStack(Hand))
+            {
+                Pop(&Hand, &temp);
                 Push(&S, temp);
             }
             boolean fail = false;
             Pop(&S, &temp);
-            if (!IsSameKata(temp, Akar(P))){
+            if (!IsSameKata(temp, Akar(P)))
+            {
                 fail = true;
             }
-            while ((!IsEmptyStack(S)) && (!IsTreeOneElmt(Left(P)) || !IsTreeOneElmt(Right(P))) && (!fail)){
+            while ((!IsEmptyStack(S)) && (!IsTreeOneElmt(Left(P)) || !IsTreeOneElmt(Right(P))) && (!fail))
+            {
                 Pop(&S, &temp);
-                if (IsSameKata(Akar(Right(P)), temp)){
+                if (IsSameKata(Akar(Right(P)), temp))
+                {
                     P = Right(P);
                 }
-                else if (IsSameKata(Akar(Left(P)), temp)){
+                else if (IsSameKata(Akar(Left(P)), temp))
+                {
                     P = Left(P);
                 }
-                else{
+                else
+                {
                     fail = true;
                 }
             }
-            if (IsTreeOneElmt(Left(P))){
+            if (IsTreeOneElmt(Left(P)))
+            {
                 P = Left(P);
             }
-            else if (IsTreeOneElmt(Right(P))){
+            else if (IsTreeOneElmt(Right(P)))
+            {
                 P = Right(P);
             }
-            else{
+            else
+            {
                 fail = true;
             }
-            if(!IsEmptyStack(S)){
+            if (!IsEmptyStack(S))
+            {
                 fail = true;
             }
-            if (fail){
+            if (fail)
+            {
                 mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada resep yang sesuai dengan stack bahan makanan di tanganmu\n");
                 Hand = TempStack;
             }
-            else{
+            else
+            {
                 CreateEmptyStack(&Hand);
                 Push(&Food, Akar(P));
             }
@@ -796,19 +827,24 @@ void PUT()
 
 void TAKE()
 {
-    if (IsFullStack(Hand)){
+    if (IsFullStack(Hand))
+    {
         mvwprintw(Game, tinggiGame - 2, 1, "Tanganmu sudah penuh, tidak bisa mengambil bahan makanan lagi\n");
     }
-    else{
+    else
+    {
         IdxType i = GetFirstIdx(NamaBahan);
-        boolean found;
+        boolean found = false;
         POINT temp;
-        while ((!found)&&(i<=GetLastIdx(NamaBahan))){
+        while ((!found) && (i <= GetLastIdx(NamaBahan)))
+        {
             temp = MakePOINT(StringToLongInt(Elmt(XBahan, i).TabKata), StringToLongInt(Elmt(YBahan, i).TabKata));
-            if (PointEQ(temp, PrevX(player)) || PointEQ(temp, NextX(player)) || PointEQ(temp, PrevY(player)) || PointEQ(temp, NextY(player))){
+            if (PointEQ(temp, PrevX(player)) || PointEQ(temp, NextX(player)) || PointEQ(temp, PrevY(player)) || PointEQ(temp, NextY(player)))
+            {
                 found = true;
             }
-            else{
+            else
+            {
                 i += 1;
             }
         }
@@ -818,20 +854,24 @@ void TAKE()
 
 void CH()
 {
-    if (IsEmptyStack(Hand)){
+    if (IsEmptyStack(Hand))
+    {
         mvwprintw(Game, tinggiGame - 2, 1, "Tanganmu sudah kosong dari bahan makanan, tidak ada lagi yang bisa dijatuhkan\n");
     }
-    else{
+    else
+    {
         CreateEmptyStack(&Hand);
     }
 }
 
 void CT()
 {
-    if (IsEmptyStack(Food)){
+    if (IsEmptyStack(Food))
+    {
         mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada makanan yang bisa kamu jatuhkan dari food stack milikmu yang kosong\n");
     }
-    else{
+    else
+    {
         CreateEmptyStack(&Food);
     }
 }
@@ -852,18 +892,23 @@ void PLACE()
             //Taruh pelanggan di meja itu
             boolean bisaDitaruh = true;
             PELANGGAN taruh;
-            if(!IsEmptyQueue(AntrianStar))
+            if (!IsEmptyQueue(AntrianStar))
             {
-                Del(&AntrianStar,&taruh);
-            }else{
-                if(!IsEmptyQueue(AntrianNonStar))
+                Del(&AntrianStar, &taruh);
+            }
+            else
+            {
+                if (!IsEmptyQueue(AntrianNonStar))
                 {
-                    Del(&AntrianNonStar,&taruh);
-                }else{
+                    Del(&AntrianNonStar, &taruh);
+                }
+                else
+                {
                     bisaDitaruh = false;
                 }
             }
-            if(bisaDitaruh){
+            if (bisaDitaruh)
+            {
                 Ruangan(taruh) = noRuangan;
                 Pos(taruh) = meja;
                 WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 10 + 30);
@@ -876,7 +921,9 @@ void PLACE()
                 ElmtMat(curRoom, Ordinat(meja), Absis(meja) - 1) = 'C';
                 ElmtMat(curRoom, Ordinat(meja), Absis(meja) + 1) = 'C';
                 UpdateRoomAwal();
-            }else{
+            }
+            else
+            {
                 mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada pelanggan untuk ditaruh\n");
             }
         }
@@ -887,46 +934,55 @@ void PLACE()
             PELANGGAN taruh;
             //Cek Star
             int iterQueue = NBElmt(AntrianStar);
-            for(int i = 0;i < iterQueue;i++)
+            for (int i = 0; i < iterQueue; i++)
             {
                 PELANGGAN temp;
-                Del(&AntrianStar,&temp);
-                if(Banyak(temp)==2)
+                Del(&AntrianStar, &temp);
+                if (Banyak(temp) == 2)
                 {
-                    if(!bisaDitaruh)
+                    if (!bisaDitaruh)
                     {
                         taruh = temp;
                         bisaDitaruh = true;
-                    }else{
-                        Add(&AntrianStar,temp);
                     }
-                }else{
-                    Add(&AntrianStar,temp);
+                    else
+                    {
+                        Add(&AntrianStar, temp);
+                    }
+                }
+                else
+                {
+                    Add(&AntrianStar, temp);
                 }
             }
-            if(!bisaDitaruh)
+            if (!bisaDitaruh)
             {
                 //Cek Non Star
                 iterQueue = NBElmt(AntrianNonStar);
-                for(int i = 0;i < iterQueue;i++)
+                for (int i = 0; i < iterQueue; i++)
                 {
                     PELANGGAN temp;
-                    Del(&AntrianNonStar,&temp);
-                    if(Banyak(temp)==2)
+                    Del(&AntrianNonStar, &temp);
+                    if (Banyak(temp) == 2)
                     {
-                        if(!bisaDitaruh)
+                        if (!bisaDitaruh)
                         {
                             taruh = temp;
                             bisaDitaruh = true;
-                        }else{
-                            Add(&AntrianNonStar,temp);
                         }
-                    }else{
-                        Add(&AntrianStar,temp);
+                        else
+                        {
+                            Add(&AntrianNonStar, temp);
+                        }
+                    }
+                    else
+                    {
+                        Add(&AntrianStar, temp);
                     }
                 }
             }
-            if(bisaDitaruh){
+            if (bisaDitaruh)
+            {
                 Ruangan(taruh) = noRuangan;
                 Pos(taruh) = meja;
                 WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 10 + 30);
@@ -934,7 +990,9 @@ void PLACE()
                 ElmtMat(curRoom, Ordinat(meja), Absis(meja) - 1) = 'C';
                 ElmtMat(curRoom, Ordinat(meja), Absis(meja) + 1) = 'C';
                 UpdateRoomAwal();
-            }else{
+            }
+            else
+            {
                 mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada pelanggan untuk ditaruh\n");
             }
         }

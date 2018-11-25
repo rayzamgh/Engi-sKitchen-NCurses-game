@@ -302,15 +302,15 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     for (int i = 0; i < banyakPDM; i++)
     {
         PELANGGAN temp;
-        Ruangan(temp) = StringToLongInt(Elmt(T, IdxPDM + 2 + 9 * i).TabKata);
-        int XT = StringToLongInt(Elmt(T, IdxPDM + 3 + 9 * i).TabKata);
-        int YT = StringToLongInt(Elmt(T, IdxPDM + 4 + 9 * i).TabKata);
+        Ruangan(temp) = StringToLongInt(Elmt(T, IdxPDM + 3 + 9 * i).TabKata);
+        int XT = StringToLongInt(Elmt(T, IdxPDM + 4 + 9 * i).TabKata);
+        int YT = StringToLongInt(Elmt(T, IdxPDM + 5 + 9 * i).TabKata);
         Pos(temp) = MakePOINT(XT, YT);
-        Banyak(temp) = StringToLongInt(Elmt(T, IdxPDM + 5 + 9 * i).TabKata);
-        WaktuCabut(temp) = DetikToJAM(StringToLongInt(Elmt(T, IdxPDM + 6 + 9 * i).TabKata));
-        Orderan(temp) = Elmt(T, IdxPDM + 7 + 9 * i);
-        IsStar(temp) = IsSameString(Elmt(T, IdxPDM + 8 + 9 * i).TabKata, "Yes");
-        SudahOrder(temp) = IsSameString(Elmt(T, IdxPDM + 9 + 9 * i).TabKata, "Yes");
+        Banyak(temp) = StringToLongInt(Elmt(T, IdxPDM + 6 + 9 * i).TabKata);
+        WaktuCabut(temp) = DetikToJAM(StringToLongInt(Elmt(T, IdxPDM + 7 + 9 * i).TabKata));
+        Orderan(temp) = Elmt(T, IdxPDM + 8 + 9 * i);
+        IsStar(temp) = IsSameString(Elmt(T, IdxPDM + 9 + 9 * i).TabKata, "Yes");
+        SudahOrder(temp) = IsSameString(Elmt(T, IdxPDM + 10 + 9 * i).TabKata, "Yes");
         Add(PDM, temp);
     }
     //Baca Peta 1
@@ -400,7 +400,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     STARTKATAB("-Hand");
     int IdxHand = Search1(T, CKataB);
     int banyakHand = StringToLongInt(Elmt(T, IdxHand + 1).TabKata);
-    for (int i = 0; i < banyakFood; i++)
+    for (int i = 0; i < banyakHand; i++)
     {
         Push(Hand, Elmt(T, IdxHand + 2 + i));
     }
