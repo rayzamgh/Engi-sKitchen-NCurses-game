@@ -752,76 +752,103 @@ void ORDER()
 
 void PUT()
 {
-    if (IsFullStack(Food))
+    boolean adaTray = false;
+    if(ElmtMat(curRoom,Ordinat(player)-1,Absis(player)) == 'T')
     {
-        mvwprintw(Game, tinggiGame - 2, 1, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
+        adaTray = true;
     }
-    else
+    if(ElmtMat(curRoom,Ordinat(player)+1,Absis(player)) == 'T')
     {
-        if (IsEmptyStack(Hand))
+        adaTray = true;
+    }
+    if(ElmtMat(curRoom,Ordinat(player),Absis(player)-1) == 'T')
+    {
+        adaTray = true;
+    }
+    if(ElmtMat(curRoom,Ordinat(player),Absis(player)+1) == 'T')
+    {
+        adaTray = true;
+    }
+    if(adaTray){
+        if (IsFullStack(Food))
         {
-            mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
+            mvwprintw(Game, tinggiGame - 2, 1, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
         }
         else
         {
-            BinTree P = PohonMakanan;
-            Stack TempStack = Hand;
-            Stack S;
-            Kata temp;
-            while (!IsEmptyStack(Hand))
+            if (IsEmptyStack(Hand))
             {
-                Pop(&Hand, &temp);
-                Push(&S, temp);
+                mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
             }
-            boolean fail = false;
-            Pop(&S, &temp);
-            if (!IsSameKata(temp, Akar(P)))
+            else
             {
-                fail = true;
-            }
-            while ((!IsEmptyStack(S)) && (!IsTreeOneElmt(Left(P)) || !IsTreeOneElmt(Right(P))) && (!fail))
-            {
-                Pop(&S, &temp);
-                if (IsSameKata(Akar(Right(P)), temp))
+                BinTree P = PohonMakanan;
+                Stack TempStack = Hand;
+                Stack S;
+                Kata temp;
+                CreateEmptyStack(&S);
+                while (!IsEmptyStack(Hand))
                 {
-                    P = Right(P);
+                    Pop(&Hand, &temp);
+                    Push(&S, temp);
                 }
-                else if (IsSameKata(Akar(Left(P)), temp))
+                boolean fail = false;
+                Pop(&S, &temp);
+                if (!IsSameKata(temp, Akar(P)))
+                {
+                    fail = true;
+                }
+                while ((!IsEmptyStack(S)) && (NbElmtTree(P)>2) && (!fail))
+                {
+                    Pop(&S, &temp);
+                    fail = true;
+                    if(Right(P) != Nil)
+                    {
+                        if (IsSameKata(Akar(Right(P)), temp))
+                        {
+                            P = Right(P);
+                            fail = false;
+                        }
+                    }
+                    if(Left(P) != Nil)
+                    {
+                        if (IsSameKata(Akar(Left(P)), temp))
+                        {
+                            P = Left(P);
+                            fail = false;
+                        }
+                    }
+                }
+                if (IsUnerLeft(P))
                 {
                     P = Left(P);
+                }
+                else if (IsUnerRight(P))
+                {
+                    P = Right(P);
                 }
                 else
                 {
                     fail = true;
                 }
-            }
-            if (IsTreeOneElmt(Left(P)))
-            {
-                P = Left(P);
-            }
-            else if (IsTreeOneElmt(Right(P)))
-            {
-                P = Right(P);
-            }
-            else
-            {
-                fail = true;
-            }
-            if (!IsEmptyStack(S))
-            {
-                fail = true;
-            }
-            if (fail)
-            {
-                mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada resep yang sesuai dengan stack bahan makanan di tanganmu\n");
-                Hand = TempStack;
-            }
-            else
-            {
-                CreateEmptyStack(&Hand);
-                Push(&Food, Akar(P));
+                if (!IsEmptyStack(S))
+                {
+                    fail = true;
+                }
+                if (fail)
+                {
+                    mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada resep yang sesuai dengan stack bahan makanan di tanganmu\n");
+                    Hand = TempStack;
+                }
+                else
+                {
+                    CreateEmptyStack(&Hand);
+                    Push(&Food, Akar(P));
+                }
             }
         }
+    }else{
+        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada tray didekatmu\n");
     }
 }
 
