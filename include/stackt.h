@@ -9,7 +9,7 @@
 #include "mesinkatakomparasi.h"
 
 #define NilStack 0
-#define MaxElStack 10
+#define MaxElStack 100
 /* NilStack adalah stack dengan elemen kosong . */
 /* Karena indeks dalam bhs C dimulai 0 maka tabel dg indeks 0 tidak dipakai */
 

@@ -31,6 +31,8 @@ typedef struct { infotypeQueue * T;   /* tabel penyimpan elemen */
 #define InfoHead(Q) (Q).T[(Q).HEAD]
 #define InfoTail(Q) (Q).T[(Q).TAIL]
 #define MaxElQueue(Q) (Q).MaxElQueue
+#define TabQueue(Q) (Q).T
+#define InfoQueue(Q,i) (Q).T[(i)]
 
 /* ********* Prototype ********* */
 boolean IsEmptyQueue (Queue Q);

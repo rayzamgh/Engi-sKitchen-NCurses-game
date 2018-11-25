@@ -10,7 +10,7 @@
 #include "boolean.h"
 #include "mesinkatakomparasi.h"
 /*  Kamus Umum */
-#define IdxMax 100
+#define IdxMax 200
 /* Indeks maksimum array, sekaligus ukuran maksimum array dalam C */
 #define IdxMin 1
 /* Indeks minimum array */

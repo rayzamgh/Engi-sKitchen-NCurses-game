@@ -24,20 +24,15 @@ POINT player;
 JAM WaktuSekarang;
 Graph Stage;
 BinTree PohonMakanan;
-Queue AntrianPelanggan;
+Queue AntrianNonStar, AntrianStar;
+Queue PelangganDiMeja;
 Stack Food, Hand;
 TabKata OrderanPelanggan;
 int noRuangan;
 MATRIKS Room1, Room2, Room3, Room4, curRoom;
 /* --------------- */
-
-void InisialisasiOrder(TabKata *TabOrder)
-{
-}
-
-void PlaceOrder(TabKata *TABOrder)
-{
-}
+/* Deklarasi bbrp fungsi */
+void ProgramMainMenu();
 
 void hapusWindow(WINDOW *hapus)
 {
@@ -89,35 +84,30 @@ void UpdateData()
 {
     WaktuSekarang = NextDetik(WaktuSekarang);
     //Cek Kesabaran customer ngantre
-    if (!IsEmptyQueue(AntrianPelanggan))
-    {
-        while(Durasi(WaktuSekarang,WaktuCabut(InfoHead(AntrianPelanggan)))<=0)
-        {
-            PELANGGAN hapus;
-            Del(&AntrianPelanggan,&hapus);
-            nyawa -= 1;
-        }
-    }
+    //Cek Star
+    //Cek NonStar
     //Cek Kesabaran customer dimeja
-    //TODO
     //Generate customer baru secara acak
-    if(!IsFullQueue(AntrianPelanggan)){
+    if (!IsFullQueue(AntrianNonStar) && !IsFullQueue(AntrianStar))
+    {
         int genBaru = rand() % 100;
         if (genBaru <= 15)
         {
             //Generate kustomer baru
             PELANGGAN PBaru;
+            Ruangan(PBaru) = -1;
             Pos(PBaru) = MakePOINT(-1, -1);
             Banyak(PBaru) = (genBaru % 2 + 1) * 2;
             WaktuCabut(PBaru) = NextNDetik(WaktuSekarang, 30);
             IsStar(PBaru) = (rand() % 100 >= 50);
+            SudahOrder(PBaru) = false;
             if (IsStar(PBaru))
             {
-                //Insert ke prio queue
+                Add(&AntrianStar, PBaru);
             }
             else
             {
-                Add(&AntrianPelanggan, PBaru);
+                Add(&AntrianNonStar, PBaru);
             }
         }
     }
@@ -174,22 +164,34 @@ void UpdateGambar()
         }
     }
     //Gambar queue customer di antrean
-    mvwprintw(Game,3,1,"Antrean Customer");
-    int banyakAntrean = NBElmt(AntrianPelanggan);
-    for(int i = 0;i < banyakAntrean;i++)
+    mvwprintw(Game, 3, 1, "Antrean Customer");
+    int banyakAntreanStar = NBElmt(AntrianStar);
+    for (int i = 0; i < banyakAntreanStar; i++)
     {
         PELANGGAN temp;
-        Del(&AntrianPelanggan,&temp);
+        Del(&AntrianStar, &temp);
         //Tulis di layar
         char banyakOrang[5];
-        sprintf(banyakOrang,"%d",Banyak(temp));
-        mvwprintw(Game,4+i,1,banyakOrang);
+        sprintf(banyakOrang, "%d*", Banyak(temp));
+        mvwprintw(Game, 4 + i, 1, banyakOrang);
         //Balikan ke antrean
-        Add(&AntrianPelanggan,temp);
+        Add(&AntrianStar, temp);
+    }
+    int banyakAntreanNonStar = NBElmt(AntrianNonStar);
+    for (int i = 0; i < banyakAntreanNonStar; i++)
+    {
+        PELANGGAN temp;
+        Del(&AntrianNonStar, &temp);
+        //Tulis di layar
+        char banyakOrang[5];
+        sprintf(banyakOrang, "%d", Banyak(temp));
+        mvwprintw(Game, 4 + i + banyakAntreanStar, 1, banyakOrang);
+        //Balikan ke antrean
+        Add(&AntrianNonStar, temp);
     }
 }
 
-void PindahCurRoom()
+void UpdateCurRoom()
 {
     switch (noRuangan)
     {
@@ -220,24 +222,11 @@ void StartGame()
     if (!gameLoaded)
     {
         //Buat Semua ADT secara default
-        PohonMakanan = BacaPohonMakanan("../Default Save/pohonMakanan.txt");
-        TabKata config = BacaArray("../Default Save/config.txt");
-        uang = StringToLongInt(Elmt(config, 2).TabKata);
-        nyawa = StringToLongInt(Elmt(config, 4).TabKata);
-        WaktuSekarang = DetikToJAM(StringToLongInt(Elmt(config, 6).TabKata));
-        int XPos, YPos;
-        XPos = StringToLongInt(Elmt(config, 8).TabKata);
-        YPos = StringToLongInt(Elmt(config, 9).TabKata);
-        player = MakePOINT(XPos, YPos);
-        noRuangan = StringToLongInt(Elmt(config, 11).TabKata);
-        Room1 = BacaMap("../Default Save/peta1.txt");
-        Room2 = BacaMap("../Default Save/peta2.txt");
-        Room3 = BacaMap("../Default Save/peta3.txt");
-        Room4 = BacaMap("../Default Save/peta4.txt");
-        PindahCurRoom();
-        AntrianPelanggan = BacaQueuePelanggan("../Default Save/pelanggan.txt");
-        MakeEmptyArray(&OrderanPelanggan);
-        Stage = BacaGraphPintu("../Default Save/pintu.txt");
+        BacaSaveGame("../Default Save/Default.txt", &AntrianNonStar, &AntrianStar, &uang,
+                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,
+                     &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
+                     &Food, &Hand);
+        UpdateCurRoom();
     }
 }
 
@@ -250,6 +239,31 @@ void NewGame()
 
 void LoadGame()
 {
+    mvwprintw(MainMenu, 9, 1, "Masukkan Nama Save : ");
+    wgetstr(MainMenu, namaUser);
+    char letakSave[50];
+    sprintf(letakSave, "../save/%s.txt", namaUser);
+    FILE *fp = fopen(letakSave, "r");
+    if (fp != NULL)
+    {
+        sudahInputNama = true;
+        BacaSaveGame(letakSave, &AntrianNonStar, &AntrianStar, &uang,
+                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,
+                     &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
+                     &Food, &Hand);
+        UpdateCurRoom();
+        gameLoaded = true;
+        wclear(MainMenu);
+        mvwprintw(MainMenu, 9, 1, "Game Loaded\n");
+        ProgramMainMenu();
+        fclose(fp);
+    }
+    else
+    {
+        wclear(MainMenu);
+        mvwprintw(MainMenu, 9, 1, "Save Not Found\n");
+        ProgramMainMenu();
+    }
 }
 
 void EXIT()
@@ -336,8 +350,6 @@ void ProgramMainMenu()
     else if (pilihan == 3)
     {
         LoadGame();
-        wclear(MainMenu);
-        ProgramMainMenu();
     }
     else if (pilihan == 4)
     {
@@ -388,7 +400,7 @@ void GU()
         {
             //Pindah Stage
             noRuangan = roomTujuan;
-            PindahCurRoom();
+            UpdateCurRoom();
             player = pintuTujuan;
         }
     }
@@ -414,7 +426,7 @@ void GD()
         {
             //Pindah Stage
             noRuangan = roomTujuan;
-            PindahCurRoom();
+            UpdateCurRoom();
             player = pintuTujuan;
         }
     }
@@ -440,7 +452,7 @@ void GL()
         {
             //Pindah Stage
             noRuangan = roomTujuan;
-            PindahCurRoom();
+            UpdateCurRoom();
             player = pintuTujuan;
         }
     }
@@ -467,7 +479,7 @@ void GR()
         {
             //Pindah Stage
             noRuangan = roomTujuan;
-            PindahCurRoom();
+            UpdateCurRoom();
             player = pintuTujuan;
         }
     }
@@ -475,8 +487,6 @@ void GR()
 
 void ORDER()
 {
-
-    printf("\n");
 }
 
 void PUT()
@@ -505,8 +515,84 @@ void CT()
 
 void PLACE()
 {
-
-    printf("\n");
+    //Cek Sekeliling apakah ada meja
+    //Cek kiri
+    boolean ketemu = false;
+    POINT meja;
+    for (int i = Ordinat(player) - 1; i <= Ordinat(player) + 1 && !ketemu; i++)
+    {
+        for (int j = Absis(player) - 1; j <= Absis(player) + 1 && !ketemu; j++)
+        {
+            if (IsIdxEffMat(curRoom, i, j))
+            {
+                if (ElmtMat(curRoom, i, j) == 'X')
+                {
+                    //Cari titik tengah meja
+                    for (int y = i - 1; y <= i + 1 && !ketemu; y++)
+                    {
+                        for (int x = j - 1; x <= j + 1 && !ketemu; x++)
+                        {
+                            if (IsIdxEffMat(curRoom, y, x))
+                            {
+                                char c = ElmtMat(curRoom, y, x);
+                                if (c >= '0' && c <= '9')
+                                {
+                                    //Ketemu
+                                    ketemu = true;
+                                    meja = MakePOINT(x, y);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (ketemu)
+    {
+        PELANGGAN cek = InfoHead(AntrianNonStar);
+        //Cek muat
+        int cekX = Absis(meja), cekY = Ordinat(meja) - 1;
+        if (IsIdxEffMat(curRoom, cekY, cekX) && ElmtMat(curRoom, cekY, cekX) == 'X')
+        {
+            //Meja untuk ber 4
+            //Taruh pelanggan di meja itu
+            PELANGGAN taruh;
+            Del(&AntrianNonStar, &taruh);
+            Pos(taruh) = meja;
+            Orderan(taruh) = GetDaunAcak(PohonMakanan);
+            Add(&PelangganDiMeja, taruh);
+            ElmtMat(Room1, Ordinat(meja) - 1, Absis(meja)) = 'C';
+            ElmtMat(Room1, Ordinat(meja) + 1, Absis(meja)) = 'C';
+            ElmtMat(Room1, Ordinat(meja), Absis(meja) - 1) = 'C';
+            ElmtMat(Room1, Ordinat(meja), Absis(meja) + 1) = 'C';
+            UpdateCurRoom();
+        }
+        else
+        {
+            //Meja untuk ber 2
+            if (Banyak(cek) == 2)
+            {
+                PELANGGAN taruh;
+                Del(&AntrianNonStar, &taruh);
+                Pos(taruh) = meja;
+                Orderan(taruh) = GetDaunAcak(PohonMakanan);
+                Add(&PelangganDiMeja, taruh);
+                ElmtMat(Room1, Ordinat(meja), Absis(meja) - 1) = 'C';
+                ElmtMat(Room1, Ordinat(meja), Absis(meja) + 1) = 'C';
+                UpdateCurRoom();
+            }
+            else
+            {
+                //Ga muat
+                mvwprintw(Game, tinggiGame - 2, 1, "Meja tidak muat\n");
+            }
+        }
+    }
+    else
+    {
+        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada meja disekitarmu\n");
+    }
 }
 
 void GIVE()
@@ -523,14 +609,41 @@ void RECIPE()
 
 void SAVE()
 {
-
-    printf("\n");
+    char letakSave[50];
+    sprintf(letakSave, "../save/%s.txt", namaUser);
+    TulisSaveGame(letakSave, AntrianNonStar, AntrianStar, uang,
+                  nyawa, WaktuSekarang, player, noRuangan, OrderanPelanggan,
+                  PelangganDiMeja, Room1, Room2, Room3, Room4, Stage, PohonMakanan,
+                  Food, Hand);
+    mvwprintw(Game, tinggiGame - 2, 1, "Save berhasil\n");
 }
 
 void LOAD()
 {
-
-    printf("\n");
+    char tempNama[50];
+    mvwprintw(Game, tinggiGame - 2, 1, "Masukan nama save : ");
+    mvwgetstr(Game, tinggiGame - 2, 21, tempNama);
+    char letakSave[50];
+    sprintf(letakSave, "../save/%s.txt", tempNama);
+    FILE *fp = fopen(letakSave, "r");
+    if (fp != NULL)
+    {
+        sudahInputNama = true;
+        BacaSaveGame(letakSave, &AntrianNonStar, &AntrianStar, &uang,
+                     &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan,
+                     &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
+                     &Food, &Hand);
+        UpdateCurRoom();
+        gameLoaded = true;
+        wclear(Game);
+        mvwprintw(Game, tinggiGame - 2, 1, "Game Loaded\n");
+        fclose(fp);
+    }
+    else
+    {
+        wclear(Game);
+        mvwprintw(Game, tinggiGame - 2, 1, "Save not found\n");
+    }
 }
 
 void BacaCommand()

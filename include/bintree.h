@@ -75,6 +75,7 @@ void PrintPreorder(BinTree P);
 /* Contoh: 
    (A()()) adalah pohon dengan 1 elemen dengan akar A
    (A(B()())(C()())) adalah pohon dengan akar A dan subpohon kiri (B()()) dan subpohon kanan (C()()) */
+char* GetPreOrderForm(BinTree P);
 void PrintInorder(BinTree P);
 /* I.S. P terdefinisi */
 /* F.S. Semua simpul P sudah dicetak secara inorder: pohon kiri, akar, dan pohon kanan. 
@@ -168,7 +169,7 @@ ListRek MakeListLevel(BinTree P, int N);
    yang levelnya=N, jika semua alokasi berhasil. 
    Elemen terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
    Menghasilkan list kosong jika ada alokasi yang gagal. */
-
+infotypeLR GetDaunAcak(BinTree P);
 /* *** Binary  Search  Tree  *** 
 boolean BSearch(BinTree P, infotypeLR X);
 /* Mengirimkan true jika ada node dari P yang bernilai X 

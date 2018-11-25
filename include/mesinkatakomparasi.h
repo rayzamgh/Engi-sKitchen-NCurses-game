@@ -27,7 +27,7 @@ void IgnoreBlankA();
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
-
+void RESETKATAA();
 void STARTKATAA(char s[MaxLengthString]);
 /* I.S. : CC sembarang
    F.S. : EndKata = true, dan CC = MARK;
@@ -54,7 +54,7 @@ void IgnoreBlankB();
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
-
+void RESETKATAB();
 void STARTKATAB(char s[MaxLengthString]);
 /* I.S. : CC sembarang
    F.S. : EndKata = true, dan CC = MARK;

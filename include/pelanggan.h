@@ -8,21 +8,20 @@
 
 typedef struct
 {
+    int noRuangan;
     POINT posisi;
     int banyak;    
     JAM waktuCabut;
-    boolean sudahDuduk;
     Kata orderan;
     boolean isStarPelanggan;
+    boolean sudahOrder;
 } PELANGGAN ;
 
 /* Selektor */
+#define Ruangan(P) (P).noRuangan
 #define Pos(P) (P).posisi
 #define Banyak(P) (P).banyak
 #define WaktuCabut(P) (P).waktuCabut
-#define SudahDuduk(P) (P).sudahDuduk
 #define Orderan(P) (P).orderan
 #define IsStar(P) (P).isStarPelanggan
-
-PELANGGAN createNewPelanggan(int banyak,JAM cur,boolean isStar);
-void PlacePelanggan(PELANGGAN *P,POINT meja, JAM cur);
+#define SudahOrder(P) (P).sudahOrder

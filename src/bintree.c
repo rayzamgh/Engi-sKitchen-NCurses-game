@@ -518,6 +518,24 @@ ListRek MakeListLevel(BinTree P, int N)
     }
   }
 }
+
+infotypeLR GetDaunAcak(BinTree P)
+{
+    if(IsTreeOneElmt(P))
+    {
+      return Akar(P);
+    }else{
+        int num = (rand() % 2);
+        if ((num = 1) && (Right(P) != Nil))
+        {
+            return GetDaunAcak(Right(P));
+        }
+        if ((num = 0) && (Left(P) != Nil))
+        {
+            return GetDaunAcak(Left(P));
+        }
+    }
+}
 /* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
 /* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua elemen pohon P 
    yang levelnya=N, jika semua alokasi berhasil. 
