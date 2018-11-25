@@ -5,7 +5,7 @@
 -Uang
 0
 -Nyawa
-100
+0
 -Waktu
 0
 -Posisi

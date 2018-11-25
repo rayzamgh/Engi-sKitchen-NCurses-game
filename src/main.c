@@ -2,15 +2,15 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ncurses.h>
-#include "../include/boolean.h"
-#include "../include/mesincommand.h"
-#include "../include/mesinkatakomparasi.h"
-#include "../include/array.h"
-#include "../include/point.h"
-#include "../include/queue.h"
-#include "../include/stackt.h"
-#include "../include/bintree.h"
-#include "../include/filemanager.h"
+#include "../Module/boolean.h"
+#include "../Module/MesinCommand/mesincommand.h"
+#include "../Module/MesinKomparasi/mesinkatakomparasi.h"
+#include "../Module/Array/array.h"
+#include "../Module/Point/point.h"
+#include "../Module/Queue/queue.h"
+#include "../Module/Stack/stackt.h"
+#include "../Module/BinTree/bintree.h"
+#include "../Module/FileManager/filemanager.h"
 /* Global Variable */
 char namaUser[20];
 long int uang, nyawa;
@@ -173,7 +173,7 @@ void UpdateData()
     if (!IsFullQueue(AntrianNonStar) && !IsFullQueue(AntrianStar))
     {
         int genBaru = rand() % 100;
-        if (genBaru <= 15)
+        if (genBaru <= 10)
         {
             //Generate kustomer baru
             PELANGGAN PBaru;
@@ -185,10 +185,12 @@ void UpdateData()
             SudahOrder(PBaru) = false;
             if (IsStar(PBaru))
             {
+                WaktuCabut(PBaru) = NextNDetik(WaktuSekarang, 25);
                 Add(&AntrianStar, PBaru);
             }
             else
             {
+                WaktuCabut(PBaru) = NextNDetik(WaktuSekarang, 30);
                 Add(&AntrianNonStar, PBaru);
             }
         }
@@ -201,9 +203,18 @@ void UpdateData()
         rectangle(Game, 0, 0, tinggiGame - 1, lebarGame - 1);
         rectangle(Game, 1, 20, tinggiGame - 2, 30);
         rectangle(Game, 1, lebarGame - 30, tinggiGame - 2, lebarGame - 20);
-        mvwprintw(Game, (int)(tinggiGame - 2) / 2, (int)(lebarGame - 2) / 2 - 11, "D i b u a t  O l e h  :");
-        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 1, (int)(lebarGame - 2) / 2 - 16, "R e n g g o g e n i X M a k a j i");
-        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 2, (int)(lebarGame - 2) / 2 - 17, "P r e s s   E n t e r  T o  Q u i t");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 - 4, (int)(lebarGame - 2) / 2 - 11, "D i b u a t  O l e h  :");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 - 2, (int)(lebarGame - 2) / 2 - 16, "R e n g g o g e n i X M a k a j i");
+        start_color();
+        init_pair(1, COLOR_RED, COLOR_BLACK);
+        attron(COLOR_PAIR(1));
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 , (int)(lebarGame - 2) / 2 - 17, "13517013 / Aditya Putra Santosa");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 1, (int)(lebarGame - 2) / 2 - 17, "13517040 / Ariel Ansa Razumardi");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 2, (int)(lebarGame - 2) / 2 - 17, "13517073 / Rayza Mahendra Guntara Harsono");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 3, (int)(lebarGame - 2) / 2 - 17, "13517145 / Muhammad Al Terra");
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 4, (int)(lebarGame - 2) / 2 - 17, "13517151 / Rakhmad Budiono");
+        attroff(COLOR_PAIR(1));
+        mvwprintw(Game, (int)(tinggiGame - 2) / 2 + 6, (int)(lebarGame - 2) / 2 - 17, "P r e s s   E n t e r  T o  Q u i t");
         wgetch(Game);
     }
 }
@@ -717,7 +728,7 @@ void ORDER()
         {
             if (SudahOrder(InfoQueue(PelangganDiMeja, i)))
             {
-                mvwprintw(Game, tinggiGame - 2, 1, "Customer tersebut sudah diambil order-nya\n");
+                mvwprintw(Game, tinggiGame - 2, 3, "Customer tersebut sudah diambil order-nya\n");
             }
             else
             {
@@ -741,12 +752,12 @@ void ORDER()
         }
         else
         {
-            mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada customer valid disekitarmu\n");
+            mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada customer valid disekitarmu\n");
         }
     }
     else
     {
-        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada customer disekitarmu\n");
+        mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada customer disekitarmu\n");
     }
 }
 
@@ -772,13 +783,13 @@ void PUT()
     if(adaTray){
         if (IsFullStack(Food))
         {
-            mvwprintw(Game, tinggiGame - 2, 1, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
+            mvwprintw(Game, tinggiGame - 2, 3, "Food Stack milikmu sudah penuh sehingga tidak bisa menampung makanan lagi\n");
         }
         else
         {
             if (IsEmptyStack(Hand))
             {
-                mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
+                mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada bahan makanan pada tanganmu, sehingga tidak ada yang bisa ditaruh ke tray\n");
             }
             else
             {
@@ -837,7 +848,7 @@ void PUT()
                 }
                 if (fail)
                 {
-                    mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada resep yang sesuai dengan stack bahan makanan di tanganmu\n");
+                    mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada resep yang sesuai dengan stack bahan makanan di tanganmu\n");
                     Hand = TempStack;
                 }
                 else
@@ -848,7 +859,7 @@ void PUT()
             }
         }
     }else{
-        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada tray didekatmu\n");
+        mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada tray didekatmu\n");
     }
 }
 
@@ -856,7 +867,7 @@ void TAKE()
 {
     if (IsFullStack(Hand))
     {
-        mvwprintw(Game, tinggiGame - 2, 1, "Tanganmu sudah penuh, tidak bisa mengambil bahan makanan lagi\n");
+        mvwprintw(Game, tinggiGame - 2, 3, "Tanganmu sudah penuh, tidak bisa mengambil bahan makanan lagi\n");
     }
     else
     {
@@ -883,7 +894,7 @@ void CH()
 {
     if (IsEmptyStack(Hand))
     {
-        mvwprintw(Game, tinggiGame - 2, 1, "Tanganmu sudah kosong dari bahan makanan, tidak ada lagi yang bisa dijatuhkan\n");
+        mvwprintw(Game, tinggiGame - 2, 3, "Tanganmu sudah kosong dari bahan makanan, tidak ada lagi yang bisa dijatuhkan\n");
     }
     else
     {
@@ -895,7 +906,7 @@ void CT()
 {
     if (IsEmptyStack(Food))
     {
-        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada makanan yang bisa kamu jatuhkan dari food stack milikmu yang kosong\n");
+        mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada makanan yang bisa kamu jatuhkan dari food stack milikmu yang kosong\n");
     }
     else
     {
@@ -938,7 +949,7 @@ void PLACE()
             {
                 Ruangan(taruh) = noRuangan;
                 Pos(taruh) = meja;
-                WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 10 + 30);
+                WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 20 + 40);
                 Add(&PelangganDiMeja, taruh);
                 if (Banyak(taruh) == 4)
                 {
@@ -1034,7 +1045,7 @@ void GIVE()
 {
     if (IsEmptyStack(Food))
     {
-        mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada makanan yang bisa diberi ke customer padamu\n");
+        mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada makanan yang bisa diberi ke customer padamu\n");
     }
     else
     {
@@ -1042,38 +1053,28 @@ void GIVE()
         POINT undef = MakePOINT(-1, -1);
         if (PointEQ(meja, undef))
         {
-            mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada customer yang diberi makanan olehmu didekatmu\n");
+            mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada customer yang diberi makanan olehmu didekatmu\n");
         }
         else
         {
             addressQueue i = Head(PelangganDiMeja);
-            while ((!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
+            int banyakEl = NBElmt(PelangganDiMeja);
+            while (banyakEl>0 && (!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
             {
+                banyakEl -= 1;
                 i += 1;
             }
             if (IsSameKata(InfoTop(Food), Orderan(InfoQueue(PelangganDiMeja, i))))
             {
-                Kata dummy;
-                Queue newQ;
-                PELANGGAN temp;
-                PELANGGAN Delete = InfoQueue(PelangganDiMeja, i);
-                Pop(&Food, &dummy);
-                CreateEmptyQueue(&newQ, MaxElQueue(PelangganDiMeja));
-                while (!IsEmptyQueue(PelangganDiMeja))
-                {
-                    Del(&PelangganDiMeja, &temp);
-                    if ((!PointEQ(Pos(temp), Pos(Delete))) || (Ruangan(temp) != Ruangan(Delete)))
-                    {
-                        Add(&newQ, temp);
-                    }
-                }
-                DeAlokasi(&PelangganDiMeja);
-                PelangganDiMeja = newQ;
-                uang += Level(PohonMakanan, Orderan(Delete)) * 1000;
+                WaktuCabut(InfoQueue(PelangganDiMeja, i)) = NextDetik(WaktuSekarang);
+                nyawa += 1;
+                uang += Level(PohonMakanan, Orderan(InfoQueue(PelangganDiMeja, i))) * 500;
+                Kata tempFood;
+                Pop(&Food,&tempFood);
             }
             else
             {
-                mvwprintw(Game, tinggiGame - 2, 1, "Orderan customer dan makanan paling atas di food stack harus sama untuk bisa memberi\n");
+                mvwprintw(Game, tinggiGame - 2, 3, "Orderan customer dan makanan paling atas di food stack harus sama untuk bisa memberi\n");
             }
         }
     }

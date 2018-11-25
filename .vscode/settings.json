@@ -22,7 +22,8 @@
         "stackt.h": "c",
         "array.h": "c",
         "bintree.h": "c",
-        "graph.h": "c"
+        "graph.h": "c",
+        "listrek.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }
