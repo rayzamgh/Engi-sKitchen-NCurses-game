@@ -1,30 +1,20 @@
 -AntrianNonStar
-2
-Pelanggan
-2
-18
-Pelanggan
-2
-20
+0
 -AntrianStar
-1
-Pelanggan
-4
-20
+0
 -Uang
 0
 -Nyawa
-2
+4
 -Waktu
-11
+5
 -Posisi
 5
-5
+0
 -Stage
 1
 -Orderan
-1
-Banana_Split 4
+0
 -PelangganDiMeja
 0
 -Peta1
@@ -41,14 +31,14 @@ _X______
 -Peta2
 8
 8
-M______T
-M_______
-M_______
-M_______
-M_MMM___
-M_______
-M_______
-M__MMMMM
+_______T
+________
+________
+________
+________
+________
+________
+________
 -Peta3
 8
 8
@@ -78,26 +68,16 @@ ________
 2 4 7 4 0 5
 4 3 4 0 6 7
 -Food
-5
-Burger
-Coca-Cola
-Fanta
-Sundae
-Nasi-Goreng-Telur-Spesial
+0
 -Hand
-5
-Garpu
-Piring
-Pisang
-Nasi
-Telur
+0
 -BahanDapur
 16
 Piring 0 0
 Sendok 0 1
 EsKrim 0 2
 Pisang 0 3
-Stroberi 2 4
+Stroberi 5 4
 Nasi 0 4
 Telur 0 5
 Ayam_Goreng 0 6

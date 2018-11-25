@@ -55,7 +55,8 @@ TabKata BacaArray(char namaFile[100])
 
 void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyawa, JAM Waktu, POINT Posisi,
                    int Stage, TabKata Orderan, TabKata BOO, Queue PDM, MATRIKS P1, MATRIKS P2, MATRIKS P3,
-                   MATRIKS P4, Graph Pintu, BinTree PohM, Stack Food, Stack Hand)
+                   MATRIKS P4, Graph Pintu, BinTree PohM, Stack Food, Stack Hand,TabKata NamaBahan,
+                   TabKata XBahan, TabKata YBahan)
 {
     FILE *fp = fopen(namaFile, "w");
     fprintf(fp, "-AntrianNonStar\n");
@@ -91,7 +92,7 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
     fprintf(fp, "%d\n", NbElmt(Orderan));
     for (int i = 1; i <= NbElmt(Orderan); i++)
     {
-        fprintf(fp, "%s %s", Elmt(Orderan, i).TabKata,Elmt(BOO,i).TabKata);
+        fprintf(fp, "%s %s\n", Elmt(Orderan, i).TabKata,Elmt(BOO,i).TabKata);
     }
     fprintf(fp, "-PelangganDiMeja\n");
     fprintf(fp, "%d\n", NBElmt(PDM));
@@ -125,9 +126,9 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
     }
     fprintf(fp, "-Peta1\n");
     fprintf(fp, "%d\n%d\n", NBrsEff(P1), NKolEff(P1));
-    for (int i = GetFirstIdxBrs(P1); i < GetLastIdxBrs(P1); i++)
+    for (int i = GetFirstIdxBrs(P1); i <= GetLastIdxBrs(P1); i++)
     {
-        for (int j = GetFirstIdxKol(P1); j < GetLastIdxKol(P1); j++)
+        for (int j = GetFirstIdxKol(P1); j <= GetLastIdxKol(P1); j++)
         {
             fprintf(fp, "%c", ElmtMat(P1, i, j));
         }
@@ -135,9 +136,9 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
     }
     fprintf(fp, "-Peta2\n");
     fprintf(fp, "%d\n%d\n", NBrsEff(P2), NKolEff(P2));
-    for (int i = GetFirstIdxBrs(P2); i < GetLastIdxBrs(P2); i++)
+    for (int i = GetFirstIdxBrs(P2); i <= GetLastIdxBrs(P2); i++)
     {
-        for (int j = GetFirstIdxKol(P2); j < GetLastIdxKol(P2); j++)
+        for (int j = GetFirstIdxKol(P2); j <= GetLastIdxKol(P2); j++)
         {
             fprintf(fp, "%c", ElmtMat(P2, i, j));
         }
@@ -145,9 +146,9 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
     }
     fprintf(fp, "-Peta3\n");
     fprintf(fp, "%d\n%d\n", NBrsEff(P3), NKolEff(P3));
-    for (int i = GetFirstIdxBrs(P3); i < GetLastIdxBrs(P3); i++)
+    for (int i = GetFirstIdxBrs(P3); i <= GetLastIdxBrs(P3); i++)
     {
-        for (int j = GetFirstIdxKol(P3); j < GetLastIdxKol(P3); j++)
+        for (int j = GetFirstIdxKol(P3); j <= GetLastIdxKol(P3); j++)
         {
             fprintf(fp, "%c", ElmtMat(P3, i, j));
         }
@@ -155,9 +156,9 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
     }
     fprintf(fp, "-Peta4\n");
     fprintf(fp, "%d\n%d\n", NBrsEff(P4), NKolEff(P4));
-    for (int i = GetFirstIdxBrs(P4); i < GetLastIdxBrs(P4); i++)
+    for (int i = GetFirstIdxBrs(P4); i <= GetLastIdxBrs(P4); i++)
     {
-        for (int j = GetFirstIdxKol(P4); j < GetLastIdxKol(P4); j++)
+        for (int j = GetFirstIdxKol(P4); j <= GetLastIdxKol(P4); j++)
         {
             fprintf(fp, "%c", ElmtMat(P4, i, j));
         }
@@ -215,13 +216,19 @@ void TulisSaveGame(char namaFile[100], Queue ANS, Queue AS, long Uang, long Nyaw
         sprintf(sHand, "%s\n%s", temp.TabKata, tempS);
     }
     fprintf(fp, "%d\n%s", banyakHand, sHand);
+    fprintf(fp, "-BahanDapur\n");
+    fprintf(fp, "%d\n", NbElmt(NamaBahan));
+    for (int i = 1; i <= NbElmt(NamaBahan); i++)
+    {
+        fprintf(fp, "%s %s %s\n", Elmt(NamaBahan, i).TabKata,Elmt(XBahan,i).TabKata,Elmt(YBahan,i).TabKata);
+    }
     fprintf(fp, ".");
     fclose(fp);
 }
 void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *Nyawa, JAM *Waktu,
                   POINT *Posisi, int *Stage, TabKata *Orderan, TabKata *BOO, Queue *PDM, MATRIKS *P1,
                   MATRIKS *P2, MATRIKS *P3, MATRIKS *P4, Graph *Pintu, BinTree *PohM, Stack *Food, 
-                  Stack *Hand)
+                  Stack *Hand,TabKata* NamaBahan,TabKata* XBahan, TabKata* YBahan)
 {
     TabKata T = BacaArray(namaFile);
     //Baca Antrian Non Star
@@ -243,7 +250,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     //Baca Antrian Star
     STARTKATAB("-AntrianStar");
     int IdxAS = Search1(T, CKataB);
-    int banyakAS = StringToLongInt(Elmt(T, IdxANS + 1).TabKata);
+    int banyakAS = StringToLongInt(Elmt(T, IdxAS + 1).TabKata);
     CreateEmptyQueue(AS, 100);
     for (int i = 0; i < banyakAS; i++)
     {
@@ -311,7 +318,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP1 = Search1(T, CKataB);
     int barisPeta = StringToLongInt(Elmt(T, IdxP1 + 1).TabKata);
     int kolomPeta = StringToLongInt(Elmt(T, IdxP1 + 2).TabKata);
-    MakeMATRIKS(barisPeta-1, kolomPeta-1, P1);
+    MakeMATRIKS(barisPeta, kolomPeta, P1);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -324,7 +331,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP2 = Search1(T, CKataB);
     barisPeta = StringToLongInt(Elmt(T, IdxP2 + 1).TabKata);
     kolomPeta = StringToLongInt(Elmt(T, IdxP2 + 2).TabKata);
-    MakeMATRIKS(barisPeta-1, kolomPeta-1, P2);
+    MakeMATRIKS(barisPeta, kolomPeta, P2);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -337,7 +344,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP3 = Search1(T, CKataB);
     barisPeta = StringToLongInt(Elmt(T, IdxP3 + 1).TabKata);
     kolomPeta = StringToLongInt(Elmt(T, IdxP3 + 2).TabKata);
-    MakeMATRIKS(barisPeta-1, kolomPeta-1, P3);
+    MakeMATRIKS(barisPeta, kolomPeta, P3);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -350,7 +357,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP4 = Search1(T, CKataB);
     barisPeta = StringToLongInt(Elmt(T, IdxP4 + 1).TabKata);
     kolomPeta = StringToLongInt(Elmt(T, IdxP4 + 2).TabKata);
-    MakeMATRIKS(barisPeta-1, kolomPeta-1, P4);
+    MakeMATRIKS(barisPeta, kolomPeta, P4);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -396,6 +403,22 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     for (int i = 0; i < banyakFood; i++)
     {
         Push(Hand, Elmt(T, IdxHand + 2 + i));
+    }
+    //Baca NamaBahan
+    STARTKATAB("-BahanDapur");
+    int IdxBah = Search1(T, CKataB);
+    int banyakBah = StringToLongInt(Elmt(T, IdxBah + 1).TabKata);
+    MakeEmptyArray(NamaBahan);
+    MakeEmptyArray(XBahan);
+    MakeEmptyArray(YBahan);
+    for (int i = 0; i < banyakBah; i++)
+    {
+        STARTKATAB(Elmt(T,IdxBah+i+2).TabKata);
+        AddAsLastEl(NamaBahan,CKataB);
+        ADVKATAB();
+        AddAsLastEl(XBahan,CKataB);
+        ADVKATAB();
+        AddAsLastEl(YBahan,CKataB);
     }
 }
 

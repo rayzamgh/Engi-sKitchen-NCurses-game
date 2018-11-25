@@ -27,7 +27,8 @@ BinTree PohonMakanan;
 Queue AntrianNonStar, AntrianStar;
 Queue PelangganDiMeja;
 Stack Food, Hand;
-TabKata OrderanPelanggan, banyakOrangOrder, NamaBahan, XBahan, YBahan;
+TabKata OrderanPelanggan, banyakOrangOrder;
+TabKata NamaBahan, XBahan, YBahan;
 int noRuangan;
 MATRIKS Room1, Room2, Room3, Room4, curRoom;
 /* --------------- */
@@ -88,70 +89,78 @@ void UpdateData()
     //Cek Kesabaran customer ngantre
     //Cek Star
     int banyakQueueCust = NBElmt(AntrianStar);
-    for(int i = 0;i < banyakQueueCust;i++)
+    for (int i = 0; i < banyakQueueCust; i++)
     {
         PELANGGAN temp;
-        Del(&AntrianStar,&temp);
-        if(Durasi(WaktuSekarang,WaktuCabut(temp))>0)
+        Del(&AntrianStar, &temp);
+        if (Durasi(WaktuSekarang, WaktuCabut(temp)) > 0)
         {
-            Add(&AntrianStar,temp);
-        }else{
+            Add(&AntrianStar, temp);
+        }
+        else
+        {
             nyawa -= 1;
         }
     }
     //Cek NonStar
     banyakQueueCust = NBElmt(AntrianNonStar);
-    for(int i = 0;i < banyakQueueCust;i++)
+    for (int i = 0; i < banyakQueueCust; i++)
     {
         PELANGGAN temp;
-        Del(&AntrianNonStar,&temp);
-        if(Durasi(WaktuSekarang,WaktuCabut(temp))>0)
+        Del(&AntrianNonStar, &temp);
+        if (Durasi(WaktuSekarang, WaktuCabut(temp)) > 0)
         {
-            Add(&AntrianNonStar,temp);
-        }else{
+            Add(&AntrianNonStar, temp);
+        }
+        else
+        {
             nyawa -= 1;
         }
     }
     //Cek Kesabaran customer dimeja
     banyakQueueCust = NBElmt(PelangganDiMeja);
-    for(int i = 0;i < banyakQueueCust;i++)
+    for (int i = 0; i < banyakQueueCust; i++)
     {
         PELANGGAN temp;
-        Del(&PelangganDiMeja,&temp);
-        if(Durasi(WaktuSekarang,WaktuCabut(temp))>0)
+        Del(&PelangganDiMeja, &temp);
+        if (Durasi(WaktuSekarang, WaktuCabut(temp)) > 0)
         {
-            Add(&PelangganDiMeja,temp);
-        }else{
+            Add(&PelangganDiMeja, temp);
+        }
+        else
+        {
             //Hapus dari tempatnya
             int noRuanganAwal = noRuangan;
             UpdateRoomAwal();
             noRuangan = Ruangan(temp);
             UpdateCurRoom();
-            if(Banyak(temp) == 4)
+            if (Banyak(temp) == 4)
             {
-                ElmtMat(curRoom,Ordinat(Pos(temp))-1,Absis(Pos(temp))) = 'X';
-                ElmtMat(curRoom,Ordinat(Pos(temp))+1,Absis(Pos(temp))) = 'X';
+                ElmtMat(curRoom, Ordinat(Pos(temp)) - 1, Absis(Pos(temp))) = 'X';
+                ElmtMat(curRoom, Ordinat(Pos(temp)) + 1, Absis(Pos(temp))) = 'X';
             }
-            ElmtMat(curRoom,Ordinat(Pos(temp)),Absis(Pos(temp))-1) = 'X';
-            ElmtMat(curRoom,Ordinat(Pos(temp)),Absis(Pos(temp))+1) = 'X';
+            ElmtMat(curRoom, Ordinat(Pos(temp)), Absis(Pos(temp)) - 1) = 'X';
+            ElmtMat(curRoom, Ordinat(Pos(temp)), Absis(Pos(temp)) + 1) = 'X';
             UpdateRoomAwal();
             noRuangan = noRuanganAwal;
             UpdateCurRoom();
             //Hapus dari List Order jika sudah mengorder
-            if(SudahOrder(temp))
+            if (SudahOrder(temp))
             {
                 boolean ketemu = false;
                 int i = GetFirstIdx(OrderanPelanggan);
-                while(i <= GetLastIdx(OrderanPelanggan) && !ketemu)
+                while (i <= GetLastIdx(OrderanPelanggan) && !ketemu)
                 {
-                    if(IsSameString(Orderan(temp).TabKata,Elmt(OrderanPelanggan,i).TabKata))
+                    if (IsSameString(Orderan(temp).TabKata, Elmt(OrderanPelanggan, i).TabKata))
                     {
                         ketemu = true;
                         //Hapus dari array orderan dan banyak orang order
                         Kata tempKata;
-                        DelEli(&OrderanPelanggan,i,&tempKata);
-                        DelEli(&banyakOrangOrder,i,&tempKata);
-                    }else{
+                        DelEli(&OrderanPelanggan, i, &tempKata);
+                        DelEli(&banyakOrangOrder, i, &tempKata);
+                    }
+                    else
+                    {
                         i += 1;
                     }
                 }
@@ -236,7 +245,7 @@ void UpdateGambar()
         }
     }
     //Gambar queue customer di antrean
-    mvwprintw(Game, 3, 3, "Antrean Customer");
+    mvwprintw(Game, 3, 3, "Antrean(Banyak,Waktu pergi)");
     int banyakAntreanStar = NBElmt(AntrianStar);
     for (int i = 0; i < banyakAntreanStar; i++)
     {
@@ -244,7 +253,7 @@ void UpdateGambar()
         Del(&AntrianStar, &temp);
         //Tulis di layar
         char banyakOrang[5];
-        sprintf(banyakOrang, "%d*", Banyak(temp));
+        sprintf(banyakOrang, "%d* %ld", Banyak(temp),JAMToDetik(WaktuCabut(temp)));
         mvwprintw(Game, 4 + i, 3, banyakOrang);
         //Balikan ke antrean
         Add(&AntrianStar, temp);
@@ -256,7 +265,7 @@ void UpdateGambar()
         Del(&AntrianNonStar, &temp);
         //Tulis di layar
         char banyakOrang[5];
-        sprintf(banyakOrang, "%d", Banyak(temp));
+        sprintf(banyakOrang, "%d, %ld", Banyak(temp),JAMToDetik(WaktuCabut(temp)));
         mvwprintw(Game, 4 + i + banyakAntreanStar, 3, banyakOrang);
         //Balikan ke antrean
         Add(&AntrianNonStar, temp);
@@ -266,7 +275,7 @@ void UpdateGambar()
     for (int i = GetFirstIdx(OrderanPelanggan); i <= GetLastIdx(OrderanPelanggan); i++)
     {
         char tulisOrder[1010];
-        sprintf(tulisOrder, "%s %s", Elmt(OrderanPelanggan, i).TabKata, Elmt(banyakOrangOrder, i).TabKata);
+        sprintf(tulisOrder, "%s, %s", Elmt(OrderanPelanggan, i).TabKata, Elmt(banyakOrangOrder, i).TabKata);
         mvwaddnstr(Game, (int)tinggiGame / 2 + 1 + i, 3, tulisOrder, 29);
     }
     //Gambar FoodStack
@@ -312,16 +321,16 @@ void UpdateRoomAwal()
     switch (noRuangan)
     {
     case 1:
-        CopyMATRIKS(curRoom,&Room1);
+        CopyMATRIKS(curRoom, &Room1);
         break;
     case 2:
-        CopyMATRIKS(curRoom,&Room2);
+        CopyMATRIKS(curRoom, &Room2);
         break;
     case 3:
-        CopyMATRIKS(curRoom,&Room3);
+        CopyMATRIKS(curRoom, &Room3);
         break;
     case 4:
-        CopyMATRIKS(curRoom,&Room4);
+        CopyMATRIKS(curRoom, &Room4);
         break;
     default:
         break;
@@ -333,19 +342,29 @@ void UpdateCurRoom()
     switch (noRuangan)
     {
     case 1:
-        CopyMATRIKS(Room1,&curRoom);
+        CopyMATRIKS(Room1, &curRoom);
         break;
     case 2:
-        CopyMATRIKS(Room2,&curRoom);
+        CopyMATRIKS(Room2, &curRoom);
         break;
     case 3:
-        CopyMATRIKS(Room3,&curRoom);
+        CopyMATRIKS(Room3, &curRoom);
         break;
     case 4:
-        CopyMATRIKS(Room4,&curRoom);
+        CopyMATRIKS(Room4, &curRoom);
         break;
     default:
         break;
+    }
+}
+
+void InitBahanDapur()
+{
+    for (int i = 1;i<= NbElmt(NamaBahan); i++)
+    {
+        int XBah = StringToLongInt(Elmt(XBahan,i).TabKata);
+        int YBah = StringToLongInt(Elmt(YBahan,i).TabKata);
+        ElmtMat(Room2,YBah,XBah) = 'M';
     }
 }
 
@@ -362,7 +381,8 @@ void StartGame()
         BacaSaveGame("../Default Save/Default.txt", &AntrianNonStar, &AntrianStar, &uang,
                      &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan, &banyakOrangOrder,
                      &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
-                     &Food, &Hand);
+                     &Food, &Hand, &NamaBahan, &XBahan, &YBahan);
+        InitBahanDapur();
         UpdateCurRoom();
     }
 }
@@ -387,7 +407,8 @@ void LoadGame()
         BacaSaveGame(letakSave, &AntrianNonStar, &AntrianStar, &uang,
                      &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan, &banyakOrangOrder,
                      &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
-                     &Food, &Hand);
+                     &Food, &Hand, &NamaBahan, &XBahan, &YBahan);
+        InitBahanDapur();
         UpdateCurRoom();
         gameLoaded = true;
         wclear(MainMenu);
@@ -667,8 +688,10 @@ void ORDER()
     if (ketemu)
     {
         addressQueue i = Head(PelangganDiMeja);
-        while ((!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
+        int cekBanyak = NBElmt(PelangganDiMeja);
+        while (cekBanyak>0 && (!PointEQ(Pos(InfoQueue(PelangganDiMeja, i)), meja)) || (Ruangan(InfoQueue(PelangganDiMeja, i)) != noRuangan))
         {
+            cekBanyak -= 1;
             if (i == MaxElQueue(PelangganDiMeja))
             {
                 i = 1;
@@ -678,28 +701,32 @@ void ORDER()
                 i += 1;
             }
         }
-        if (SudahOrder(InfoQueue(PelangganDiMeja, i)))
-        {
-            mvwprintw(Game, tinggiGame - 2, 1, "Customer tersebut sudah diambil order-nya\n");
-        }
-        else
-        {
-            Orderan(InfoQueue(PelangganDiMeja, i)) = GetDaunAcak(PohonMakanan);
-            SudahOrder(InfoQueue(PelangganDiMeja, i)) = true;
-            AddAsLastEl(&OrderanPelanggan, Orderan(InfoQueue(PelangganDiMeja, i)));
-            char s[2];
-            if (Banyak(InfoQueue(PelangganDiMeja, i)) == 2)
+        if(cekBanyak!=0){
+            if (SudahOrder(InfoQueue(PelangganDiMeja, i)))
             {
-                s[0] = '2';
-                s[1] = '\000';
+                mvwprintw(Game, tinggiGame - 2, 1, "Customer tersebut sudah diambil order-nya\n");
             }
             else
             {
-                s[0] = '4';
-                s[1] = '\000';
+                Orderan(InfoQueue(PelangganDiMeja, i)) = GetDaunAcak(PohonMakanan);
+                SudahOrder(InfoQueue(PelangganDiMeja, i)) = true;
+                AddAsLastEl(&OrderanPelanggan, Orderan(InfoQueue(PelangganDiMeja, i)));
+                char s[2];
+                if (Banyak(InfoQueue(PelangganDiMeja, i)) == 2)
+                {
+                    s[0] = '2';
+                    s[1] = '\000';
+                }
+                else
+                {
+                    s[0] = '4';
+                    s[1] = '\000';
+                }
+                STARTKATAB(s);
+                AddAsLastEl(&banyakOrangOrder, CKataB);
             }
-            STARTKATAB(s);
-            AddAsLastEl(&banyakOrangOrder, CKataB);
+        }else{
+            mvwprintw(Game, tinggiGame - 2, 1, "Tidak ada customer valid disekitarmu\n");
         }
     }
     else
@@ -817,64 +844,89 @@ void PLACE()
     boolean ketemu = !PointEQ(meja, MakePOINT(-1, -1));
     if (ketemu)
     {
-        PELANGGAN cek;
-        if (IsEmptyQueue(AntrianStar))
-        {
-            if (IsEmptyQueue(AntrianNonStar))
-            {
-                mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada pelanggan untuk ditaruh\n");
-            }
-            else
-            {
-                cek = InfoHead(AntrianNonStar);
-            }
-        }
-        else
-        {
-            cek = InfoHead(AntrianStar);
-        }
         //Cek muat
         int cekX = Absis(meja), cekY = Ordinat(meja) - 1;
         if (IsIdxEffMat(curRoom, cekY, cekX) && ElmtMat(curRoom, cekY, cekX) == 'X')
         {
             //Meja untuk ber 4
             //Taruh pelanggan di meja itu
+            boolean bisaDitaruh = true;
             PELANGGAN taruh;
-            if (IsStar(cek))
+            if(!IsEmptyQueue(AntrianStar))
             {
-                Del(&AntrianStar, &taruh);
+                Del(&AntrianStar,&taruh);
+            }else{
+                if(!IsEmptyQueue(AntrianNonStar))
+                {
+                    Del(&AntrianNonStar,&taruh);
+                }else{
+                    bisaDitaruh = false;
+                }
             }
-            else
-            {
-                Del(&AntrianNonStar, &taruh);
+            if(bisaDitaruh){
+                Ruangan(taruh) = noRuangan;
+                Pos(taruh) = meja;
+                WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 10 + 30);
+                Add(&PelangganDiMeja, taruh);
+                if (Banyak(taruh) == 4)
+                {
+                    ElmtMat(curRoom, Ordinat(meja) - 1, Absis(meja)) = 'C';
+                    ElmtMat(curRoom, Ordinat(meja) + 1, Absis(meja)) = 'C';
+                }
+                ElmtMat(curRoom, Ordinat(meja), Absis(meja) - 1) = 'C';
+                ElmtMat(curRoom, Ordinat(meja), Absis(meja) + 1) = 'C';
+                UpdateRoomAwal();
+            }else{
+                mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada pelanggan untuk ditaruh\n");
             }
-            Ruangan(taruh) = noRuangan;
-            Pos(taruh) = meja;
-            WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 10 + 30);
-            Add(&PelangganDiMeja, taruh);
-            if (Banyak(taruh) == 4)
-            {
-                ElmtMat(curRoom, Ordinat(meja) - 1, Absis(meja)) = 'C';
-                ElmtMat(curRoom, Ordinat(meja) + 1, Absis(meja)) = 'C';
-            }
-            ElmtMat(curRoom, Ordinat(meja), Absis(meja) - 1) = 'C';
-            ElmtMat(curRoom, Ordinat(meja), Absis(meja) + 1) = 'C';
-            UpdateRoomAwal();
         }
         else
         {
             //Meja untuk ber 2
-            if (Banyak(cek) == 2)
+            boolean bisaDitaruh = false;
+            PELANGGAN taruh;
+            //Cek Star
+            int iterQueue = NBElmt(AntrianStar);
+            for(int i = 0;i < iterQueue;i++)
             {
-                PELANGGAN taruh;
-                if (IsStar(cek))
+                PELANGGAN temp;
+                Del(&AntrianStar,&temp);
+                if(Banyak(temp)==2)
                 {
-                    Del(&AntrianStar, &taruh);
+                    if(!bisaDitaruh)
+                    {
+                        taruh = temp;
+                        bisaDitaruh = true;
+                    }else{
+                        Add(&AntrianStar,temp);
+                    }
+                }else{
+                    Add(&AntrianStar,temp);
                 }
-                else
+            }
+            if(!bisaDitaruh)
+            {
+                //Cek Non Star
+                iterQueue = NBElmt(AntrianNonStar);
+                for(int i = 0;i < iterQueue;i++)
                 {
-                    Del(&AntrianNonStar, &taruh);
+                    PELANGGAN temp;
+                    Del(&AntrianNonStar,&temp);
+                    if(Banyak(temp)==2)
+                    {
+                        if(!bisaDitaruh)
+                        {
+                            taruh = temp;
+                            bisaDitaruh = true;
+                        }else{
+                            Add(&AntrianNonStar,temp);
+                        }
+                    }else{
+                        Add(&AntrianStar,temp);
+                    }
                 }
+            }
+            if(bisaDitaruh){
                 Ruangan(taruh) = noRuangan;
                 Pos(taruh) = meja;
                 WaktuCabut(taruh) = NextNDetik(WaktuSekarang, rand() % 10 + 30);
@@ -882,11 +934,8 @@ void PLACE()
                 ElmtMat(curRoom, Ordinat(meja), Absis(meja) - 1) = 'C';
                 ElmtMat(curRoom, Ordinat(meja), Absis(meja) + 1) = 'C';
                 UpdateRoomAwal();
-            }
-            else
-            {
-                //Ga muat
-                mvwprintw(Game, tinggiGame - 2, 3, "Meja tidak muat\n");
+            }else{
+                mvwprintw(Game, tinggiGame - 2, 3, "Tidak ada pelanggan untuk ditaruh\n");
             }
         }
     }
@@ -987,7 +1036,7 @@ void SAVE()
     TulisSaveGame(letakSave, AntrianNonStar, AntrianStar, uang,
                   nyawa, WaktuSekarang, player, noRuangan, OrderanPelanggan, banyakOrangOrder,
                   PelangganDiMeja, Room1, Room2, Room3, Room4, Stage, PohonMakanan,
-                  Food, Hand);
+                  Food, Hand, NamaBahan, XBahan, YBahan);
     mvwprintw(Game, tinggiGame - 2, 3, "Save berhasil\n");
 }
 
@@ -1005,7 +1054,8 @@ void LOAD()
         BacaSaveGame(letakSave, &AntrianNonStar, &AntrianStar, &uang,
                      &nyawa, &WaktuSekarang, &player, &noRuangan, &OrderanPelanggan, &banyakOrangOrder,
                      &PelangganDiMeja, &Room1, &Room2, &Room3, &Room4, &Stage, &PohonMakanan,
-                     &Food, &Hand);
+                     &Food, &Hand, &NamaBahan, &XBahan, &YBahan);
+        InitBahanDapur();
         UpdateCurRoom();
         gameLoaded = true;
         wclear(Game);

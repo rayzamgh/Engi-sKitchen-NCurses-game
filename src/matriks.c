@@ -32,12 +32,12 @@ indeks GetFirstIdxKol(MATRIKS M)
 /* Mengirimkan indeks kolom terkecil M */
 indeks GetLastIdxBrs(MATRIKS M)
 {
-	return NBrsEff(M);
+	return NBrsEff(M)-1;
 }
 /* Mengirimkan indeks baris terbesar M */
 indeks GetLastIdxKol(MATRIKS M)
 {
-	return NKolEff(M);
+	return NKolEff(M)-1;
 }
 /* Mengirimkan indeks kolom terbesar M */
 boolean IsIdxEffMat(MATRIKS M, indeks i, indeks j)
