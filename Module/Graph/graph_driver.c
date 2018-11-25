@@ -1,11 +1,16 @@
-#include "../include/point.h"
-#include "../include/filemanager.h"
+#include "graph.h"
 #include<stdio.h>
 #include<stdlib.h>
 
 int main()
 {
-    Graph G = BacaGraphPintu("../Default Save/pintu.txt");
+    Graph G;
+    CreateGraph(1,&G);
+    //Alokasi sudah ada didalam fungsi ini
+    CreatePintu(&G, 1,2, MakePOINT(4,7), MakePOINT(5, 0));
+    CreatePintu(&G, 2,4, MakePOINT(7,4), MakePOINT(0, 5));
+    CreatePintu(&G, 4,3, MakePOINT(4,0), MakePOINT(6, 7));
+    CreatePintu(&G, 3,1, MakePOINT(0,4), MakePOINT(7, 4));
     adrNode P = First(G);
     while(P != Nil)
     {
@@ -23,8 +28,8 @@ int main()
         P = Next(P);
     }
     printf("----------------------------\n");
-    //Cari Pintu dari posisi 4,8
-    POINT asal = MakePOINT(4,8);
+    //Cari Pintu dari posisi 4,7 di room 1
+    POINT asal = MakePOINT(4,7);
     POINT tujuan;
     int roomTujuan;
     CariEdgePintu(G,asal,1,&roomTujuan,&tujuan);

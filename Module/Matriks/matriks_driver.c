@@ -1,4 +1,4 @@
-#include "../include/matriks.h"
+#include "matriks.h"
 #include <stdio.h>
 
 int main (){

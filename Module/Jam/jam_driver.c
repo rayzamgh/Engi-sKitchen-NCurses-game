@@ -1,9 +1,3 @@
-/* 	NIM/Nama : 13517040/Ariel Ansa Razumardi
-	Nama file : jam_driver.c
-	Topik : Pra Praktikum 02
-	Tanggal : 6 September 2018
-	Deskripsi : Mengetes semua fungsi dan proseur yang ada pada file jam.h dan jam.c  */
-
 /* Program DriverJam */
 /* Mengetes semua fungsi dan proseur yang ada pada file jam.h dan jam.c  */
 
