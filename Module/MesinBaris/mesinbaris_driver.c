@@ -1,5 +1,5 @@
-#include "../include/mesinbaris.h"
-#include "../include/matriks.h"
+#include "mesinbaris.h"
+#include "matriks.h"
 #include <stdio.h>
 
 int main (){

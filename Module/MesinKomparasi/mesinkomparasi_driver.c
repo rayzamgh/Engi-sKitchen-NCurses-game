@@ -1,4 +1,4 @@
-#include "../include/mesinkatakomparasi.h"
+#include "mesinkatakomparasi.h"
 #include <stdio.h>
 
 int main (){

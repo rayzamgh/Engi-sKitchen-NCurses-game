@@ -1,4 +1,4 @@
-#include "../include/mesincommand.h"
+#include "mesincommand.h"
 #include <stdio.h>
 
 int main(){

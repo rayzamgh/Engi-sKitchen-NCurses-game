@@ -1,4 +1,4 @@
-#include "../include/stackt.h"
+#include "stackt.h"
 #include <stdio.h>
 
 int main(){

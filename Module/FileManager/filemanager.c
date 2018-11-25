@@ -394,33 +394,3 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
         AddAsLastEl(YBahan,CKataB);
     }
 }
-
-Queue BacaQueuePelanggan(char namaFile[100])
-{
-    Queue Q;
-    CreateEmptyQueue(&Q, 100);
-    STARTBARIS(namaFile);
-    while (!EndBaris)
-    {
-        PELANGGAN P;
-        //Skip string pelanggan
-        ADVBARIS();
-        //Ambil Banyak Orang
-        STARTKATAB(CBaris.TabBaris);
-        Banyak(P) = StringToLongInt(CKataB.TabKata);
-        ADVBARIS();
-        STARTKATAB(CBaris.TabBaris);
-        WaktuCabut(P) = DetikToJAM(StringToLongInt(CKataB.TabKata));
-        ADVBARIS();
-        STARTKATAA(CBaris.TabBaris);
-        Kata temp = CKataA;
-        IsStar(P) = IsSameString(temp.TabKata, "Yes");
-        /*Misc*/
-        Pos(P) = MakePOINT(-1, -1);
-        Ruangan(P) = -1;
-        SudahOrder(P) = false;
-        Add(&Q, P);
-        ADVBARIS();
-    }
-    return Q;
-}
