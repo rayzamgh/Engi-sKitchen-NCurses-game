@@ -1,6 +1,6 @@
 #include "../include/mesincommand.h"
-#include <string.h>
-
+#include "../include/mesinkatakomparasi.h"
+#include<stdio.h>
 /* State Mesin Kata */
 Command CCommand;
 
@@ -32,7 +32,17 @@ void ADVCOMMAND(){
 	IgnoreBlankInput();
 }
 
+void ResetCommand()
+{
+	for(int i = 0; i < CCommand.Length; i++)
+	{
+		CCommand.TabCommand[i] = '\000';
+	}
+	
+}
+
 void SalinCommand(){
+	ResetCommand();
 	CCommand.Length = 0;
 	do{
 		if (CCommand.Length < NMax){
@@ -50,21 +60,5 @@ void SalinCommand(){
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
 boolean CommandIs(char s[10]){
-	boolean same = true;
-	int i;
-	if (strlen(s) != CCommand.Length){
-		same = false;
-	}
-	else{
-		i = 0;
-		while ((i < CCommand.Length) && (same)){
-			if (CCommand.TabCommand[i] != s[i]){
-				same = false;
-			}
-			else{
-				i++;
-			}
-		}
-	}
-	return same;
+	return IsSameString(s,CCommand.TabCommand);
 }

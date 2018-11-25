@@ -15,7 +15,7 @@ typedef struct
 } LAYAR;
 
 //Selektor
-#define pixel(L, X, Y) Elmt((L).isiLayar, X, Y)
+#define pixel(L, X, Y) ElmtMat((L).isiLayar, X, Y)
 #define widthLayar(L) (L).width
 #define heightLayar(L) (L).height
 #define isiLayar(L) (L).isiLayar

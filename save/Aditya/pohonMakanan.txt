@@ -1,0 +1,1 @@
+Piring(Sendok(EsKrim(Pisang(Banana_Split()())())(Stroberi(Sundae()())()))(Nasi(Telur(Nasi_Telur_Dadar()())())(Ayam_Goreng(Nasi_Ayam_Goreng()())())))(Garpu(Roti(Patty(Burger()())())(Sosis(Hot_Dog()())()))(Spaghetti(Bolognese(Keju(Sphagetti_Bolognese()())())())(Carbonara(Sphagetti_Carbonara()())()))).

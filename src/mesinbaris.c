@@ -13,7 +13,18 @@ void IgnoreNewline(){
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTBARIS(char filename[20]){
+void RESETBARIS()
+{
+	int i = 0;
+	while(CBaris.TabBaris[i] != '\000')
+	{
+		CBaris.TabBaris[i] = '\000';
+		i += 1;
+	}
+}
+
+void STARTBARIS(char filename[100]){
+	RESETBARIS();
 	START(filename);
 	IgnoreNewline();
 	if (CC == MARK){
@@ -35,6 +46,7 @@ void ADVBARIS(){
 		EndBaris = true;
 	}
 	else{
+		RESETBARIS();
 		SalinBaris();
 	}
 }
@@ -48,7 +60,7 @@ void SalinBaris(){
 	CBaris.Length = 0;
 	do{
 		if (CBaris.Length < NMax){
-			CBaris.TabBaris[CBaris.Length + 1] = CC;
+			CBaris.TabBaris[CBaris.Length] = CC;
 			CBaris.Length++;
 		}
 		ADV();

@@ -7,12 +7,12 @@
 #include "boolean.h"
 #include "mesinkarinput.h"
 
-#define NMax 10
+#define NMax 500
 #define BLANK ' '
 #define NEWLINE '\n'
 
 typedef struct {
-	char TabCommand[NMax];
+	char TabCommand[NMax+1];
     int Length; /* container penyimpan kata, indeks yang dipakai [1..NMax] */
 } Command;
 
