@@ -295,15 +295,15 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     for (int i = 0; i < banyakPDM; i++)
     {
         PELANGGAN temp;
-        Ruangan(temp) = StringToLongInt(Elmt(T, IdxPDM + 3 + 9 * i).TabKata);
-        int XT = StringToLongInt(Elmt(T, IdxPDM + 4 + 9 * i).TabKata);
-        int YT = StringToLongInt(Elmt(T, IdxPDM + 5 + 9 * i).TabKata);
+        Ruangan(temp) = StringToLongInt(Elmt(T, IdxPDM + 2 + 9 * i).TabKata);
+        int XT = StringToLongInt(Elmt(T, IdxPDM + 3 + 9 * i).TabKata);
+        int YT = StringToLongInt(Elmt(T, IdxPDM + 4 + 9 * i).TabKata);
         Pos(temp) = MakePOINT(XT, YT);
-        Banyak(temp) = StringToLongInt(Elmt(T, IdxPDM + 6 + 9 * i).TabKata);
-        WaktuCabut(temp) = DetikToJAM(StringToLongInt(Elmt(T, IdxPDM + 7 + 9 * i).TabKata));
-        Orderan(temp) = Elmt(T, IdxPDM + 8 + 9 * i);
-        IsStar(temp) = IsSameString(Elmt(T, IdxPDM + 9 + 9 * i).TabKata, "Yes");
-        SudahOrder(temp) = IsSameString(Elmt(T, IdxPDM + 10 + 9 * i).TabKata, "Yes");
+        Banyak(temp) = StringToLongInt(Elmt(T, IdxPDM + 5 + 9 * i).TabKata);
+        WaktuCabut(temp) = DetikToJAM(StringToLongInt(Elmt(T, IdxPDM + 6 + 9 * i).TabKata));
+        Orderan(temp) = Elmt(T, IdxPDM + 7 + 9 * i);
+        IsStar(temp) = IsSameString(Elmt(T, IdxPDM + 8 + 9 * i).TabKata, "Yes");
+        SudahOrder(temp) = IsSameString(Elmt(T, IdxPDM + 9 + 9 * i).TabKata, "Yes");
         Add(PDM, temp);
     }
     //Baca Peta 1
@@ -311,7 +311,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP1 = Search1(T, CKataB);
     int barisPeta = StringToLongInt(Elmt(T, IdxP1 + 1).TabKata);
     int kolomPeta = StringToLongInt(Elmt(T, IdxP1 + 2).TabKata);
-    MakeMATRIKS(barisPeta, kolomPeta, P1);
+    MakeMATRIKS(barisPeta-1, kolomPeta-1, P1);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -324,7 +324,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP2 = Search1(T, CKataB);
     barisPeta = StringToLongInt(Elmt(T, IdxP2 + 1).TabKata);
     kolomPeta = StringToLongInt(Elmt(T, IdxP2 + 2).TabKata);
-    MakeMATRIKS(barisPeta, kolomPeta, P2);
+    MakeMATRIKS(barisPeta-1, kolomPeta-1, P2);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -337,7 +337,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP3 = Search1(T, CKataB);
     barisPeta = StringToLongInt(Elmt(T, IdxP3 + 1).TabKata);
     kolomPeta = StringToLongInt(Elmt(T, IdxP3 + 2).TabKata);
-    MakeMATRIKS(barisPeta, kolomPeta, P3);
+    MakeMATRIKS(barisPeta-1, kolomPeta-1, P3);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
@@ -350,7 +350,7 @@ void BacaSaveGame(char namaFile[100], Queue *ANS, Queue *AS, long *Uang, long *N
     int IdxP4 = Search1(T, CKataB);
     barisPeta = StringToLongInt(Elmt(T, IdxP4 + 1).TabKata);
     kolomPeta = StringToLongInt(Elmt(T, IdxP4 + 2).TabKata);
-    MakeMATRIKS(barisPeta, kolomPeta, P4);
+    MakeMATRIKS(barisPeta-1, kolomPeta-1, P4);
     for (int i = 0; i < barisPeta; i++)
     {
         for (int j = 0; j < kolomPeta; j++)
