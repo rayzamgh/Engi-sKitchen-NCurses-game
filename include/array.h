@@ -92,15 +92,6 @@ void TulisIsi (TabKata T);
    [3]30
    [4]50
 */
-void TulisIsiTab (TabKata T);
-/* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku; 
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika tabel kosong : menulis [] */
-
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
 IdxType Search1 (TabKata T, ElType X);
@@ -109,40 +100,13 @@ IdxType Search1 (TabKata T, ElType X);
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Memakai skema search TANPA boolean */
-
-/* ********** OPERASI LAIN ********** */
-void CopyTab (TabKata Tin, TabKata * Tout);
-/* I.S. Tin terdefinisi, Tout sembarang */
-/* F.S. Tout berisi salinan dari Tin (elemen dan ukuran identik) */
-/* Proses : Menyalin isi Tin ke Tout */
-TabKata InverseTab (TabKata T);
-/* Menghasilkan tabel dengan urutan tempat yang terbalik, yaitu : */
-/* elemen pertama menjadi terakhir, */
-/* elemen kedua menjadi elemen sebelum terakhir, dst.. */
-/* Tabel kosong menghasilkan tabel kosong */
-
 /* ********** MENAMBAH ELEMEN ********** */
 /* *** Menambahkan elemen terakhir *** */
 void AddAsLastEl (TabKata * T, ElType X);
 /* Proses: Menambahkan X sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
-void AddEli (TabKata * T, ElType X, IdxType i);
-/* Menambahkan X sebagai elemen ke-i tabel tanpa mengganggu kontiguitas 
-   terhadap elemen yang sudah ada */
-/* I.S. Tabel tidak kosong dan tidak penuh */
-/*      i adalah indeks yang valid. */
-/* F.S. X adalah elemen ke-i T yang baru */
-/* Proses : Geser elemen ke-i+1 s.d. terakhir */
-/*          Isi elemen ke-i dengan X */
-
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastEl (TabKata * T, ElType * X);
-/* Proses : Menghapus elemen terakhir tabel */
-/* I.S. Tabel tidak kosong */
-/* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
-/*      Banyaknya elemen tabel berkurang satu */
-/*      Tabel T mungkin menjadi kosong */
 void DelEli (TabKata * T, IdxType i, ElType * X);
 /* Menghapus elemen ke-i tabel tanpa mengganggu kontiguitas */
 /* I.S. Tabel tidak kosong, i adalah indeks efektif yang valid */

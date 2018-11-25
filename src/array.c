@@ -90,31 +90,6 @@ void TulisIsi (TabKata T)
      }
   }
 }
-void TulisIsiTab (TabKata T)
-/* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika tabel kosong : menulis [] */
-{
-  //cek KOSONG
-  if(Neff(T)==0){
-    printf("[]");
-  }else{
-    //tidak kosong
-    //print siku buka
-    printf("[");
-    //print elemen ke 1 hingga terakhir-1
-    int i;//iterator
-    for(i=GetFirstIdx(T);i<GetLastIdx(T);i++){
-      printf("%s,",Elmt(T,i).TabKata);
-    }
-    //print elemen terakhir dan siku tutup
-    printf("%s]",Elmt(T,Neff(T)).TabKata);
-  }
-}
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
 IdxType Search1 (TabKata T, ElType X)
@@ -135,40 +110,6 @@ IdxType Search1 (TabKata T, ElType X)
     return IdxUndef;
   }
 }
-/* ********** OPERASI LAIN ********** */
-void CopyTab (TabKata Tin, TabKata * Tout)
-/* I.S. Tin terdefinisi, Tout sembarang */
-/* F.S. Tout berisi salinan dari Tin (elemen dan ukuran identik) */
-/* Proses : Menyalin isi Tin ke Tout */
-{
-  Neff(*Tout) = Neff(Tin);
-  IdxType i;//Iterator
-  for(i=GetFirstIdx(Tin);i<=GetLastIdx(Tin);i++){
-    Elmt(*Tout,i) = Elmt(Tin,i);
-  }
-}
-TabKata InverseTab (TabKata T)
-/* Menghasilkan tabel dengan urutan tempat yang terbalik, yaitu : */
-/* elemen pertama menjadi terakhir, */
-/* elemen kedua menjadi elemen sebelum terakhir, dst.. */
-/* Tabel kosong menghasilkan tabel kosong */
-{
-  TabKata temp;
-  Neff(temp) = Neff(T);
-  //cek KOSONG
-  if(Neff(T)==0){
-    return temp;//karena temp adalah tabel kosong
-  }else{
-    //isi temp secara terbalik
-    IdxType i;//iterator
-    for(i=GetFirstIdx(T);i<=GetLastIdx(T);i++){
-      Elmt(temp,Neff(temp)-i+GetFirstIdx(T)) = Elmt(T,i);
-    }
-    //selesai mengisi
-    return temp;
-  }
-}
-
 /* ********** MENAMBAH ELEMEN ********** */
 /* *** Menambahkan elemen terakhir *** */
 void AddAsLastEl (TabKata * T, ElType X)
@@ -179,40 +120,7 @@ void AddAsLastEl (TabKata * T, ElType X)
   Neff(*T)++;
   Elmt(*T,GetLastIdx(*T)) = X;
 }
-void AddEli (TabKata * T, ElType X, IdxType i)
-/* Menambahkan X sebagai elemen ke-i tabel tanpa mengganggu kontiguitas
-   terhadap elemen yang sudah ada */
-/* I.S. Tabel tidak kosong dan tidak penuh */
-/*      i adalah indeks yang valid. */
-/* F.S. X adalah elemen ke-i T yang baru */
-/* Proses : Geser elemen ke-i+1 s.d. terakhir */
-/*          Isi elemen ke-i dengan X */
-{
-  IdxType j;
-  Neff(*T) ++;
-  j = GetLastIdx(*T)-1;
-  while(j >= i)
-  {
-    Elmt(*T, j+1) = Elmt(*T, j);
-    j -= 1;
-  }
-
-  Elmt(*T, i) = X;
-}
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastEl (TabKata * T, ElType * X)
-/* Proses : Menghapus elemen terakhir tabel */
-/* I.S. Tabel tidak kosong */
-/* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
-/*      Banyaknya elemen tabel berkurang satu */
-/*      Tabel T mungkin menjadi kosong */
-{
-  if (!IsEmptyArray(*T))
-  {
-    *X = Elmt(*T, GetLastIdx(*T));
-    Neff(*T) -= 1;
-  }
-}
 void DelEli (TabKata * T, IdxType i, ElType * X)
 /* Menghapus elemen ke-i tabel tanpa mengganggu kontiguitas */
 /* I.S. Tabel tidak kosong, i adalah indeks efektif yang valid */
