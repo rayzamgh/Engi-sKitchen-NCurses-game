@@ -1,22 +1,16 @@
 -AntrianNonStar
-1
-Pelanggan
-2
-39
+0
 -AntrianStar
-1
-Pelanggan
-2
-38
+0
 -Uang
 0
 -Nyawa
-4
+0
 -Waktu
-9
+5
 -Posisi
 5
-2
+0
 -Stage
 2
 -Orderan
@@ -37,14 +31,14 @@ _X______
 -Peta2
 8
 8
-M______T
-M_______
-M_______
-M_______
-M_MMM___
-M_______
-M_______
-M__MMMMM
+_______T
+________
+________
+________
+________
+________
+________
+________
 -Peta3
 8
 8
@@ -76,14 +70,19 @@ ________
 -Food
 0
 -Hand
-0
+4
+Piring
+Sendok
+EsKrim
+Pisang
+Stroberi
 -BahanDapur
 16
 Piring 0 0
 Sendok 0 1
 EsKrim 0 2
 Pisang 0 3
-Stroberi 2 4
+Stroberi 5 4
 Nasi 0 4
 Telur 0 5
 Ayam_Goreng 0 6
@@ -91,7 +90,7 @@ Garpu 0 7
 Roti 3 4
 Patty 4 4
 Sosis 3 7
-Sphagetti 4 7
+Spaghetti 4 7
 Bolognese 5 7
 Keju 6 7
 Carbonara 7 7

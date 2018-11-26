@@ -5,11 +5,11 @@
 -Uang
 0
 -Nyawa
-4
+10
 -Waktu
-5
+0
 -Posisi
-5
+6
 0
 -Stage
 2
@@ -31,14 +31,14 @@ _X______
 -Peta2
 8
 8
-_______T
-________
-________
-________
-________
-________
-________
-________
+M______T
+M_______
+M_______
+M_______
+M_MMM___
+M_______
+M_______
+M__MMMMM
 -Peta3
 8
 8
@@ -66,23 +66,23 @@ ________
 1 2 4 7 5 0
 1 3 7 4 0 4
 2 4 7 4 0 5
-4 3 4 0 6 7
+3 4 6 7 4 0
 -Food
 0
 -Hand
-4
+5
 Piring
-Sendok
-EsKrim
-Pisang
-Stroberi
+Garpu
+Spaghetti
+Bolognese
+Keju
 -BahanDapur
 16
 Piring 0 0
 Sendok 0 1
 EsKrim 0 2
 Pisang 0 3
-Stroberi 5 4
+Stroberi 2 4
 Nasi 0 4
 Telur 0 5
 Ayam_Goreng 0 6
